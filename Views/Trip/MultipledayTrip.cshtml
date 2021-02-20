@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "小蔡旅行社-多日旅遊";
+}
+
+<!-- ... Banner ... -->
+<section class="banner_box">
+    <div class="banner_detail">
+        <div class="banner_text clearfix">
+            <img class="banner_icon" src="~/images/banner_multiple_day_trip_icon.png" alt="多日旅遊ICON">
+            <h1>多日旅遊</h1>
+        </div>
+    </div>
+</section>
+
+
+<!-- ... 多日旅遊 ... -->
+<section class="news_box">
+    <ul class="fixed_btn_box">
+        <li><img src="~/images/twitter.png" alt="Twitter按鈕" title="Twitter按鈕"></li>
+        <li><img src="~/images/line.png" alt="Line按鈕" title="Line按鈕"></li>
+        <li><img src="~/images/fb.png" alt="FB按鈕" title="FB按鈕"></li>
+        <li><img src="~/images/IG.png" alt="IG按鈕" title="IG按鈕"></li>
+        <li><img src="~/images/go_top_btn.png" id="go_top_btn" alt="回到網頁頂端按鈕" title="回到網頁頂端按鈕"></li>
+    </ul>
+    <div class="container">
+        <div class="bread_crumb">
+            <a href="index.html"><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i><span class="page_name">多日旅遊</span>
+        </div>
+        <div class="news_detail_box">
+            <ul class="travel_tabs travel_btn_box clearfix">
+                <li class="tab-link travel_btn travel_btn_current" id="multi_day_trip"><a href="#tab_1">多日旅遊</a></li>
+                <li class="tab-link travel_btn" id="island_trip"><a href="#tab_2">離島旅遊</a></li>
+                <li class="tab-link travel_btn" id="car_trip"><a href="#tab_3">包車旅遊</a></li>
+                <li class="tab-link travel_btn" id="foreign_trip"><a href="#tab_4">國外旅遊</a></li>
+            </ul>
+            <div id="tab_1" class="tab_content tab_content_1 travel_current">
+                
+            </div>
+            <div id="tab_2" class="tab_content tab_content_2">
+                
+            </div>
+            <div id="tab_3" class="tab_content tab_content_3">
+                
+            </div>
+            <div id="tab_4" class="tab_content tab_content_4">
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/multipledayTrip.js"></script>
+}

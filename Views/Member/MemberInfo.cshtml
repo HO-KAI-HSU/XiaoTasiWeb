@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "會員專區";
+}
+
+<!-- ... Banner ... -->
+<section class="banner_box">
+    <div class="banner_detail">
+        <div class="banner_text clearfix">
+            <img class="banner_icon" src="~/images/banner_member_icon.png" alt="會員專區ICON">
+            <h1>會員專區</h1>
+        </div>
+    </div>
+</section>
+
+<!-- ... 會員專區 ... -->
+<section class="download_box">
+    <ul class="fixed_btn_box">
+        <li><img src="~/images/twitter.png" alt="Twitter按鈕" title="Twitter按鈕"></li>
+        <li><img src="~/images/line.png" alt="Line按鈕" title="Line按鈕"></li>
+        <li><img src="~/images/fb.png" alt="FB按鈕" title="FB按鈕"></li>
+        <li><img src="~/images/IG.png" alt="IG按鈕" title="IG按鈕"></li>
+        <li><img src="~/images/go_top_btn.png" id="go_top_btn" alt="回到網頁頂端按鈕" title="回到網頁頂端按鈕"></li>
+    </ul>
+    <div class="container">
+        <div class="bread_crumb">
+            <a href="index.html"><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i>會員專區
+        </div>
+        <div class="doc_rule_regular green_rule">
+            <h3>個人聯絡資料</h3>
+            <table class="member_table">
+            </table>
+            <a href="#" class="adjust_btn">送出修改</a>
+            <div class="member_divide_border"></div>
+            <h3>個人訂位清單</h3>
+            <table class="order_table">
+            </table>
+            <ul class="order_notice">
+                <li>備註: 本公司規定，多日遊一旦成團，請於三天內匯款「全額」請旅客敬請配合!保留自己旅遊權益</li>
+                <li>1.如遇到天災(土石流、颱風、等外在因素，全額退款或是延期!)</li>
+                <li>2.如臨時不去，本公司將已觀光局比例退款!</li>
+                <li>3.匯款資料:玉山銀行（808）澎湖分行  户名:尚騰旅行社有限公司  帳號:1034-940-137548</li>
+                <li>若成團本公司將會通知進行匯款，請匯款完畢者務必來電通知及匯款單據正本上車，皆為【早班車】出發</li>
+                <li>單人參加二日遊以上行程者，盡量已二人房配房，如無法分配時，將進行補貼房價，請自行斟酌</li>
+                <li>本公司多日遊提供【國民旅遊卡線上刷卡】(請點)，請上痞客邦:「小蔡旅遊Tsai Travel」下載填寫，回傳LINE進行刷卡</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/memberInfo.js"></script>
+}

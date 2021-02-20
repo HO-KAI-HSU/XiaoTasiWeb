@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="css/normalize.css" rel="stylesheet" type="text/css">
+      <link href="css/style.css" rel="stylesheet" type="text/css">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;700&family=Open+Sans:ital,wght@1,600&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+      <title>小蔡旅行社-媒體報導</title>
+   </head>
+   <body>
+      <!-- ... Video Modal ... -->
+      <div class="video_modal">
+         <div class="video_close_model"><i class="fa fa-close fa-2x"></i></div>
+         <iframe id="video_detail" width="100%" height="100%" src="https://www.youtube.com/embed/CYq3Pl1Rig4" frameborder="0" autoplay muted=”true” allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <!-- ... Modal ... -->
+      <div class="login_modal">
+         <img class="modal_close_icon" src="images/modal_close_icon.png" alt="Modal關閉按鈕">
+         <h3>會員登入</h3>
+         <form action="#">
+            <input type="text" id="number" name="number" placeholder="請輸入您的帳號">
+            <input type="password" id="psw" name="psw" placeholder="請輸入您的密碼">
+         </form>
+         <a class="login_btn" href="#">會員登入</a>
+         <ul class="login_modal_link clearfix">
+            <li><a class="forget_psw" href="#">忘記密碼</a></li>
+            <li><a class="add_member" href="#">加入會員</a></li>
+         </ul>
+      </div>
+      <div class="forget_psw_modal">
+         <img class="modal_close_icon" src="images/modal_close_icon.png" alt="Modal關閉按鈕">
+         <h3>忘記密碼</h3>
+         <form action="#">
+            <input type="text" id="number" name="number" placeholder="請輸入您的電子信箱">
+            <input type="password" id="psw" name="psw" placeholder="請輸入您的新密碼">
+         </form>
+         <a class="login_btn" href="#">重新設定密碼</a>
+      </div>
+      <div class="register_member_modal">
+         <img class="modal_close_icon" src="images/modal_close_icon.png" alt="Modal關閉按鈕">
+         <h3>註冊條款</h3>
+         <div class="register_member_text">
+            <p>1.小蔡旅遊Tsai travel-尚騰旅行社有限公司致力《天天遊》旅遊品質為宗旨，盡一份提升台灣觀光產業的責任，遵照觀光局規範交通運輸法規，以客為尊保障您的權益，<span class="main_point">請詳閱並遵循以下規範，始能報名本公司籌辦之旅行團，</span>敬請尊貴的您繼往開來支持優質的旅遊。</p>
+            <p>2.凡參加《小蔡》旅遊貴賓，本公司皆依據觀光局規定投保旅遊責任險<span class="main_point">(意外險200萬+醫療險20萬)+(乘客險+強制險400萬+醫療險20萬)。</span></p>
+            <p>3.為保障您的權益，請務必確實提供《姓名、身份證字號、出生日期》，以利有效保險作業，報名同時視同履行<a href="file/domestic_trip_contract.pdf" target="_blank">《國內旅遊定型化契約》</a></span>（並由同團旅客代理簽訂書面定型化契約），外籍人士參團須有認識的國人陪同。</p>
+            <p>4.訂金規則<br/>
+            <span class="s_title">【一日遊】</span>【台北出發版本】團體報名每10位優惠大巴車資1人，並須預付訂金1000元。<br/>
+            <span class="s_title">【多日遊】</span>成團時須付【全額】團費，報名請同時告知上車點、房型、葷食/素食。<br/>
+            <span class="s_title">【取消規則】</span><span class="main_point">於出團【當天】取消恕不退款；於出團前【1】天取消，酌收【40%】團費；</span><br/>
+            <span class="main_point">於出團前【2-20】天取消，酌收【20%】團費，出團前【21-40】天取消，酌收【10%】團費，</span><br/>
+            從訂金中扣除後退回，不予保留沿用或轉至別團使用，敬請配合見諒。<br/>
+            <span class="main_point">如需報帳憑證(旅行業專用代收轉付收據)，可出團前告知並事先繳全額，或下團後5天內通知開立，逾期恕不受理，謝謝您。</span><br/>
+            (如取消行程，必須繳回收據才予以退款，敬請配合)</p>
+            <p>5.您可選擇●網路／ATM轉帳(告知末5碼)；●金融匯款／無摺存現(告知匯款人)，●現場付現or於公司刷卡(傳真刷卡授權書)，再憑單據並註明所參加行程、日期，傳真至(02)8201-7366經確認始完成訂位。出團報到須提供匯款單據正本或訂金收據，否則得先行全額收費。</p>
+            <p>6.<span class="main_point">不滿3歲幼童不佔位僅收保險服務費100元/天(佔位得付全額團費)；3歲以上幼童得收全額，</span>多日遊如不佔床可減免床費(餐廳、船資或小車、門票、飯店等依業者規定酌收費用)。</p>
+            <p>7.敬請確認行程及日期後再報名佔位，並依通知繳付訂金；為確保您的權益，取消／異動請務必來電通知，以免黑名單作業(本公司保有接單與否之權利)。<span class="main_point">(報名人身為代理人，視為同團其他旅客之代表，應負責相關報名條款及參團之旅遊契約，如不同意，建議由團員各自報名，未免日後爭議。)</span></p>
+            <p>8.如團費內含其他接駁車資、餐、宿、船、門票等費用，若未使用或自行脫隊，則視同棄權不得要求退款，若中途脫隊同時視為終止旅遊契約。(詳細請見<a href="file/domestic_trip_contract.pdf" target="_blank">《國內旅遊定型化契約》</a>)</p>
+            <p>9.本預定行程可能因天候、交通路況、團員臨時取消等因素，(最低出團人數25人)本公司保留臨時更改行程、併團或取消出團之權利，金額以更正後行程為準。</p>
+            <p>10.旅程中若因天候、路況、團體行動延誤，尚未走完景點，(依交通法規)當天行程以12小時為上限，若時間允許盡可能再增加其他景點(包含農產品／伴手禮車上銷售、購物兼休息站、觀光工廠等)，且本公司保有景點順序安排之權利。</p>
+            <p>11.貴賓若有身心障礙、痼疾或未滿16歲、70歲以上，須有親友陪同照料，如旅程中因身體無法負荷或不適，請衡量自身狀況，告知領團並配合指示，切勿勉強，否則本公司概不負責。</p>
+            <p>12.出團集合點皆為本公司樓下，敬請提前10分鐘辦理報到，訂位保留至清點人數為止，如因個人遲到或集合未到者，為顧及大眾旅客權益，不多作等待且不予退費。</p>
+            <p>13.搭乘本公司所提供免費且便利之接駁服務(詳見乘車資訊)，<span class="main_point">請提前10分鐘前往接駁地點等候、有車就上，</span>若未及時搭乘接駁，得自行至集合地點且不予負責。因故臨時取消預約接駁，敬請於前一天中午12點前通知，讓我們能繼續為您提供優質的服務，否則請恕本公司可能將關閉您的接駁預約即將會有不良紀錄。</p>
+            <p>14.如因天災，突發狀況等不可抗力因素或招團人數不足(25人)以致取消出團或延期，本公司皆會在前一天以電話或簡訊通知更動。若有成團則不另外通知。</p>
+            <p>15.旅程中務必保持手機暢通並攜帶身分證明文件，注意安全且勿擅自脫隊，配合團控集合時間，以免拖延影響大眾旅客權益。</p>
+            <p>16.敬請多加利用網路訂位或提早報名劃位，若未報名劃位或遲到者得轉為候補，請配合站務人員引導上車。</p>
+            <p>17.美的旅遊為您安排視覺美景為訴求，影音設備佳，為顧及大眾權益，本公司不提供卡拉OK服務(除包車外)，若有服務不周敬請見諒。</p>
+            <p>18.為顧及大眾旅客權益，禁帶寵物、煙毒、危險品上車；拒載醉客。個人物品本公司不負保管責任，感謝貴賓支持與合作。</p>
+            <p>19.本行程表內容文字編排繁雜眾多，偶有錯誤一律依實際更改內容為準；各景點門票依現場收費為準，其定價非本公司能力所及，敬請見諒。</p>
+            <p>20.本公司依據觀光局<a href="file/domestic_trip_contract.pdf" target="_blank">《國內旅遊定型化契約》</a>規範。旅客於報名同時未要求簽立書面契約，則視為同意依據該契約各項條款辦理。本說明未盡事宜，得遵照該範本相關規章為準。終止契約(取消行程)需負擔訂金或團費比例，依上述契約辦理。</p>
+         </div>
+         <ul class="register_member_btn clearfix">
+            <li><a class="agree_btn" href="#">同意</a></li>
+            <li><a class="disagree_btn" href="#">不同意</a></li>
+         </ul>
+      </div>
+      <div class="add_member_modal">
+         <img class="modal_close_icon" src="images/modal_close_icon.png" alt="Modal關閉按鈕">
+         <h3>加入會員</h3>
+         <form action="#">
+            <input type="text" id="name" name="name" placeholder="請輸入您的姓名">
+            <input type="date" id="date" name="date" placeholder="請輸入您的出生日期">
+            <input type="text" id="number" name="number" placeholder="請輸入您的身分證帳號">
+            <input type="text" id="phone" name="phone" placeholder="請輸入您的連絡手機">
+            <input type="text" id="contact_name" name="contact_name" placeholder="請輸入您的緊急連絡人姓名">
+            <input type="text" id="contact_phone" name="contact_phone" placeholder="請輸入您的緊急連絡人電話">
+            <input type="email" id="email" name="email" placeholder="請輸入您的E-mail">
+            <input type="password" id="password" name="password" placeholder="請輸入您的密碼">
+         </form>
+         <a class="login_btn" href="#">加入會員</a>
+      </div>
+      <div class="mask"></div>
+
+      <!-- ... Header ... -->
+      <header class="header_box">
+         <div class="header_detail clearfix">
+            <a href="index.html"><img class="logo" src="images/logo.png" alt="小蔡旅行社LOGO" title="小蔡旅行社LOGO"></a>
+            <div class="header_right">
+               <ul class="sub_menu clearfix">
+                  <li><a href="#">語言選擇</a></li>
+                  <li><a class="login_in_btn" href="#">登入</a></li>
+                  <li><a class="register_btn" href="#">註冊</a></li>
+                  <li class="search" method="get">
+                     <input type="text" name="search" placeholder="輸入關鍵字">
+                     <input type="submit" name="submit" class="searchsubmit">
+                  </li>
+               </ul>
+               <ul class="menu_box clearfix">
+                  <li><a href="singleday_trip.html"><img src="~/images/menu_icon1.png" alt="一日旅遊" title="一日旅遊">一日旅遊</a></li>
+                  <li><a href="multipleday_trip.html"><img src="~/images/menu_icon2.png" alt="多日旅遊" title="多日旅遊">多日旅遊</a></li>
+                  <li><a href="multipleday_trip.html"><img src="~/images/menu_icon3.png" alt="離島旅遊" title="離島旅遊">離島旅遊</a></li>
+                  <li><a href="multipleday_trip.html"><img src="~/images/menu_icon4.png" alt="包車服務" title="包車服務">包車服務</a></li>
+                  <li><a href="multipleday_trip.html"><img src="~/images/menu_icon5.png" alt="國外旅遊" title="國外旅遊">國外旅遊</a></li>
+                  <li><a href="#"><img src="~/images/menu_icon6.png" alt="客製旅遊" title="客製旅遊">客製旅遊</a></li>
+                  <li><a href="#"><img src="~/images/menu_icon7.png" alt="乘車時間" title="乘車時間">乘車時間</a></li>
+                  <li><a href="member.html"><img src="~/images/menu_icon8.png" alt="訂位查詢" title="訂位查詢">會員專區</a></li>
+               </ul>
+            </div>
+         </div>
+      </header>
+
+      <!-- ... Banner ... -->
+      <section class="banner_box">
+         <div class="banner_detail">
+            <div class="banner_text clearfix">
+               <img class="banner_icon" src="images/banner_news_icon.png" alt="媒體報導ICON">
+               <h1>媒體報導</h1>
+            </div>
+         </div>
+      </section>
+
+      <!-- ... 媒體報導 ... -->
+      <section class="news_box">
+         <ul class="fixed_btn_box">
+            <li><img src="~/images/twitter.png" alt="Twitter按鈕" title="Twitter按鈕"></li>
+            <li><img src="~/images/line.png" alt="Line按鈕" title="Line按鈕"></li>
+            <li><img src="~/images/fb.png" alt="FB按鈕" title="FB按鈕"></li>
+            <li><img src="~/images/IG.png" alt="IG按鈕" title="IG按鈕"></li>
+            <li><img src="~/images/go_top_btn.png" id="go_top_btn" alt="回到網頁頂端按鈕" title="回到網頁頂端按鈕"></li>
+         </ul>
+         <div class="container">
+            <div class="bread_crumb">
+               <a href="index.html"><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i>媒體報導
+            </div>
+            <div class="news_detail_box">
+               <h1>拍攝影片<span class="orange_title">特集</span></h1>
+               <img class="photo_video" src="images/news_photo0.png" alt="拍攝影片特集" title="拍攝影片特集">
+               <div class="mt70">
+                  <h1>傳媒報導<span class="orange_title">特集</span></h1>
+                  <ul class="news_content clearfix">
+                     <li>
+                        <img src="~/images/news_photo1.png" alt="小蔡旅遊-新型的旅遊體驗" title="小蔡旅遊-新型的旅遊體驗">
+                        <span class="date">2020.01.15</span>
+                        <h4>小蔡旅遊-新型的旅遊體驗</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                     <li>
+                        <img class="ticket_icon" src="images/ticket_icon.png" alt="車票ICON">
+                        <img src="~/images/news_photo2.png" alt="小蔡旅遊-國泰航空建立夥伴關係" title="小蔡旅遊-國泰航空建立夥伴關係">
+                        <span class="date">2020.01.15</span>
+                        <h4>小蔡旅遊-國泰航空建立夥伴關係</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                     <li>
+                        <img src="~/images/news_photo3.png" alt="台灣最大的旅遊平台-3年成長翻倍" title="台灣最大的旅遊平台-3年成長翻倍">
+                        <span class="date">2020.01.15</span>
+                        <h4>台灣最大的旅遊平台-3年成長翻倍</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                  </ul>
+                  <ul class="news_content clearfix">
+                     <li>
+                        <img class="bag_icon" src="images/bag_icon.png" alt="背包ICON">
+                        <img src="~/images/news_photo4.png" alt="日本京都四日賞楓自助分享" title="日本京都四日賞楓自助分享">
+                        <span class="date">2020.01.15</span>
+                        <h4>日本京都四日賞楓自助分享</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                     <li>
+                        <img src="~/images/news_photo5.png" alt="小蔡旅遊自助行攻略-大公開" title="小蔡旅遊自助行攻略-大公開">
+                        <span class="date">2020.01.15</span>
+                        <h4>小蔡旅遊自助行攻略-大公開</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                     <li>
+                        <img src="~/images/news_photo6.png" alt="台北近郊一日遊-九份老街" title="台北近郊一日遊-九份老街">
+                        <span class="date">2020.01.15</span>
+                        <h4>台北近郊一日遊-九份老街</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                  </ul>
+                  <ul class="news_content clearfix">
+                     <li>
+                        <img src="~/images/news_photo7.png" alt="小蔡旅遊獲得千萬元投資-聯手提升旅遊體驗" title="小蔡旅遊獲得千萬元投資-聯手提升旅遊體驗">
+                        <span class="date">2020.01.15</span>
+                        <h4>小蔡旅遊獲得千萬元投資-聯手提升旅遊體驗</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                     <li>
+                        <img src="~/images/news_photo8.png" alt="小蔡旅遊與KKday展開新合作" title="小蔡旅遊與KKday展開新合作">
+                        <span class="date">2020.01.15</span>
+                        <h4>小蔡旅遊與KKday展開新合作</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                     <li>
+                        <img class="book_icon" src="images/book_icon.png" alt="書ICON">
+                        <img src="~/images/news_photo9.png" alt="美國拉斯維加斯-七日豪賭旅遊" title="美國拉斯維加斯-七日豪賭旅遊">
+                        <span class="date">2020.01.15</span>
+                        <h4>美國拉斯維加斯-七日豪賭旅遊</h4>
+                        <p>選擇台北8小時包車，平溪、十分瀑布、北海岸不用煩惱火車公車交通轉乘、浪費寶貴旅遊時間也可另作彈性安排</p>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- ... Footer ... -->
+      <footer class="footer_box">
+         <div class="footer_content clearfix">
+            <h2><a href="index.html"><img src="~/images/footer_logo.png" alt="小蔡旅遊" title="小蔡旅遊"></a></h2>
+            <ul class="footer_menu clearfix">
+               <li><a href="brand.html">品牌理念</a></li>
+               <li><a href="brand.html#certificate">執照與保單</a></li>
+               <li><a href="rule.html">隱私政策</a></li>
+               <li><a href="rule.html">使用條款</a></li>
+               <li><a href="#">訂位資訊</a></li>
+               <li><a href="news.html">媒體報導</a></li>
+               <li><a href="download.html">下載專區</a></li>
+            </ul>
+            <ul class="company_info clearfix">
+               <li><img class="icon" src="images/footer_phone_icon.png" alt="客服icon">客服專線：<a href="tel:02-8201-7366">02-8201-7366</a> (客服時間：週一～週日9:00a.m.~9:00p.m.)</li>
+               <li><img class="icon" src="images/footer_mobilephone_icon.png" alt="室內手機icon">室內手機：<a href="tel:0988-357-545">0988-357-545</a> / <a href="tel:0982-169-332">0982-169-332</a></li>
+               <li><img class="icon" src="images/footer_mail_icon.png" alt="電子信箱icon">電子信箱：<a href="mailto:a87827622@gmail.com?">a87827622@gmail.com</a></li>
+            </ul>
+            <ul class="register_info clearfix">
+               <li>交關甲03066</li>
+               <li>交關甲品保彭0101</li>
+               <li>註冊編號7732</li>
+               <li>統一編號24875523</li>
+            </ul>
+            <p class="footer_copyright">Copyright © MR.TSAI TRAVEL CO, LTD.2020 版權所有 未經授權禁止轉載</p>
+         </div>
+      </footer>
+      <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+      <script type="text/javascript" src="js/slick.js"></script>
+      <script type="text/javascript" src="js/script.js"></script>
+   </body>
+</html>
