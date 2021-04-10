@@ -12,7 +12,10 @@ namespace xiaotasi.Models
         public string address { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
+        public string cellphone { get; set; }
         public string birthday { get; set; }
         public int status { get; set; }
+        public string emerContactName { get; set; }
+        public string emerContactPhone { get; set; }
     }
 }

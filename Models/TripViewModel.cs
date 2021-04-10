@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace xiaotasi.Models
 {
@@ -14,5 +15,6 @@ namespace xiaotasi.Models
         public string travelPicPath { get; set; }
         public string travelUrl { get; set; }
         public string travelFdate { get; set; }
+        public List<DateTripPicModel> dateTravelPicList { get; set; }
     }
 }
