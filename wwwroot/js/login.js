@@ -1,4 +1,4 @@
-// JavaScript Document
+// JavaScript Document 
 $(function () { 
 	const $header_box = $(".header_box").offset().top;
 	const $policy_btn = $(".policy_btn");
