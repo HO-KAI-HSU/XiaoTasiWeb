@@ -25,9 +25,21 @@ namespace xiaotasi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-        
 
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(55);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+
+            services.AddControllersWithViews();
+
+            // SQL Setting
             services.AddDbContext<XiaoTasiTripContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("XiaoTasiTripContext")));
             
@@ -52,6 +64,8 @@ namespace xiaotasi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

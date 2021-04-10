@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;700&family=Open+Sans:ital,wght@1,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title>@ViewData["Title"]</title>
 </head>
 <body>
@@ -76,21 +77,32 @@
         <form action="#">
             <input type="text" id="name" name="name" placeholder="請輸入您的姓名">
             <input type="date" id="date" name="date" placeholder="請輸入您的出生日期">
-            <input type="text" id="number" name="number" placeholder="請輸入您的身分證帳號">
+            <input type="text" id="username" name="number" placeholder="請輸入您的帳號(身分證)">
             <input type="text" id="phone" name="phone" placeholder="請輸入您的連絡手機">
             <input type="text" id="contact_name" name="contact_name" placeholder="請輸入您的緊急連絡人姓名">
             <input type="text" id="contact_phone" name="contact_phone" placeholder="請輸入您的緊急連絡人電話">
             <input type="email" id="email" name="email" placeholder="請輸入您的E-mail">
             <input type="password" id="password" name="password" placeholder="請輸入您的密碼">
         </form>
-        <a class="login_btn" href="#">加入會員</a>
+        <a class="add_member_btn" href="#">加入會員</a>
+    </div>
+    <div class="phone_verification_modal">
+        <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
+        <h3>輸入手機驗證碼</h3>
+        <form action="#">
+            <input type="text" id="verification_number" name="verification_number" placeholder="請輸入手機驗證碼">
+        </form>
+        <ul class="verification_member_btn clearfix">
+            <li><a class="submit_verification_btn" href="#">送出</a></li>
+            <li><a class="resend_verification_btn" href="#">重新發送</a></li>
+        </ul>
     </div>
     <div class="mask"></div>
 
     <!-- ... Header ... -->
     <header class="header_box">
         <div class="header_detail clearfix">
-            <a  asp-area="" asp-controller="" asp-action=""><img class="logo" src="~/images/logo.png" alt="小蔡旅行社LOGO" title="小蔡旅行社LOGO"></a>
+            <a asp-area="" asp-controller="" asp-action=""><img class="logo" src="~/images/logo.png" alt="小蔡旅行社LOGO" title="小蔡旅行社LOGO"></a>
             <div class="header_right">
                 <ul class="sub_menu clearfix">
                     <li><a href="#">語言選擇</a></li>
@@ -121,15 +133,15 @@
     <!-- ... Footer ... -->
     <footer class="footer_box">
         <div class="footer_content clearfix">
-            <h2><a href="~/index.html"><img src="~/images/footer_logo.png" alt="小蔡旅遊" title="小蔡旅遊"></a></h2>
+            <h2><a asp-area="" asp-controller="" asp-action=""><img src="~/images/footer_logo.png" alt="小蔡旅遊" title="小蔡旅遊"></a></h2>
             <ul class="footer_menu clearfix">
-                <li><a href="~/brand.html">品牌理念</a></li>
-                <li><a href="~/brand.html#certificate">執照與保單</a></li>
-                <li><a href="~/rule.html">隱私政策</a></li>
-                <li><a href="~/rule.html">使用條款</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Brand">品牌理念</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Download" asp-fragment="certificate">執照與保單</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Rule">隱私政策</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Rule">使用條款</a></li>
                 <li><a href="#">訂位資訊</a></li>
-                <li><a href="~/news.html">媒體報導</a></li>
-                <li><a href="~/download.html">下載專區</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="News">媒體報導</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Download">下載專區</a></li>
             </ul>
             <ul class="company_info clearfix">
                 <li><img class="icon" src="~/images/footer_phone_icon.png" alt="客服icon">客服專線：<a href="tel:02-8201-7366">02-8201-7366</a> (客服時間：週一～週日9:00a.m.~9:00p.m.)</li>

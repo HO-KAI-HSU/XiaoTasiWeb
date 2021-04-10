@@ -13,9 +13,9 @@ $(function () {
                 item += `</ul>`;
                 item += `<ul class="news_content clearfix">`;
             }
-
             item += `<li>
-                    <img src="${trip.travelPicPath}" alt="台北近郊一日遊" title="台北近郊一日遊">
+                    <a href="#" id="tripInfo"><img src="/images/multipleday_trip_photo2.png" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
+                    <input type="hidden" id="travelCode" value="${trip.travelCode}">
                     <span class="date">${trip.travelFdate}</span>
                     <h4>${trip.travelTraditionalTitle}</h4>
                     <p>出發日期:<span>${trip.startDate}</span></p>
@@ -28,3 +28,6 @@ $(function () {
         $('#tab_1').append(item);
     });
 });
+
+
+

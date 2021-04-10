@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +13,7 @@ using xiaotasi.Models;
 
 namespace xiaotasi.Controllers
 {
+    //[Authorize]
     public class MemberController : Controller
     {
         private readonly ILogger<MemberController> _logger;
@@ -74,7 +77,7 @@ namespace xiaotasi.Controllers
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select ml.member_code, al.username, al.password, ml.name, ml.email, ml.address, al.phone, al.status, ml.birthday from member_list AS ml JOIN account_list al ON ml.member_code = al.member_code WHERE ml.member_code = @memberCode", connection);
+            SqlCommand select = new SqlCommand("select ml.member_code, al.username, al.password, ml.name, ml.email, ml.address, ml.telephone as phone, al.phone as cellphone, al.status, ml.birthday, ml.emer_contact_name as emername, ml.emer_contact_phone as emerphone from member_list AS ml JOIN account_list al ON ml.member_code = al.member_code WHERE ml.member_code = @memberCode", connection);
             select.Parameters.AddWithValue("@memberCode", memberCode);
             // 開啟資料庫連線
             connection.Open();
@@ -89,8 +92,12 @@ namespace xiaotasi.Controllers
                 memberData.email = reader.IsDBNull(4) ? "" : reader[4].ToString();
                 memberData.address = reader.IsDBNull(5) ? "" : reader[5].ToString();
                 memberData.phone = reader.IsDBNull(6) ? "" : reader[6].ToString();
-                memberData.status = (int)reader[7];
-                memberData.birthday = reader.IsDBNull(8) ? "" : reader[8].ToString();
+                memberData.cellphone = reader.IsDBNull(7) ? "" : reader[7].ToString();
+                memberData.status = (int)reader[8];
+                string formatDate = "yyyy-MM-dd";
+                memberData.birthday = reader.IsDBNull(9) ? "" : ((DateTime)reader[9]).ToString(formatDate);
+                memberData.emerContactName = reader.IsDBNull(10) ? "" : reader[10].ToString();
+                memberData.emerContactPhone = reader.IsDBNull(11) ? "" : reader[11].ToString();
             }
             connection.Close();
             return memberData;
@@ -141,6 +148,29 @@ namespace xiaotasi.Controllers
             //getTravelReservationListApi.limit = limit;
             //getTravelReservationListApi.travelReservationList = travelReservationInfoDatasNew;
             return Json(travelReservationInfoDatas);
+        }
+
+
+        [HttpPost]
+        public ActionResult UpdateMemberInfo(string memberCode, string name, string email, string address, string phone, string birthday, string emerContactName, string emerContactPhone)
+        {
+            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            SqlCommand select = new SqlCommand("UPDATE member_list SET name = @memberName, email = @email, address = @address, telephone = @phone, birthday = @birthday, emer_contact_name = @emername, emer_contact_phone = @emerphone WHERE member_Code = @memberCode", connection);
+            select.Parameters.AddWithValue("@memberCode", memberCode);
+            select.Parameters.Add("@memberName", SqlDbType.NVarChar).Value = name;
+            select.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+            select.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
+            select.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+            select.Parameters.Add("@birthday", SqlDbType.DateTime).Value = DateTime.ParseExact(birthday, "yyyy-mm-dd", null);
+            select.Parameters.Add("@emername", SqlDbType.NVarChar).Value = emerContactName;
+            select.Parameters.Add("@emerphone", SqlDbType.NVarChar).Value = emerContactPhone;
+            //開啟資料庫連線
+            connection.Open();
+            select.ExecuteNonQuery();
+            connection.Close();
+            return Json(new ApiResult<string>("更新成功"));
         }
     }
 }
