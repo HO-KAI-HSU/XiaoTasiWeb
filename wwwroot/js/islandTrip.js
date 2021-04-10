@@ -1,4 +1,4 @@
-
+ 
 $(function () {
     $.post('/Trip/GetTravelListForMember', { page: 1, limit: 100, travelType: 3}).done(function (tripList) {
         var item = "";

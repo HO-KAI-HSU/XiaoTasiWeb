@@ -1,5 +1,5 @@
 // JavaScript Document
-$(function () {
+$(function () { 
 	const $header_box = $(".header_box").offset().top;
 	const $policy_btn = $(".policy_btn");
 	const $rule_btn = $(".rule_btn");
