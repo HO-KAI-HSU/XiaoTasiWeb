@@ -6,7 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using xiaotasi.Models;
-
+ 
 namespace xiaotasi.Controllers
 {
     public class RegisterController : Controller
