@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +10,6 @@ using xiaotasi.Models;
 
 namespace xiaotasi.Controllers
 {
-    //[Authorize]
     public class MemberController : Controller
     {
         private readonly ILogger<MemberController> _logger;
