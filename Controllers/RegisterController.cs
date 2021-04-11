@@ -22,7 +22,7 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public ActionResult registerByPhone(string username, string password, string name, string email, string address, string birthday, string telephone, string cellphone, string emerContactName, string emerContactPhone)
+        public ActionResult RegisterByPhone(string username, string password, string name, string email, string address, string birthday, string telephone, string cellphone, string emerContactName, string emerContactPhone)
         {
             if ((cellphone == null || cellphone.Length == 0) || (username == null || username.Length == 0) || (password == null || password.Length == 0) || (name == null || name.Length == 0) || (email == null || email.Length == 0))
             {
@@ -30,7 +30,8 @@ namespace xiaotasi.Controllers
             }
             int timpStamp = this.getTimestamp();
             string memberCode = "mem" + timpStamp.ToString().Substring(2, 8);
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // 開啟資料庫連線
 
             // 取得帳號資訊
@@ -71,13 +72,14 @@ namespace xiaotasi.Controllers
 
         [HttpPost]
         // 傳送手機驗證碼
-        public ActionResult getPhoneCaptcha(string cellphone)
+        public ActionResult GetPhoneCaptcha(string cellphone)
         {
             if (cellphone == null || cellphone.Length == 0)
             {
                 return Json(new ApiError(1001, "Required field(s) is missing!", "必需参数缺失！"));
             }
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // 取得帳號資訊
             SqlCommand getMemberSelect = new SqlCommand("select * from account_list WHERE phone = @cellphone and status = @status", connection);
             getMemberSelect.Parameters.AddWithValue("@cellphone", cellphone);
@@ -107,7 +109,7 @@ namespace xiaotasi.Controllers
 
         [HttpPost]
         // 驗證手機驗證碼
-        public ActionResult verifyPhoneCaptcha(string cellphone, string captcha)
+        public ActionResult VerifyPhoneCaptcha(string cellphone, string captcha)
         {
             if ((cellphone == null || cellphone.Length == 0) || (captcha == null || captcha.Length == 0))
             {
@@ -147,7 +149,8 @@ namespace xiaotasi.Controllers
         private bool _updateAccountRegisterStatus(string cellphone)
         {
             string updateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");//宣告一個目前的時間
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand select = new SqlCommand("UPDATE account_list SET status = " + 1 + ", e_date = '" + updateDate + "'  WHERE phone = @cellphone", connection);
             select.Parameters.AddWithValue("@cellphone", cellphone);
             connection.Open();

@@ -256,7 +256,7 @@ function login() {
 	});
 }
 
-// 註冊
+// 註冊   
 function register(add_member_modal, phone_verification_modal) {
 	var number = $("#username").val();
 	var password = $("#password").val();

@@ -39,7 +39,7 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public ActionResult getMemberInfo(string memberCode)
+        public ActionResult GetMemberInfo(string memberCode)
         {
             //if ((memberCode == null || memberCode.Length == 0))
             //{
