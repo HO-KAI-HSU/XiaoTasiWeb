@@ -52,7 +52,7 @@ namespace xiaotasi.Controllers
             {
                 return Json(new ApiError(1001, "Required field(s) is missing!", "必需参数缺失！"));
             }
-            SqlCommand select = new SqlCommand("select * from account_list WHERE username = @username", connection);
+            SqlCommand select = new SqlCommand("select account_id, username, password, member_code as memberCode, status, phone from account_list WHERE username = @username", connection);
             select.Parameters.AddWithValue("@username", username);
             // 開啟資料庫連線
             connection.Open();
@@ -67,9 +67,9 @@ namespace xiaotasi.Controllers
                     return Json(new ApiError(1002, "password error!", "此帐户密码有误，请重新输入！"));
                 }
                 loginData.username = (string)reader[1];
-                loginData.memberCode = (string)reader[5];
-                loginData.status = (int)reader[6];
-                loginData.phone = (string)reader[7];
+                loginData.memberCode = (string)reader[3];
+                loginData.status = (int)reader[4];
+                loginData.phone = (string)reader[5];
                 readStatus++;
             }
             if (readStatus == 0)
