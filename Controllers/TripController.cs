@@ -111,7 +111,7 @@ namespace xiaotasi.Controllers
                 travelInfo.Add("travelContent", reader.IsDBNull(9) ? "" : (string)reader[9]);
                 travelInfo.Add("travelMoviePath", "");
                 travelStatisticList = this._getTravelStatisticList((int)reader[0], travelStepCode);
-                dateTravelPicList = this._getDateTravelPicList((int)reader[0]);
+                dateTravelPicList = this._getDateTravelPicList((int)reader[0], 2);
                 travelCostInfo = this._getTravelCostInfo((int)reader[0]);
             }
             connection.Close();
@@ -183,7 +183,7 @@ namespace xiaotasi.Controllers
                 travelShowData.cost = (int)reader[4];
                 travelShowData.travelType = (int)reader[5];
                 travelShowData.startDate = this._getTravelStepStartDateInfo((int)reader[0]) == null ? "" : this._getTravelStepStartDateInfo((int)reader[0]);
-                travelShowData.dateTravelPicList = this._getDateTravelPicList((int)reader[0]);
+                travelShowData.dateTravelPicList = this._getDateTravelPicList((int)reader[0], 1);
                 travelShowData.travelPicPath = reader.IsDBNull(6) ? "" : "http://localhost:8080//~/Scripts/img/viewpoint/" + (string)reader[6];
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
@@ -282,7 +282,7 @@ namespace xiaotasi.Controllers
 
 
         //每日旅遊介紹列表
-        private List<DateTripPicModel> _getDateTravelPicList(int travelId)
+        private List<DateTripPicModel> _getDateTravelPicList(int travelId, int multiDayType)
         {
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -292,15 +292,23 @@ namespace xiaotasi.Controllers
             select.Parameters.AddWithValue("@travelId", travelId);
             connection.Open();
             SqlDataReader reader = select.ExecuteReader();
+            TripHotelModel travelHotelInfo;
             List<DateTripPicModel> dateTravelPicLists = new List<DateTripPicModel>();
             while (reader.Read())
             {
                 DateTripPicModel dateTravelPic = new DateTripPicModel();
-                TripHotelModel travelHotelInfo = this._getTravelHotelInfo((int)reader[0]);
+                if (multiDayType == 2)
+                {
+                    travelHotelInfo = this._getTravelHotelInfo((int)reader[0]);
+                }
+                else
+                {
+                    travelHotelInfo = null;
+                }
                 TripMealModel travelMealInfo = this._getTravelMealInfo((int)reader[0]);
                 List<TripPicIntroModel> getTravelPicIntroList = this._getTravelPicIntroList((int)reader[0]);
                 dateTravelPic.travelPicList = getTravelPicIntroList;
-                dateTravelPic.hotel = travelHotelInfo.hotel == null ? "" : travelHotelInfo.hotel;
+                dateTravelPic.hotel = (travelHotelInfo == null || travelHotelInfo.hotel == null) ? "" : travelHotelInfo.hotel;
                 dateTravelPic.mealInfo = travelMealInfo;
                 dateTravelPic.date = "";
                 dateTravelPicLists.Add(dateTravelPic);
