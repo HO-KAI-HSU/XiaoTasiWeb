@@ -8,13 +8,17 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Bo\" />
+    <Folder Include="Vo\" />
+    <Folder Include="Service\Impl\" />
+    <Folder Include="wwwroot\images\reservationCheck\" />
+    <Folder Include="Pojo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\member.html" />
     <Content Remove="wwwroot\singleday_trip.html" />
     <Content Remove="wwwroot\file\domestic_trip_contract.pdf" />
     <Content Remove="wwwroot\js\.DS_Store" />
-    <Content Remove="wwwroot\js\slick.js" />
     <Content Remove="wwwroot\lib\bootstrap\LICENSE" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
@@ -48,6 +52,15 @@
     <Content Remove="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
     <Content Remove="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
     <Content Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <Content Remove="wwwroot\images\index_modal_icon5.png" />
+    <Content Remove="wwwroot\images\search_icon.png" />
+    <Content Remove="wwwroot\images\menu_icon3.png" />
+    <Content Remove="wwwroot\images\index_banner2.png" />
+    <Content Remove="wwwroot\images\news_photo5.png" />
+    <Content Remove="wwwroot\images\menu_icon5.png" />
+    <Content Remove="wwwroot\images\banner_multiple_day_trip_icon.png" />
+    <Content Remove="wwwroot\images\multipleday_trip_photo6.png" />
+    <Content Remove="wwwroot\images\arrow_icon_green.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
