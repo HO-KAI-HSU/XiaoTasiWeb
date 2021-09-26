@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using xiaotasi.Models;
+using xiaotasi.Service;
 
 namespace xiaotasi.Controllers
 {
@@ -17,12 +15,12 @@ namespace xiaotasi.Controllers
     public class TripController : Controller
     {
         private readonly ILogger<TripController> _logger;
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _config;
 
         public TripController(ILogger<TripController> logger, IConfiguration config)
         {
             _logger = logger;
-            configuration = config;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -30,28 +28,24 @@ namespace xiaotasi.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         public IActionResult SingledayTrip()
         {
             return View();
         }
 
-
-
-
         [HttpPost]
-        public IActionResult GetTravelListForMember(int page, int limit, int travelType)
+        public IActionResult GetTravelListForMember(int page, int limit, int travelType, string searchDate, string searchString)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
-            string travelSql = "WITH travelSql AS ( SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY travel_id) AS rowId FROM travel_list WHERE travel_type = @travelType )";
+            string travelSql = "WITH travelSql AS ( SELECT tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY tl.travel_id) AS rowId FROM (select travel_id from travel_step_list WHERE convert(DATETIME, travel_s_time, 23) >= @searchDate GROUP BY travel_id) as tsln inner join travel_list tl ON tl.travel_id = tsln.travel_id WHERE tl.travel_type = @travelType and tl.travel_name like @searchStr )";
+            //string travelSql = "WITH travelSql AS ( SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY travel_id) AS rowId FROM travel_list WHERE travel_type = @travelType and convert(DATETIME, travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr )";
             travelSql += " select * from travelSql";
             SqlCommand sqlCommand = new SqlCommand(travelSql, connection);
             sqlCommand.Parameters.AddWithValue("@travelType", travelType);
+            sqlCommand.Parameters.AddWithValue("@searchStr", "%" + searchString + "%");
+            sqlCommand.Parameters.AddWithValue("@searchDate", searchDate == null ? "" : searchDate);
             connection.Open();
             SqlDataReader reader = sqlCommand.ExecuteReader();
             List<TripViewModel> travelShowDatas = new List<TripViewModel>();
@@ -87,7 +81,7 @@ namespace xiaotasi.Controllers
         [HttpPost]
         public ActionResult GetTravelInfoForMember(string travelCode, string travelStepCode)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string travelSql = "SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, travel_subject as travelSubject, travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
@@ -97,7 +91,7 @@ namespace xiaotasi.Controllers
             connection.Open();
             SqlDataReader reader = select.ExecuteReader();
             List<TripViewModel> travelShowDatas = new List<TripViewModel>();
-            List<TripStatisticModel> travelStatisticList = null;
+            List<TripStatisticListModel> travelStatisticList = null;
             List<DateTripPicModel> dateTravelPicList = null;
             TripInfoModel travelInfoData = null;
             TripCostModel travelCostInfo = null;
@@ -110,7 +104,7 @@ namespace xiaotasi.Controllers
                 travelInfo.Add("travelSubject", reader.IsDBNull(8) ? "" : (string)reader[8]);
                 travelInfo.Add("travelContent", reader.IsDBNull(9) ? "" : (string)reader[9]);
                 travelInfo.Add("travelMoviePath", "");
-                travelStatisticList = this._getTravelStatisticList((int)reader[0], travelStepCode);
+                travelStatisticList = this._getTravelStatisticListTest((int)reader[0], travelStepCode);
                 dateTravelPicList = this._getDateTravelPicList((int)reader[0], 2);
                 travelCostInfo = this._getTravelCostInfo((int)reader[0]);
             }
@@ -129,7 +123,7 @@ namespace xiaotasi.Controllers
         [HttpPost]
         public ActionResult GetTravelStatisticsInfoForMember(string travelCode, string travelStepCode)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string travelSql = "SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, travel_subject as travelSubject, travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
@@ -138,7 +132,7 @@ namespace xiaotasi.Controllers
             select.Parameters.AddWithValue("@travelCode", travelCode);
             connection.Open();
             SqlDataReader reader = select.ExecuteReader();
-            List<TripStatisticModel> travelStatisticList = null;
+            List<TripStatisticListModel> travelStatisticList = null;
 
             Dictionary<string, object> travelInfo = new Dictionary<string, object>();
             while (reader.Read())
@@ -148,7 +142,7 @@ namespace xiaotasi.Controllers
                 travelInfo.Add("travelSubject", reader.IsDBNull(8) ? "" : (string)reader[8]);
                 travelInfo.Add("travelContent", reader.IsDBNull(9) ? "" : (string)reader[9]);
                 travelInfo.Add("travelMoviePath", "");
-                travelStatisticList = this._getTravelStatisticList((int)reader[0], travelStepCode);
+                travelStatisticList = this._getTravelStatisticListTest((int)reader[0], travelStepCode);
             }
             connection.Close();
             GetTravelInfoResponse getTravelInfoResponse = new GetTravelInfoResponse();
@@ -162,10 +156,10 @@ namespace xiaotasi.Controllers
         public ActionResult GetSingleTravelListForMember(int page, int limit, string searchDate, string searchString)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string travelSql = "select tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.travel_subject as travelSubject, tl.travel_content as travelContent from  travel_step_list stl  LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
+            string travelSql = "select tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.travel_subject as travelSubject, tl.travel_content as travelContent from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
             SqlCommand sqlCommand = new SqlCommand(travelSql, connection);
             sqlCommand.Parameters.AddWithValue("@searchStr", "%" + searchString + "%");
             sqlCommand.Parameters.AddWithValue("@searchDate", searchDate == null ? "" : searchDate);
@@ -206,7 +200,7 @@ namespace xiaotasi.Controllers
         //取得旅遊各梯次開始時間
         private String _getTravelStepStartDateInfo(int travelId)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand select = new SqlCommand("select travel_s_time as startDate from travel_step_list where travel_id = @travelId", connection);
             // 開啟資料庫連線
@@ -220,7 +214,7 @@ namespace xiaotasi.Controllers
                 if (!reader.IsDBNull(0))
                 {
                     startDates += ((DateTime)reader[0]).ToString(format);
-                    startDates += ",";
+                    startDates += "、";
 
                 }
             }
@@ -228,11 +222,41 @@ namespace xiaotasi.Controllers
             return startDates;
         }
 
+        //取得旅遊月份資訊
+        private List<String> _getTravelStatisticMonthList(int travelId, string travelStepCode)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            SqlCommand select = new SqlCommand("select travel_s_time from travel_step_list where travel_id = @travelId and convert(DATETIME, travel_s_time, 23) > @searchDate", connection);
+            // 開啟資料庫連線
+            string format = "yyyy-MM-dd";
+            string monFormat = "yyyy-MM";
+            string filterDate = DateTime.Now.ToString(format);
+            //string filterDate = "2020-11-11";
+            select.Parameters.AddWithValue("@searchDate", filterDate);
+            select.Parameters.AddWithValue("@travelId", travelId);
+            connection.Open();
+            SqlDataReader reader = select.ExecuteReader();
+            List<String> travelMonArr = new List<String>();
+            while (reader.Read())
+            {
+                DateTime date = ((DateTime)reader[0]);
+                String mon = date.ToString(monFormat);
+                if (!travelMonArr.Exists(x => x == mon)) {
+                    travelMonArr.Add(mon);
+                }
+            }
+            connection.Close();
+            return travelMonArr;
+        }
+
 
         //取得旅遊各梯次資訊
         private List<TripStatisticModel> _getTravelStatisticList(int travelId, string travelStepCode)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            List <String> travelMonArr =  this._getTravelStatisticMonthList(travelId, travelStepCode);
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select travel_s_time as startDate, travel_e_time as endDate, travel_step_code as travelStep, travel_num as travelNum, travel_cost as travelCost, sell_seat_num as sellSeatNum, remain_seat_num as remainSeatNum from travel_step_list where travel_id = @travelId", connection);
@@ -280,11 +304,84 @@ namespace xiaotasi.Controllers
             return travelStatisticLists;
         }
 
+        //取得旅遊各梯次資訊
+        private List<TripStatisticListModel> _getTravelStatisticListTest(int travelId, string travelStepCode)
+        {
+            // 取得旅遊月份資訊
+            List<String> travelMonArr = this._getTravelStatisticMonthList(travelId, travelStepCode);
+
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            SqlCommand select = new SqlCommand("select travel_s_time as startDate, travel_e_time as endDate, travel_step_code as travelStep, travel_num as travelNum, travel_cost as travelCost, sell_seat_num as sellSeatNum, remain_seat_num as remainSeatNum from travel_step_list where travel_id = @travelId", connection);
+            // 開啟資料庫連線
+            select.Parameters.AddWithValue("@travelId", travelId);
+            connection.Open();
+            SqlDataReader reader = select.ExecuteReader();
+
+            List<TripStatisticListModel> travelMonStatisticList = new List<TripStatisticListModel>();
+            foreach (String mon in travelMonArr)
+            {
+                TripStatisticListModel tripStatisticList = new TripStatisticListModel();
+                tripStatisticList.travelMon = mon;
+                tripStatisticList.travelStatisticList = new List<TripStatisticModel>();
+                travelMonStatisticList.Add(tripStatisticList);
+            }
+
+            Boolean minTotalDayFlag = false;
+            Boolean travelStepCodeFlag = false;
+            if (travelStepCode != null)
+            {
+                travelStepCodeFlag = true;
+            }
+            while (reader.Read())
+            {
+                TripStatisticModel travelStepInfo = new TripStatisticModel();
+                string format = "yyyy-MM-dd";
+                string monFormat = "yyyy-MM";
+                int nearTravelFlag = 0;
+                DateTime startDate = ((DateTime)reader[0]);
+                DateTime endDate = ((DateTime)reader[1]);
+                TimeSpan t = startDate - DateTime.Now;
+
+                // 取得行程月份索引鍵
+                int monIndex = travelMonArr.IndexOf(startDate.ToString(monFormat));
+
+                double nrOfDays = t.TotalDays;
+                if (travelStepCodeFlag && (string)reader[2] == travelStepCode)
+                {
+                    nearTravelFlag = 1;
+                }
+                else if (!travelStepCodeFlag)
+                {
+                    if (nrOfDays > 0 && !minTotalDayFlag)
+                    {
+                        nearTravelFlag = 1;
+                        minTotalDayFlag = true;
+                    }
+                }
+
+                travelStepInfo.startDate = startDate.ToString(format);
+                travelStepInfo.endDate = endDate.ToString(format);
+                travelStepInfo.travelStep = (string)reader[2];
+                travelStepInfo.travelNum = (int)reader[3];
+                travelStepInfo.travelCost = (int)reader[4];
+                travelStepInfo.sellSeatNum = (int)reader[5];
+                travelStepInfo.remainSeatNum = (int)reader[6];
+                travelStepInfo.dest = "";
+                travelStepInfo.dayNum = (int)endDate.Subtract(startDate).TotalDays + 1;
+                travelStepInfo.travelStepSelectFlag = nearTravelFlag;
+                travelMonStatisticList[monIndex].travelStatisticList.Add(travelStepInfo);
+            }
+            connection.Close();
+            return travelMonStatisticList;
+        }
+
 
         //每日旅遊介紹列表
         private List<DateTripPicModel> _getDateTravelPicList(int travelId, int multiDayType)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select travel_detail_id as travelDetailId, day, travel_id as travelId from travel_detail_list where travel_id = @travelId", connection);
@@ -321,7 +418,7 @@ namespace xiaotasi.Controllers
         //取得旅遊花費資訊
         private TripCostModel _getTravelCostInfo(int travelId)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select transportation_info as transportationInfo, eat_info as eatInfo, live_info as liveInfo, action_info as actionInfo, insurance_info as insuranceInfo, near_info as nearInfo, travel_detail_id as travelDetailId from travel_cost_list where travel_id = @travelId", connection);
@@ -347,7 +444,7 @@ namespace xiaotasi.Controllers
         //取得旅遊住宿資訊
         private TripHotelModel _getTravelHotelInfo(int travelDetailId)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select hl.hotel_name as hotel, thl.travel_detail_id as travelDetailId from travel_hotel_list thl inner join hotel_list hl ON thl.hotel_id = hl.hotel_id where thl.travel_detail_id = @travelDetailId", connection);
@@ -368,7 +465,7 @@ namespace xiaotasi.Controllers
         //取得旅遊餐點資訊
         private TripMealModel _getTravelMealInfo(int travelDetailId)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select breakfast, lunch, dinner, travel_detail_id as travelDetailId from travel_meal_list where travel_detail_id = @travelDetailId", connection);
@@ -391,7 +488,7 @@ namespace xiaotasi.Controllers
         //取得旅遊圖片介紹資訊
         private List<TripPicIntroModel> _getTravelPicIntroList(int travelDetailId)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select vl.viewpoint_title as travelPicTraditionalTitle, vl.viewpoint_title as travelPicEnTitle, vl.viewpoint_content as travelPicTraditionalIntro, vl.viewpoint_content as travelPicEnIntro, vl.viewpoint_pic_path as travelPicPath, tpil.travel_detail_id as travelDetailId from travel_pic_intro_list tpil inner join viewpoint_list vl ON tpil.viewpoint_id = vl.viewpoint_id where tpil.travel_detail_id = @travelDetailId", connection);
@@ -421,36 +518,8 @@ namespace xiaotasi.Controllers
             return View();
         }
 
-        public IActionResult MultipledayTripInfo(string travelCode)
+        public IActionResult MultipledayTripInfo()
         {
-            //IEnumerable<StudentViewModel> students = null;
-
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("http://localhost:64189/api/");
-            //    //HTTP GET
-            //    var responseTask = client.GetAsync("student");
-            //    responseTask.Wait();
-
-            //    var result = responseTask.Result;
-            //    if (result.IsSuccessStatusCode)
-            //    {
-            //        var readTask = result.Content.ReadAsAsync<IList<StudentViewModel>>();
-            //        readTask.Wait();
-
-            //        students = readTask.Result;
-            //    }
-            //    else //web api sent error response 
-            //    {
-            //        //log response status here..
-
-            //        students = Enumerable.Empty<StudentViewModel>();
-
-            //        ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-            //    }
-            //}
-
-
             return View();
         }
 

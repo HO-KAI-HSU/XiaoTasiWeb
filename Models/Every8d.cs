@@ -5,7 +5,7 @@ namespace xiaotasi.Models
 {
     public class Every8d
     {
-        /*綠界參數設定*/
+        /*Every8d參數設定*/
         public string sendSMSUrl = "https://oms.every8d.com/API21/HTTP/sendSMS.ashx";
         public string uid = "0917620588";
         public string pwd = "zpmp";

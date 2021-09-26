@@ -1,9 +1,9 @@
 ﻿using System; 
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -15,13 +15,17 @@ namespace xiaotasi.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ILogger<LoginController> _logger;
-        private readonly IConfiguration configuration;
+        //private readonly ILogger _logger;
+        private readonly IConfiguration _config;
+        private readonly MemberService _memberService;
+        IAuthService authService;
+        IAuthContainerModel model;
+        
 
-        public LoginController(ILogger<LoginController> logger, IConfiguration config)
+        public LoginController(IConfiguration config, MemberService memberService)
         {
-            _logger = logger;
-            configuration = config;
+            _config = config;
+            _memberService = memberService;
         }
 
         public IActionResult Index()
@@ -29,23 +33,11 @@ namespace xiaotasi.Controllers
             return View();
         }
 
-        public IActionResult MemberInfo()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-
         //登入
         [HttpPost]
         public IActionResult login(string username, string password)
         {
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             if ((username == null || username.Length == 0) || (password == null || password.Length == 0))
@@ -72,14 +64,23 @@ namespace xiaotasi.Controllers
                 loginData.phone = (string)reader[5];
                 readStatus++;
             }
+            connection.Close();
             if (readStatus == 0)
             {
                 return Json(new ApiError(1003, "No such user info in database!", "此账户不存在，请先註冊帳戶！"));
             }
-            IAuthContainerModel model = GetJWTContainerModel(loginData.phone, loginData.memberCode);
-            IAuthService authService = new JWTService(model.secretKey);
+
+            // 取得會員資訊
+            MemberInfoModel member = _memberService.getMemberInfo(loginData.memberCode, "");
+            model = GetJWTContainerModel(loginData.phone, loginData.memberCode);
+            authService = new JWTService(model.secretKey);
             string token = authService.generateToken(model);
+
+            // 登入時將token存至數據表內
+            this.addTokenToDb(token, username);
+
             loginData.token = token;
+            loginData.name = member.name;
             return Json(new ApiResult<object>(loginData));
         }
 
@@ -92,8 +93,29 @@ namespace xiaotasi.Controllers
             {
                 return Json(new ApiError(1001, "Required field(s) is missing!", "必需参数缺失！"));
             }
-            
-            return Json(new ApiResult<object>("Logout Success"));
+            return Json(new ApiResult<string>("Logout Success", "成功登出系統"));
+        }
+
+
+        // 新增旅遊預定會員資訊
+        private void addTokenToDb(string token, string username)
+        {
+            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            // SQL Command
+            string cmdText = "UPDATE account_list set token = @token, token_exp = @tokenExp, token_iat = @tokenIat where username = @username";
+            int timestampExp = Convert.ToInt32(DateTime.UtcNow.AddHours(10).Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+            int timestampIat = Convert.ToInt32(DateTime.UtcNow.AddHours(8).Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+            string tokenExp = DateTimeOffset.FromUnixTimeSeconds(timestampExp).DateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            string tokenIat = DateTimeOffset.FromUnixTimeSeconds(timestampIat).DateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            SqlCommand select = new SqlCommand(cmdText, connection);
+            select.Parameters.AddWithValue("@username", username);
+            select.Parameters.Add("@token", SqlDbType.NVarChar).Value = token;
+            select.Parameters.Add("@tokenExp", SqlDbType.NVarChar).Value = tokenExp;
+            select.Parameters.Add("@tokenIat", SqlDbType.NVarChar).Value = tokenIat;
+            //開啟資料庫連線
+            connection.Open();
+            select.ExecuteNonQuery();
+            connection.Close();
         }
 
 

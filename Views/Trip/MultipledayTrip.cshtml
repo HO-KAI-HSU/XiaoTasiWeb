@@ -3,7 +3,7 @@
 }
 
 <!-- ... Banner ... -->
-<section class="banner_box">
+<section class="banner_box banner_place">
     <div class="banner_detail">
         <div class="banner_text clearfix">
             <img class="banner_icon" src="~/images/banner_multiple_day_trip_icon.png" alt="多日旅遊ICON">
@@ -27,17 +27,12 @@
             <a asp-area="" asp-controller="" asp-action=""><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i><span class="page_name">多日旅遊</span>
         </div>
         <div class="news_detail_box">
+            <ul class="one_day_search_box clearfix">
+                <li><input type="date" id="start_time" name="start_time"></li>
+                <li><input type="text" id="location" placeholder="請輸入目的地"></li>
+                <li><a class="one_day_search_btn" href="#">行程搜尋</a></li>
+            </ul>
             <div id="tab_1" class="tab_content tab_content_1 travel_current">
-
-            </div>
-            <div id="tab_2" class="tab_content tab_content_2">
-
-            </div>
-            <div id="tab_3" class="tab_content tab_content_3">
-
-            </div>
-            <div id="tab_4" class="tab_content tab_content_4">
-
             </div>
         </div>
     </div>

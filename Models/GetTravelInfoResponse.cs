@@ -8,7 +8,7 @@ namespace xiaotasi.Models
     {
         internal int count;
         public int success { get; set; }
-        public List<TripStatisticModel> travelStatisticList { get; set; }
+        public List<TripStatisticListModel> travelStatisticList { get; set; }
         public Dictionary<string, object> travelInfo { get; set; }
         public List<DateTripPicModel> dateTravelPicList { get; set; }
         public TripCostModel costInfo { get; set; }

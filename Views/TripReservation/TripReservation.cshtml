@@ -1,0 +1,197 @@
+﻿@{
+    ViewData["Title"] = "小蔡旅行社-我要定位";
+}
+
+<!-- ... Banner ... -->
+<section class="multiple_day_banner_box banner_place">
+    <div class="banner_detail">
+        <div class="banner_text clearfix">
+            <img class="banner_icon" src="~/images/banner_island_trip_icon.png" alt="離島旅遊ICON">
+            <h1 class="banner_title"></h1>
+        </div>
+    </div>
+</section>
+
+<!-- ...  Booking_list_info ... -->
+<section class="multiple_day_travel_box">
+    <div class="container">
+        <div class="bread_crumb">
+            <a href="index.html"><i class="fa fa-1g fa-home"></i>首頁</a><a href="multipleday_trip.html"><i class="fa fa-angle-right"></i><span class="page_name">多日旅遊</span></a><a href="multipleday_tripinfo.html"><i class="fa fa-angle-right"></i><span class="bread_title"></span></a><i class="fa fa-angle-right"></i>我要訂位
+        </div>
+    </div>
+    <div class="booking_list_box">
+        <h2>旅遊主題: <span class="travel_title">新北福隆東北角兩日遊</span></h2>
+        <p>出團梯次: <span class="travel_sdate">2021-05-03(星期一)</span>~<span class="travel_edate">2021-05-05(星期三)</span></p>
+        <ul class="travel_info">
+            <li class="booking_list_title">行程內容</li>
+            <li>第一天: 鼻頭角遊憩區、金瓜石、三貂角燈塔、卯澳漁村</li>
+            <li>第二天: 鼻頭角遊憩區、金瓜石、卯澳漁村</li>
+        </ul>
+        <p>行程費用: 團費含: 車資+旅責險+服務費+餐宿+小車+門票。每人: 兩人房小床<span class="dollars">7000</span>元<span>、三人房<span class="dollars" 0>6900</span>元、四人房<span class="dollars">6600</span>元、獨房<span class="dollars">8600</span>元</span></p>
+        <ul>
+            <li class="booking_list_title">注意事項</li>
+            <li>本行程最低出團人數20位</li>
+            <li>凡訂購旅遊產品得依據，<a class="file_download" href="file/domestic_trip_contract.pdf" target="_blank">國內旅遊定型化契約</a>規範</li>
+        </ul>
+        <ul class="travel_transportation">
+            <li class="booking_list_title">車次</li>
+            <li>第1車</li>
+        </ul>
+    </div>
+    <div class="multiple_day_travel_list_box clearfix">
+        <div class="tour_bus_seat_map tab_content tab_content_1 tour_bus_seat_current clearfix"></div>
+        <div class="booking_ticket">
+            <div class="booking_table_content">
+                <div class="booking_seat">左二排<span>靠窗</span></div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title"><label for="tour_bus_take">上車地點</label></div>
+                    <div class="booking_field">
+                        <select id="tour_bus_take">
+                            <option value="two_room">06:50 龍山寺捷運站3號出口</option>
+                            <option value="three_room">07:20 三重中正堂(萊爾富)</option>
+                            <option value="three_room">07:50 大橋頭捷運站3號出口</option>
+                            <option value="four_room">08:10 台北車站東三門</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="personal_name">姓名</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="text" id="personal_name">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="birthday">出生年月日</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="date" id="birthday">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="personal_id">身分證</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="text" id="personal_id">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="telphone">電話</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="text" id="telphone">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="food">房型</label>
+                    </div>
+                    <div class="booking_field">
+                        <select id="room">
+                            <option value="two_room">二人房</option>
+                            <option value="three_room">三人房</option>
+                            <option value="four_room">四人房</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="food">葷食/素食</label>
+                    </div>
+                    <div class="booking_field">
+                        <select id="food">
+                            <option value="meat_food">葷食</option>
+                            <option value="vegetarian_food">素食</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title"><label for="memo">備註</label></div>
+                    <div class="booking_field"><textarea id="memo"></textarea></div>
+                </div>
+            </div>
+            <div class="booking_table_content">
+                <div class="booking_seat">左二排<span>靠窗</span></div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title"><label for="tour_bus_take">上車地點</label></div>
+                    <div class="booking_field">
+                        <select id="tour_bus_take">
+                            <option value="two_room">06:50 龍山寺捷運站3號出口</option>
+                            <option value="three_room">07:20 三重中正堂(萊爾富)</option>
+                            <option value="three_room">07:50 大橋頭捷運站3號出口</option>
+                            <option value="four_room">08:10 台北車站東三門</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="personal_name">姓名</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="text" id="personal_name">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="birthday">出生年月日</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="date" id="birthday">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="personal_id">身分證</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="text" id="personal_id">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="telphone">電話</label>
+                    </div>
+                    <div class="booking_field">
+                        <input type="text" id="telphone">
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="food">房型</label>
+                    </div>
+                    <div class="booking_field">
+                        <select id="room">
+                            <option value="two_room">二人房</option>
+                            <option value="three_room">三人房</option>
+                            <option value="four_room">四人房</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title">
+                        <label for="food">葷食/素食</label>
+                    </div>
+                    <div class="booking_field">
+                        <select id="food">
+                            <option value="meat_food">葷食</option>
+                            <option value="vegetarian_food">素食</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="booking_list clearfix">
+                    <div class="booking_title"><label for="memo">備註</label></div>
+                    <div class="booking_field"><textarea id="memo"></textarea></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="trip_more_btn" href="#">確認選位</a>
+</section>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/tripReservation.js"></script>
+}

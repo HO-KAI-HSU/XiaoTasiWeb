@@ -10,11 +10,11 @@
 <div class="mask"></div>
 
 <!-- ... Banner ... -->
-<section class="multiple_day_banner_box">
+<section class="multiple_day_banner_box banner_place">
     <div class="banner_detail">
         <div class="banner_text clearfix">
             <img class="banner_icon" src="~/images/banner_multiple_day_trip_icon.png" alt="多日旅遊ICON">
-            <h1>新北福隆東北角兩日遊</h1>
+            <h1 class="banner_title"></h1>
         </div>
     </div>
 </section>
@@ -23,19 +23,16 @@
 <section class="multiple_day_travel_box">
     <div class="container">
         <div class="bread_crumb">
-            <a asp-area="" asp-controller="" asp-action=""><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i><span class="page_name">多日旅遊</span><i class="fa fa-angle-right"></i>新北福隆東北角兩日遊
+            <a asp-area="" asp-controller="" asp-action=""><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i><span class="page_name">多日旅遊</span><i class="fa fa-angle-right"></i><span class="bread_title"></span>
         </div>
     </div>
     <div class="multiple_day_calendar_box clearfix">
-        <ul class="travel_step_code_input">
-            <li><input type="text" id="travel_step_code" name="travel_step_code"></li>
-            <li><a class="travel_step_code_btn" href="#">搜尋</a></li>
-        </ul>
-
+        <div class="calendar_list">
+            <ul class="month_choose clearfix"></ul>
+        </div>
         <div class="travel_info_post">
             <h2 class="travel_info_post_title"></h2>
-            <table class="travel_info_post_table">
-            </table>
+            <table class="travel_info_post_table"></table>
             <img src="~/images/travel_info_paper.png" alt="旅遊行程資訊站">
         </div>
     </div>
@@ -43,21 +40,6 @@
         <h2>行程小簡介</h2>
         <!-- ... Slider -->
         <section class="video_slider">
-            <div class="video_slider">
-            </div>
-        </section>
-        <section class="index_slider">
-            <div class="index_slider">
-                <div class="index_slide">
-                    <img src="~/images/index_banner1.png" alt="首頁banner">
-                </div>
-                <div class="index_slide">
-                    <img src="~/images/index_banner2.png" alt="首頁banner">
-                </div>
-                <div class="index_slide">
-                    <img src="~/images/index_banner3.png" alt="首頁banner">
-                </div>
-            </div>
         </section>
         <img class="multiple_day_banner" src="~/images/multiple_day_banner.png" alt="行程banner" title="行程banner">
         <h3 class="travel_title_text">新北福隆東北角旅遊<span class="video_mark">世界級的風景饗宴</span></h3>

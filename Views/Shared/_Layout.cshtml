@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/css/normalize.css" rel="stylesheet" type="text/css">
-    <link href="~/css/style.css" rel="stylesheet" type="text/css">
-    <link href="~/css/slick.css" rel="stylesheet" type="text/css">
-    <link href="~/css/slick-theme.css" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/css/normalize.css")" rel="stylesheet" type="text/css" id="normalizecss" />
+    <link href="@Url.Content("~/css/style.css")" rel="stylesheet" type="text/css" id="stylecss" />
+    <link href="@Url.Content("~/css/slick.css")" rel="stylesheet" type="text/css" id="slickcss" />
+    <link href="@Url.Content("~/css/slick-theme.css")" rel="stylesheet" type="text/css" id="slickthemecss" />
+    <link href="~/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400;700&display=swap" rel="stylesheet">
@@ -31,7 +32,15 @@
             <li><a class="add_member" href="#">加入會員</a></li>
         </ul>
     </div>
-
+    <div class="forget_psw_modal">
+        <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
+        <h3>忘記密碼</h3>
+        <form action="#">
+            <input type="text" id="number" name="number" placeholder="請輸入您的電子信箱">
+            <input type="password" id="psw" name="psw" placeholder="請輸入您的新密碼">
+        </form>
+        <a class="login_btn" href="#">重新設定密碼</a>
+    </div>
     <div class="register_member_modal">
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>註冊條款</h3>
@@ -84,18 +93,27 @@
             <input type="email" id="email" name="email" placeholder="請輸入您的E-mail">
             <input type="password" id="password" name="password" placeholder="請輸入您的密碼">
         </form>
-        <a class="add_member_btn" href="#">加入會員</a>
+        <a class="add_member_btn" href="#">送出</a>
     </div>
     <div class="phone_verification_modal">
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>輸入手機驗證碼</h3>
         <form action="#">
-            <input type="text" id="verification_number" name="verification_number" placeholder="請輸入手機驗證碼">
+            <input type="text" id="validate_number" name="validate_number" placeholder="請輸入手機驗證碼">
         </form>
-        <ul class="verification_member_btn clearfix">
-            <li><a class="submit_verification_btn" href="#">送出</a></li>
-            <li><a class="resend_verification_btn" href="#">重新發送</a></li>
-        </ul>
+        <a class="submit_verification_btn" href="#">送出</a>
+        <a class="resend_verification_btn" href="#">重新發送</a>
+    </div>
+    <div class="upload_pay_modal">
+        <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
+        <h3>請上傳匯款證明</h3>
+        <form action="#">
+            <input type="text" id="bank_number" name="bank_number" placeholder="請輸入您的匯款帳號末五碼">
+            <label class="choose_photo_file_btn">
+                <input type="file" id="upload_pay_photo" name="upload_pay_photo" accept="image/gif, image/jpeg, image/png">檔案上傳
+            </label>
+        </form>
+        <a class="send_reservation_check_btn" href="#">送出</a>
     </div>
     <div class="mask"></div>
 
@@ -108,10 +126,6 @@
                     <li><a href="#">語言選擇</a></li>
                     <li><a class="login_in_btn" href="#">登入</a></li>
                     <li><a class="register_btn" href="#">註冊</a></li>
-                    <li class="search" method="get">
-                        <input type="text" name="search" placeholder="輸入關鍵字">
-                        <input type="submit" name="submit" class="searchsubmit">
-                    </li>
                 </ul>
                 <ul class="menu_box clearfix">
                     <li><a asp-area="" asp-controller="Trip" asp-action="SingledayTrip"><img src="~/images/menu_icon1.png" alt="一日旅遊" title="一日旅遊">一日旅遊</a></li>
@@ -140,7 +154,7 @@
                 <li><a asp-area="" asp-controller="Home" asp-action="Rule">隱私政策</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Rule">使用條款</a></li>
                 <li><a href="#">訂位資訊</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="News">媒體報導</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="MediaNews">媒體報導</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Download">下載專區</a></li>
             </ul>
             <ul class="company_info clearfix">

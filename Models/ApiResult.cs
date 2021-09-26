@@ -71,4 +71,20 @@ namespace xiaotasi.Models
             reason = reas;
         }
     }
+
+    public class ApiSuccess : ApiResult<object>
+    {
+        /// <summary>
+        /// 建立成功結果
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="message"></param>
+        /// <param name="reason"></param>
+        public ApiSuccess(string msg, string reas)
+        {
+            success = 1;
+            message = msg;
+            reason = reas;
+        }
+    }
 }

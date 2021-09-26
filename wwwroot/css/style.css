@@ -29,6 +29,7 @@ ul.index_two_day_trip, ul.footer_right, ul.login_modal_link, ul.register_member_
     list-style-type: none;
 }
 
+
 a.trip_more_btn:hover, a.one_day_booking_btn:hover, a.one_day_search_btn:hover {
     animation: icon_scale .6s cubic-bezier(.445,.05,.55,.95) 0s;
 }
@@ -37,6 +38,16 @@ a.trip_more_btn:hover, a.one_day_booking_btn:hover, a.one_day_search_btn:hover {
     clear: both;
     content: "";
     display: block;
+}
+
+a.trip_more_btn:hover, a.one_day_booking_btn:hover, a.one_day_search_btn:hover {
+    animation: icon_scale .6s cubic-bezier(.445,.05,.55,.95) 0s;
+}
+
+.clearfix:after {
+    clear: both;
+    content: "";
+    display: block;f
 }
 
 /* --Header--------------------------------- */
@@ -314,7 +325,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
         }
 
 .index_news {
-    margin-top: 106px;
+    margin-top: 0;
 }
 
     .index_news h2 {
@@ -486,7 +497,7 @@ a.trip_more_btn {
 }
 
     .multiple_day_banner_box .banner_text {
-        max-width: 440px;
+        max-width: 340px;
         position: absolute;
         width: 100%;
         z-index: 200;
@@ -639,8 +650,12 @@ ul.news_content.mt0 {
 }
 
 ul.news_content li p.travel_fee {
-    font-size: 17px;
-    padding-top: 2px;
+    font-size: 18px;
+    padding-top: 12px;
+}
+
+ul.news_content li p.pt4 {
+    padding-top: 4px;
 }
 
 span.dollars {
@@ -687,9 +702,13 @@ span.dollars {
         padding-bottom: 0;
     }
 
+        .news_detail_box ul.one_day_content li img.one_day_trip_pic {
+            width: 34%;
+        }
+
 .news_content_right {
     float: right;
-    width: 66%;
+    width: 62%;
 }
 
     .news_content_right p.one_day_time {
@@ -739,7 +758,7 @@ a.one_day_booking_btn {
     box-shadow: 7px 7px 20px 0 rgba(0,0,0,.08);
     color: #fff;
     display: block;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     height: 50.4px;
     line-height: 50.4px;
@@ -833,7 +852,7 @@ a.one_day_search_btn {
         }
 
         .travel_info_post table tr td {
-            color: #212121;
+            color: #656464;
             padding: 10px 18px 10px 4px;
             font-weight: 600;
         }
@@ -845,87 +864,100 @@ a.one_day_search_btn {
                 margin-left: -3px;
             }
 
-.calendar {
-    margin: auto;
-    width: 600px;
-    background-color: #fff;
-    box-shadow: 0px 0px 15px 4px rgba(0, 0, 0, 0.2);
+.calendar_list {
+    float: left;
+    width: 48%;
 }
 
-.month {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 40px 30px;
-    text-align: center;
-    background-color: #2ecc71;
-    color: #fff;
-}
-
-.weekdays {
-    background-color: #27ae60;
-    color: #fff;
-    padding: 7px 0;
-    display: flex;
-}
-
-.days {
-    font-weight: 300;
-    padding: 10px 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-    .weekdays div,
-    .days div {
-        text-align: center;
-        width: 14.28%;
+    .calendar_list ul.month_choose {
+        background: #4FBAA0;
+        height: 50px;
+        line-height: 50px;
+        list-style-type: none;
+        padding: 0 20px;
     }
 
-    .days div {
-        padding: 10px 0;
-        margin-bottom: 10px;
-        transition: all 0.4s;
+        .calendar_list ul.month_choose li {
+            color: #fff;
+            cursor: pointer;
+            float: left;
+            font-weight: 600;
+            text-align: center;
+            width: 160px;
+        }
+
+    .calendar_list .month_current {
+        display: inherit;
     }
 
-.prev_date {
-    color: #999;
-}
-
-.today {
-    background-color: #27ae60;
-    color: #fff;
-}
-
-.days div:hover {
-    cursor: pointer;
-    background-color: #dfe6e9
-}
-
-.prev,
-.next {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 23px;
-    background-color: rgba(0, 0, 0, 0.1);
-    transition: all 0.4s;
-}
-
-    .prev:hover,
-    .next:hover {
+    .calendar_list ul.month_choose li.two_day_current {
+        background: #66dabe;
         cursor: pointer;
-        background-color: rgba(0, 0, 0, 0.2);
     }
 
-#month {
-    font-size: 30px;
-    font-weight: 500;
-}
+    .calendar_list ul.month_choose li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .calendar_list .month_travel_list {
+        background: #fff;
+        border-bottom: 1px solid #e3e3e3;
+        border-left: 1px solid #e3e3e3;
+        border-right: 1px solid #e3e3e3;
+        font-size: 16px;
+        padding: 9.44px 18px;
+    }
+
+        .calendar_list .month_travel_list.selected {
+            background: #FFFAC6;
+            cursor: pointer;
+        }
+
+    .calendar_list .month_f_left {
+        float: left;
+    }
+
+    .calendar_list .week_day {
+        color: #F4A100;
+        font-weight: 600;
+    }
+
+    .calendar_list .month_travel p.day {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .calendar_list .week_day_seat {
+        padding-left: 10px;
+    }
+
+        .calendar_list .week_day_seat p {
+            color: #656464;
+            float: left;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+    .calendar_list .week_day_assign {
+        float: right;
+    }
+
+        .calendar_list .week_day_assign p {
+            padding-bottom: 4px;
+            text-align: right;
+        }
+
+            .calendar_list .week_day_assign p a {
+                color: #F4A100;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+        .calendar_list .week_day_assign span.dollars {
+            font-size: 20px;
+            font-weight: 600;
+        }
 
 /* --Multi_ple_day_trip_info--------------------------------- */
 .multiple_day_travel_box {
@@ -971,6 +1003,7 @@ a.one_day_search_btn {
         font-size: 16px;
         line-height: 26px;
         padding-bottom: 16px;
+        text-align: justify;
     }
 
         .multiple_day_video_box p:last-child {
@@ -1081,19 +1114,24 @@ img.multiple_day_video_photo {
         }
 
 span.tabs_brief_btn {
-    border: 2px solid #999;
-    color: #999;
+    border: 2px solid #02a2f7;
+    color: #02a2f7;
     cursor: pointer;
     float: right;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
-    height: 30px;
-    line-height: 28px;
+    height: 40px;
+    line-height: 36px;
     margin: -4px 0 20px 0;
     opacity: 1;
     text-align: center;
-    width: 100px;
+    width: 140px;
 }
+
+    span.tabs_brief_btn.show {
+        background: #02a2f7;
+        color: #fff;
+    }
 
     span.tabs_brief_btn:hover {
         opacity: .7;
@@ -1101,7 +1139,7 @@ span.tabs_brief_btn {
     }
 
 .timeline_travel {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
     .timeline_travel h3 {
@@ -1122,11 +1160,11 @@ span.tabs_brief_btn {
 
 .timeline_detail {
     display: inline-block;
-    margin: 0 32px 32px 0;
-    width: 48.5%;
+    margin: 0 30px 30px 0;
+    width: 48.58%;
 }
 
-    .timeline_detail:nth-child(2n+1) {
+    .timeline_detail:nth-child(2n+2) {
         margin-right: 0;
     }
 
@@ -1154,6 +1192,233 @@ span.tabs_brief_btn {
     .timeline_content p {
         font-size: 16px;
         line-height: 26px;
+        text-align: justify;
+    }
+
+/* --Booking--------------------------------- */
+.booking_list_box {
+    border: 4px solid #02a2f7;
+    border-radius: 10px;
+    margin: 40px auto 0 auto;
+    max-width: 1250px;
+    padding: 20px;
+    width: 100%;
+}
+
+    .booking_list_box h2 {
+        font-size: 22px;
+    }
+
+    .booking_list_box p {
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+        line-height: 26px;
+        padding: 10px 0;
+    }
+
+        .booking_list_box p span.dollars {
+            color: #ff0000;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+    .booking_list_box ul {
+        border-bottom: 1px solid #ddd;
+        list-style-type: none;
+        padding: 10px 0;
+    }
+
+        .booking_list_box ul:last-child {
+            border-bottom: none;
+        }
+
+    .booking_list_box li {
+        font-size: 16px;
+        line-height: 28px;
+    }
+
+        .booking_list_box li.booking_list_title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .booking_list_box li a.file_download {
+            color: #ff0000;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+.booking_ticket {
+    border: 2px solid #02a2f7;
+    border-radius: 10px;
+    float: right;
+    max-width: 400px;
+    padding: 10px 10px 20px 10px;
+    width: 100%;
+}
+
+    .booking_ticket .booking_seat {
+        background: #F4A100;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .booking_ticket .booking_table_content {
+        margin-top: 10px;
+        padding: 0px;
+    }
+
+    .booking_ticket .booking_list {
+        margin-top: 10px;
+    }
+
+        .booking_ticket .booking_list .booking_title {
+            background: #FFFAC6;
+            color: #333;
+            display: block;
+            float: left;
+            font-weight: 600;
+            line-height: 34px;
+            text-align: center;
+            width: 36%;
+        }
+
+        .booking_ticket .booking_list .booking_field {
+            float: right;
+            width: 64%;
+        }
+
+            .booking_ticket .booking_list .booking_field input,
+            .booking_ticket .booking_list .booking_field select {
+                border: 2px solid #ddd;
+                display: block;
+                height: 33.6px;
+                margin: 0 auto;
+                outline: none;
+                padding: 6px;
+                width: 90%;
+            }
+
+            .booking_ticket .booking_list .booking_field textarea {
+                border: 2px solid #ddd;
+                display: block;
+                height: 120px;
+                margin: 0 auto;
+                outline: none;
+                padding: 6px;
+                resize: none;
+                width: 90%;
+            }
+
+.tour_bus_seat_map {
+    border: 2px solid #02a2f7;
+    border-radius: 10px;
+    float: left;
+    max-width: 760px;
+    padding: 20px 10px;
+    width: 100%;
+}
+
+.tour_bus_seat_left, .tour_bus_seat_right {
+    width: 100%;
+}
+
+.tour_bus_seat_left_box, .tour_bus_seat_right_box {
+    width: 47%;
+}
+
+.tour_bus_seat_left_box {
+    float: left;
+}
+
+.tour_bus_seat_right_box {
+    float: right;
+}
+
+.tour_bus_choose_box {
+    list-style-type: none;
+    margin: 40px auto 30px auto;
+    max-width: 1250px;
+    width: 100%;
+}
+
+    .tour_bus_choose_box li {
+        background: #e6e6e8;
+        border-radius: 6px;
+        float: left;
+        margin-right: 12px;
+    }
+
+        .tour_bus_choose_box li a {
+            color: #333;
+            display: block;
+            font-size: 14px;
+            padding: 14px 18px;
+            text-decoration: none;
+        }
+
+        .tour_bus_choose_box li.tab_current {
+            background: #02a2f7;
+        }
+
+            .tour_bus_choose_box li.tab_current a {
+                color: #fff;
+            }
+
+.tour_bus_seat {
+    background: #02a2f7;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 13px;
+    padding: 18px;
+    text-align: center;
+    width: 49%;
+}
+
+.tour_bus_seat_map.tour_bus_seat_current {
+    display: inherit;
+}
+
+.tour_bus_seat.no_seat {
+    background: none;
+}
+
+.tour_bus_seat.booking_seat {
+    background: #F4A100;
+}
+
+.tour_bus_seat.disabled_seat {
+    background: #c6c3c3;
+}
+
+.tour_bus_safe_door {
+    background: #ddd;
+    border-radius: 6px;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 13px;
+    padding: 18px;
+    text-align: center;
+    width: 100%;
+}
+
+.tour_bus_seat_bottom_box .tour_bus_seat {
+    border-radius: 6px;
+    margin-bottom: 0;
+    padding: 18px;
+    text-align: center;
+    width: 23%;
+}
+
+    .tour_bus_seat_bottom_box .tour_bus_seat:nth-child(3) {
+        padding: 18px 11px;
+        width: 4.8%;
     }
 
 /* --News--------------------------------- */
@@ -1318,7 +1583,8 @@ ul.news_content {
 }
 
 ul.fixed_btn_box {
-    bottom: 80px;
+    bottom: 160px;
+    display: none;
     position: fixed;
     right: 20px;
     z-index: 1000;
@@ -1450,7 +1716,7 @@ ul.travel_tabs, ul.rule_tabs {
         background: #ffa300;
     }
 
-.tab_content {
+.tab_content, .month_content {
     display: none;
 }
 
@@ -1560,20 +1826,33 @@ ul.travel_tabs, ul.rule_tabs {
         width: 37%;
     }
 
+        .member_table tr td.member_text input[type="text"], .member_table tr td.member_text input[type="email"] {
+            background: none;
+            border: none;
+            outline: none;
+            padding: 10px;
+            width: 74%;
+        }
+
+        .member_table tr td.member_text input::placeholder {
+            color: rgba(0,0,0,.6);
+        }
+
     .order_table tr th {
         background: #02a2f7;
         color: #fff;
-        font-size: 15px;
+        font-size: 20px;
         padding: 16px 10px;
         text-align: center;
     }
 
     .order_table tr td {
         background: #f3f3f3;
-        font-size: 15px;
+        font-size: 18px;
         font-weight: 400;
-        line-height: 24px;
-        padding: 18px 12px;
+        line-height: 28px;
+        padding: 16px 4px;
+        text-align: center;
     }
 
         .order_table tr td.td_bottom {
@@ -1619,13 +1898,56 @@ a.adjust_btn, a.cancel_btn {
     border-radius: 42px;
     color: #fff;
     display: block;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     height: 42px;
     line-height: 42px;
     text-align: center;
     text-decoration: none;
 }
+
+a.upload_pay_btn {
+    background: #02a2f7;
+    border-radius: 42px;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    text-decoration: none;
+}
+
+a.upload_pay_finish_btn {
+    pointer-events: none;
+    background: #f6b72c;
+    border-radius: 42px;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    text-decoration: none;
+}
+
+a.pay_check_btn {
+    pointer-events: none;
+    background: #87CEFA;
+    border-radius: 42px;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    text-decoration: none;
+}
+
+
 
 a.adjust_btn {
     margin: 40px auto 0 auto;
@@ -1661,6 +1983,7 @@ span.red_order_notice {
     font-size: 16px;
     display: block;
     height: 418px;
+    position: relative;
     width: 100%;
 }
 
@@ -1739,7 +2062,7 @@ ul.register_info {
     list-style-type: none;
     margin: 0 auto;
     position: absolute;
-    top: 356px;
+    top: 354px;
     transform: translate3d(-50%,0,0);
     width: 558px;
 }
@@ -1795,18 +2118,29 @@ p.footer_copyright {
     z-index: 2000;
 }
 
-.login_modal, .forget_psw_modal, .register_member_modal, .add_member_modal, .member_number_modal, .phone_verification_modal {
+.login_modal, .forget_psw_modal, .register_member_modal,
+.add_member_modal, .phone_verification_modal, .upload_pay_modal {
     background: #fff;
     border-radius: 12px;
     display: none;
     left: 50%;
     margin: 70px auto 0 auto;
     padding: 54px 40px 58px 40px;
-    position: absolute;
+    position: fixed;
     transform: translate3d(-50%,0,0);
     width: 450px;
     z-index: 3000;
 }
+
+    .add_member_modal form.register_form {
+        height: 400px;
+        overflow-y: auto;
+        padding-right: 16px;
+    }
+
+        .add_member_modal form.register_form input[name="name"] {
+            margin-top: 0;
+        }
 
 img.modal_close_icon {
     cursor: pointer;
@@ -1824,11 +2158,17 @@ img.modal_close_icon {
     }
 
 .login_modal h3, .forget_psw_modal h3, .register_member_modal h3,
-.add_member_modal h3, .member_number_modal h3, .phone_verification_modal h3 {
+.add_member_modal h3, .phone_verification_modal h3,
+.upload_pay_modal h3 {
     border-bottom: 1px solid #d3d3d3;
     color: #02a2f7;
     font-size: 25px;
     padding-bottom: 10px;
+}
+
+.add_member_modal h3 {
+    border-bottom: none;
+    padding-bottom: 20px;
 }
 
 .login_modal input[name="number"], .login_modal input[name="psw"],
@@ -1837,8 +2177,8 @@ img.modal_close_icon {
 .add_member_modal input[name="number"], .add_member_modal input[name="phone"],
 .add_member_modal input[name="contact_name"], .add_member_modal input[name="contact_phone"],
 .add_member_modal input[name="email"], .add_member_modal input[name="password"],
-.member_number_modal input[name="validate_number"],
-.phone_verification_modal input[name="verification_number"] {
+.phone_verification_modal input[name="validate_number"],
+.upload_pay_modal input[name="bank_number"] {
     background: #f5f5f5;
     border: none;
     margin-top: 26px;
@@ -1846,6 +2186,24 @@ img.modal_close_icon {
     padding: 14px;
     position: relative;
     width: 100%;
+}
+
+.upload_pay_modal input[type="file"] {
+    display: none;
+}
+
+.choose_photo_file_btn {
+    background: #02a2f7;
+    border-radius: 58px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    height: 46.4px;
+    line-height: 44px;
+    margin-top: 26px;
+    text-align: center;
 }
 
 ::placeholder {
@@ -1866,7 +2224,7 @@ img.modal_close_icon {
     letter-spacing: 0;
 }
 
-a.login_btn, a.add_member_btn {
+a.login_btn, a.add_member_btn, a.submit_verification_btn, a.resend_verification_btn, a.send_reservation_check_btn {
     background: #02a2f7;
     border-radius: 58px;
     color: #fff;
@@ -1875,10 +2233,14 @@ a.login_btn, a.add_member_btn {
     font-weight: 600;
     height: 48px;
     line-height: 48px;
-    margin-top: 32px;
+    margin-top: 26px;
     max-width: 440px;
     text-align: center;
     text-decoration: none;
+}
+
+.sub_menu a.welcome_text, .sub_menu a.login_out_btn {
+    color: #f6b72c;
 }
 
 .register_member_text {
@@ -1899,19 +2261,22 @@ a.login_btn, a.add_member_btn {
         font-weight: 600;
     }
 
-    .register_member_text::-webkit-scrollbar-track {
+    .register_member_text::-webkit-scrollbar-track,
+    .register_form::-webkit-scrollbar-track {
         background: #f5f5f5;
         border-radius: 10px;
         height: 55px;
     }
 
-    .register_member_text::-webkit-scrollbar {
+    .register_member_text::-webkit-scrollbar,
+    .register_form::-webkit-scrollbar {
         background: #f5f5f5;
         height: 55px;
         width: 10px;
     }
 
-    .register_member_text::-webkit-scrollbar-thumb {
+    .register_member_text::-webkit-scrollbar-thumb,
+    .register_form::-webkit-scrollbar-thumb {
         background: #02a2f7;
         border-radius: 10px;
         height: 55px;
@@ -1935,38 +2300,6 @@ ul.register_member_btn {
 
         ul.register_member_btn li > a.agree_btn,
         ul.register_member_btn li > a.disagree_btn {
-            background: #02a2f7;
-            border-radius: 58px;
-            color: #fff;
-            display: block;
-            font-size: 18px;
-            font-weight: 600;
-            height: 46px;
-            line-height: 44px;
-            margin-top: 32px;
-            max-width: 160px;
-            text-align: center;
-            text-decoration: none;
-        }
-
-ul.verification_member_btn {
-    margin: -4px auto 0 auto;
-    max-width: 345px;
-    width: 100%;
-}
-
-    ul.verification_member_btn li {
-        float: left;
-        margin-right: 24px;
-        width: 160px;
-    }
-
-        ul.verification_member_btn li:last-child {
-            margin-right: 0;
-        }
-
-        ul.verification_member_btn li > a.submit_verification_btn,
-        ul.verification_member_btn li > a.resend_verification_btn {
             background: #02a2f7;
             border-radius: 58px;
             color: #fff;
@@ -2015,8 +2348,8 @@ ul.login_modal_link {
     height: 575px;
     margin: 0 auto;
     left: 50%;
-    position: absolute;
-    top: 140px;
+    position: fixed;
+    top: 70px;
     transform: translate3d(-50%,0,0);
     width: 78%;
     z-index: 3000;

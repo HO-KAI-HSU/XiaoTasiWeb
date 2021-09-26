@@ -1,6 +1,26 @@
-
 $(function () {
-    $.post('/Trip/GetTravelListForMember', { page: 1, limit: 100, travelType: 2 }).done(function (tripList) {
+
+    // 初始化設定搜尋開始時間  
+    var startTime = getToday();
+    $("#start_time").val(startTime);
+
+    // loading 頁面時 query API 
+    multipledayTripList(startTime);
+
+    // 按鈕 query API 
+    $(".one_day_search_btn").on("click", function () {
+        console.log("one_day_search_btn");
+        var sTime = $("#start_time").val();
+        console.log(sTime);
+        var location = $("#location").val();
+        console.log(location);
+        multipledayTripList(sTime, location);
+    });
+});
+
+// 取得多日旅遊詳情 API 模塊 
+function multipledayTripList(_sDate = "", _location = "") {
+    $.post('/Trip/GetTravelListForMember', { page: 1, limit: 100, travelType: 2, searchDate: _sDate, searchString: _location }).done(function (tripList) {
         var item = "";
         $.each(tripList.travelList, function (i, trip) {
             if (i == 0 && i % 3 == 0) {
@@ -25,9 +45,16 @@ $(function () {
                 item += `</ul>`;
             }
         });
-        $('#tab_1').append(item);
+        $('#tab_1').html(item);
     });
-});
+}
+
+// 取得今日日期  
+function getToday() {
+    var today = new Date();
+    var startTime = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    return startTime;
+}
 
 
 

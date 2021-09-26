@@ -98,12 +98,10 @@ namespace xiaotasi.Controllers
             string captcha = rand.ToString().Substring(4, 6);
             Every8d every8 = new Every8d();
             string smsRes = every8.sendSMS("您的驗證碼為" + captcha, cellphone);
-
             HttpContext.Session.SetString("phone", cellphone);
             HttpContext.Session.SetInt32("captcha_time", rand);
             HttpContext.Session.SetString("captcha", captcha);
-
-            return Json(new ApiResult<string>(smsRes));
+            return Json(new ApiResult<string>("Send Success", "已發送驗證碼"));
         }
 
 

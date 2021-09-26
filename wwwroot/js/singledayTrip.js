@@ -1,8 +1,12 @@
   
 $(function () {
 
-    // loading 頁面時 query API
-    singledayTripList();
+    // 初始化設定搜尋開始時間 
+    var startTime = getToday();
+    $("#start_time").val(startTime);
+
+    // loading 頁面時 query API 
+    singledayTripList(startTime);
 
     // 按鈕 query API 
     $(".one_day_search_btn").on("click", function () {
@@ -41,4 +45,11 @@ function singledayTripList(_date = null, _location = "") {
         $("#start_time").val(date);
         $('.news_content').html(item);
     });
+}
+
+// 取得今日日期  
+function getToday() {
+    var today = new Date();
+    var startTime = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    return startTime;
 }
