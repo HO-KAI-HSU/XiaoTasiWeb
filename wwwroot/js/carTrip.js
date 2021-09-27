@@ -33,7 +33,7 @@ function carTripList(_sDate = "", _location = "") {
             }
 
             item += `<li>
-                    <a href="#" id="tripInfo"><img src="/images/multipleday_trip_photo2.png" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
+                    <a href="#" id="tripInfo"><img class="trip" src="/images/multipleday_trip_photo2.png" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
                     <input type="hidden" id="travelCode" value="${trip.travelCode}">
                     <span class="date">${trip.travelFdate}</span>
                     <h4>${trip.travelTraditionalTitle}</h4>

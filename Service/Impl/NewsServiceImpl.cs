@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using xiaotasi.Pojo;
 
 namespace xiaotasi.Service.Impl
 {
     public class NewsServiceImpl : NewsService
     {
+        private readonly IConfiguration _config;
+
+        public NewsServiceImpl(IConfiguration config)
+        {
+            _config = config;
+        }
 
         public List<NewsPojo> getLatestNewsList()
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select * from latest_news_list", connection);
+            SqlCommand select = new SqlCommand("select latest_news_id, latest_news_title, latest_news_en_title, latest_news_content, latest_news_en_content, latest_news_url, latest_news_pic_path, f_date from latest_news_list", connection);
             // 開啟資料庫連線
             connection.Open();
             SqlDataReader reader = select.ExecuteReader();
@@ -20,35 +28,35 @@ namespace xiaotasi.Service.Impl
             while (reader.Read())
             {
                 NewsPojo newsData = new NewsPojo();
-                newsData.newsId = (int)reader[0];
-                newsData.newsTraditionalTitle = (string)reader[2];
-                newsData.newsTraditionalContent = (string)reader[3];
-                if (reader.IsDBNull(10))
+                newsData.newsId = reader.GetInt32(0);
+                newsData.newsTraditionalTitle = reader.IsDBNull(1) ? "" : reader.GetSqlString(1).ToString();
+                newsData.newsTraditionalContent = reader.IsDBNull(3) ? "" : reader.GetSqlString(3).ToString();
+                if (reader.IsDBNull(2))
                 {
                     newsData.newsEnTitle = "";
                 }
                 else
                 {
-                    newsData.newsEnTitle = (string)reader[10];
+                    newsData.newsEnTitle = (string)reader[2];
                 }
-                if (reader.IsDBNull(11))
+                if (reader.IsDBNull(4))
                 {
                     newsData.newsEnContent = "";
                 }
                 else
                 {
-                    newsData.newsEnContent = (string)reader[11];
+                    newsData.newsEnContent = (string)reader[4];
                 }
-                if (reader.IsDBNull(5))
+                if (reader.IsDBNull(6))
                 {
                     newsData.newsPicPath = "";
                 }
                 else
                 {
-                    newsData.newsPicPath = "~/Scripts/img/latestNews/" + (string)reader[5];
+                    newsData.newsPicPath = "~/Scripts/img/latestNews/" + (string)reader[6];
                 }
                 string format = "yyyy-MM-dd";
-                newsData.date = ((DateTime)reader[8]).ToString(format);
+                newsData.date = ((DateTime)reader[7]).ToString(format);
                 newsData.newsUrl = "";
                 newsList.Add(newsData);
             }
@@ -58,9 +66,10 @@ namespace xiaotasi.Service.Impl
 
         public List<MediaNewsPojo> getMediaNewsList()
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select * from latest_media_news_list", connection);
+            SqlCommand select = new SqlCommand("select latest_media_news_id, latest_media_news_title, latest_media_news_en_title, latest_media_news_content, latest_media_news_en_content, latest_media_news_url, latest_media_news_pic_path, f_date from latest_media_news_list", connection);
             // 開啟資料庫連線
             connection.Open();
             SqlDataReader reader = select.ExecuteReader();
@@ -68,35 +77,35 @@ namespace xiaotasi.Service.Impl
             while (reader.Read())
             {
                 MediaNewsPojo newsData = new MediaNewsPojo();
-                newsData.mediaNewsId = (int)reader[0];
-                newsData.mediaNewsTraditionalTitle = (string)reader[2];
-                newsData.mediaNewsTraditionalContent = (string)reader[3];
-                if (reader.IsDBNull(10))
+                newsData.mediaNewsId = reader.GetInt32(0);
+                newsData.mediaNewsTraditionalTitle = reader.IsDBNull(1) ? "" : (string)reader[1];
+                newsData.mediaNewsTraditionalContent = reader.IsDBNull(3) ? "" : (string)reader[3];
+                if (reader.IsDBNull(2))
                 {
                     newsData.mediaNewsEnTitle = "";
                 }
                 else
                 {
-                    newsData.mediaNewsEnTitle = (string)reader[10];
+                    newsData.mediaNewsEnTitle = (string)reader[2];
                 }
-                if (reader.IsDBNull(11))
+                if (reader.IsDBNull(4))
                 {
                     newsData.mediaNewsEnContent = "";
                 }
                 else
                 {
-                    newsData.mediaNewsEnContent = (string)reader[11];
+                    newsData.mediaNewsEnContent = (string)reader[4];
                 }
-                if (reader.IsDBNull(5))
+                if (reader.IsDBNull(6))
                 {
                     newsData.latestMediaNewsPicPath = "";
                 }
                 else
                 {
-                    newsData.latestMediaNewsPicPath = "~/Scripts/img/latestMediaNews/" + (string)reader[5];
+                    newsData.latestMediaNewsPicPath = "~/Scripts/img/latestMediaNews/" + (string)reader[6];
                 }
                 string format = "yyyy-MM-dd";
-                newsData.date = ((DateTime)reader[8]).ToString(format);
+                newsData.date = ((DateTime)reader[7]).ToString(format);
                 newsData.mediaNewsMovieUrl = "";
                 mediaNewsList.Add(newsData);
             }

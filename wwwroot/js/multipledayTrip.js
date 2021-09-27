@@ -7,7 +7,7 @@ $(function () {
     // loading 頁面時 query API 
     multipledayTripList(startTime);
 
-    // 按鈕 query API 
+    // 按鈕 query API  
     $(".one_day_search_btn").on("click", function () {
         console.log("one_day_search_btn");
         var sTime = $("#start_time").val();
@@ -24,7 +24,7 @@ function multipledayTripList(_sDate = "", _location = "") {
         var item = "";
         $.each(tripList.travelList, function (i, trip) {
             if (i == 0 && i % 3 == 0) {
-                // 第一次
+                // 第一次 
                 var row = 0;
                 item = `<ul class="news_content clearfix mt0">`;
             } else if (i != 0 && i % 3 == 0) {
@@ -34,7 +34,7 @@ function multipledayTripList(_sDate = "", _location = "") {
                 item += `<ul class="news_content clearfix">`;
             }
             item += `<li>
-                    <a href="#" id="tripInfo"><img src="/images/multipleday_trip_photo2.png" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
+                    <a href="#" id="tripInfo"><img class="trip" src="/images/multipleday_trip_photo2.png" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
                     <input type="hidden" id="travelCode" value="${trip.travelCode}">
                     <span class="date">${trip.travelFdate}</span>
                     <h4>${trip.travelTraditionalTitle}</h4>

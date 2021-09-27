@@ -47,12 +47,12 @@ function allTripList(_sDate = "", _location = "", _travelType = 2, _tabName = "t
             if (i == 0 && i % 4 == 0) {
                 // 第一次
                 var row = 0;
-                tripItem = `<ul class="index_two_day_trip clearfix">`;
+                tripItem = `<ul class="index_two_day_trip mobile_index_two_day_trip clearfix">`;
             } else if (i != 0 && i % 4 == 0) {
                 // 第N次
                 row++;
                 tripItem += `</ul>`;
-                tripItem += `<ul class="index_two_day_trip clearfix mt16">`;
+                tripItem += `<ul class="index_two_day_trip mobile_index_two_day_trip clearfix mt22">`;
             }
 
             tripItem += `<li>

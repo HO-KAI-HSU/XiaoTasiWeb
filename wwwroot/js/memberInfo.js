@@ -1,20 +1,16 @@
 $(function () {
     const $login_modal = $(".login_modal");
     const $mask = $(".mask");
-    verifyMemberInfo($login_modal, $mask);
+    var verRes = verifyMemberInfo($login_modal, $mask);
 
-    // 取得token 
-    var loginInfoEncode = localStorage.getItem("loginInfo");
-    var loginInfo = JSON.parse(loginInfoEncode);
-    var _token = loginInfo.token;
+    if (verRes) {
+        // 取得token 
+        var loginInfoEncode = localStorage.getItem("loginInfo");
+        var loginInfo = JSON.parse(loginInfoEncode);
+        showMemberInfo(loginInfo);
+    }
 
-    // 初始化取得會員資訊   
-    getMemberInfo(_token, loginInfo.memberCode, logout);
-
-    // 取得會員訂位列表   
-    getMemberReservationList(_token, loginInfo.memberCode, logout); 
-
-    // 按鈕 update memberInfo API 
+    // 按鈕 update memberInfo API
     $(".adjust_btn").on("click", function () {
         updateMemberInfo(logout);
     });
@@ -22,7 +18,6 @@ $(function () {
 
 // 取得會員資訊模塊   
 function verifyMemberInfo(_loginModal, _mask) {
-
     // 判斷是否已登入，沒登入則跳回首頁  
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var loginFlag = loginFlagMethod(loginInfo);
@@ -31,6 +26,16 @@ function verifyMemberInfo(_loginModal, _mask) {
         _mask.show();
         _loginModal.show();
     }
+    return loginFlag;
+}
+
+// 取得會員資訊模塊    
+function showMemberInfo(_loginInfo) {
+    // 初始化取得會員資訊 
+    getMemberInfo(_loginInfo.token, _loginInfo.memberCode, logout);
+
+    // 取得會員訂位列表    
+    getMemberReservationList(_loginInfo.token, _loginInfo.memberCode, logout); 
 }
 
 
@@ -48,34 +53,46 @@ function getMemberInfo(token = "", memberCode = "", logout) {
         }
         var memberData = `
             <tr>
-            <th class="member_title">身分證帳號</th>
-            <td class="member_text"><input type="text" id="member_username" name="member_username" value=${memberInfo.username} disabled></td>
-            <th class="member_title">聯絡地址</th>
-            <td class="member_text"><input type="text" id="member_addr" name="member_addr" value=${memberInfo.address}></td>
+                <th class="member_title">身分證帳號</th>
+                <td class="member_text"><input type="text" id="member_username" name="member_username" value=${memberInfo.username} disabled></td>
             </tr>
             <tr>
                 <th class="member_title">姓名</th>
                 <td class="member_text"><input type="text" id="member_name" name="member_name" value=${memberInfo.name}></td>
-                <th class="member_title">電子信箱</th>
-                <td class="member_text"><input type="text" id="member_email" name="member_email" value=${memberInfo.email}></td>
             </tr>
             <tr>
                 <th class="member_title">出生日期</th>
                 <td class="member_text"><input type="date" id="member_birthday" name="member_birthday" value=${memberInfo.birthday}></td>
-                <th class="member_title">緊急聯絡人姓名</th>
-                <td class="member_text"><input type="text" id="member_emer_name" name="member_emer_name" value=${memberInfo.emerContactName}></td>
             </tr>
             <tr>
                 <th class="member_title">聯絡電話</th>
                 <td class="member_text"><input type="text" id="member_phone" name="member_phone" value=${memberInfo.phone}></td>
-                <th class="member_title">緊急聯絡人電話</th>
-                <td class="member_text"><input type="text" id="member_emer_phone" name="member_emer_phone" value=${memberInfo.emerContactPhone}></td>
             </tr>
             <tr>
                 <th class="member_title">聯絡手機</th>
                 <td class="member_text"><input type="text" id="member_cellphone" name="member_cellphone" value=${memberInfo.cellphone}></td>
-                <th class="member_title"></th>
-                <td class="member_text"></td>
+            </tr>
+            <tr>
+                <th class="member_title">聯絡地址</th>
+                <td class="member_text"><input type="text" id="member_addr" name="member_addr" value=${memberInfo.address}></td>
+            </tr>
+            <tr>
+                <th class="member_title">電子信箱</th>
+                <td class="member_text"><input type="text" id="member_email" name="member_email" value=${memberInfo.email}></td>
+            </tr>
+            <tr>
+                <th class="member_title">姓名</th>
+                <td class="member_text"><input type="text" id="member_name" name="member_name" value=${memberInfo.name}></td>
+            </tr>
+            <tr>
+
+                <th class="member_title">緊急聯絡人姓名</th>
+                <td class="member_text"><input type="text" id="member_emer_name" name="member_emer_name" value=${memberInfo.emerContactName}></td>
+            </tr>
+            <tr>
+
+                <th class="member_title">緊急聯絡人電話</th>
+                <td class="member_text"><input type="text" id="member_emer_phone" name="member_emer_phone" value=${memberInfo.emerContactPhone}></td>
             </tr>`;
         $('.member_table').append(memberData);
     });

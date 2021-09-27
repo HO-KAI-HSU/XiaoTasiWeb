@@ -21,7 +21,8 @@ namespace xiaotasi.Service.Impl
         // 新增行程定位與座位綁定資訊
         public bool addTravelReservationSeat(int travelStepId, int seatId)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("INSERT INTO seat_travel_match_list (seat_id, travel_step_id) " +
             "VALUES (@seatId, @travelStepId)", connection);
@@ -37,7 +38,8 @@ namespace xiaotasi.Service.Impl
         // 新增旅遊訂位匯款證明
         public bool addReservationCheck(string memberCode, string travelReservationCode, string travelReservationCheckPicName, string bankAccountCode)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("INSERT INTO reservation_check_list (reservation_code, member_code, bankbook_account_name, bankbook_account_code, reservation_check_pic_path, f_date, e_date) " +
             "VALUES (@reservationCode, @memberCode, @bankAccountName,  @bankAccountCode, '" + travelReservationCheckPicName + "', @fDate, @eDate)", connection);
@@ -58,7 +60,8 @@ namespace xiaotasi.Service.Impl
         // 更新旅遊訂位狀態
         public bool updateReservationStatus(string reservationCode, int status)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("UPDATE reservation_list SET status = @Status,  e_date = @eDate WHERE reservation_code = @reservationCode", connection);
             select.Parameters.AddWithValue("@reservationCode", reservationCode);
@@ -74,7 +77,8 @@ namespace xiaotasi.Service.Impl
         // 旅遊訂位匯款是否更新
         public int checkReservationCheckIsUpdate(string reservationCode)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select reservation_code as reservationCode, member_code as memberCode, bankbook_account_name as bankbookAccountName, bankbook_account_code as bankbookAccountCode, status as checkStatus, f_date as fDate, e_date as eDate from reservation_check_list WHERE reservation_code = @reservationCode and status = @status ", connection);
             select.Parameters.AddWithValue("@reservationCode", reservationCode);
@@ -96,7 +100,8 @@ namespace xiaotasi.Service.Impl
         // 新增旅遊預定資訊
         public void addReservation(string memberCode, string reservationCode, int reservationNum, int reservationCost, string seatIds, int travelStepId, string note, int travelId)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("INSERT INTO reservation_list (reservation_code, reservation_num, reservation_cost, seat_ids, note, travel_id, travel_step_id, member_code) " +
             "VALUES ('" + reservationCode + "', " + reservationNum + ", " + reservationCost + ", '" + seatIds + "', '" + note + "', " + travelId + ", " + travelStepId + ", '" + memberCode + "')", connection);
@@ -109,7 +114,8 @@ namespace xiaotasi.Service.Impl
         // 新增旅遊預定會員資訊
         public void addReservationMemberInfo(MemberReservationArrBo memberReservationArrBo, int travelStepId, string memberCode, string orderCode)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("INSERT INTO member_reservation_list (id, name, phone, birthday, meals_type, rooms_type, seat_id, boarding_id, transportation_id, travel_step_id, member_code, reservation_code, note) " +
             "VALUES ('" + memberReservationArrBo.id + "', @reservationName, '" + memberReservationArrBo.phone + "', '" + memberReservationArrBo.birthday + "', " + memberReservationArrBo.mealsType + ", " + memberReservationArrBo.roomsType + ", " + memberReservationArrBo.seatId + ", " + memberReservationArrBo.boardingId + ", " + memberReservationArrBo.transportationId + ", " + travelStepId + ", '" + memberCode + "', '" + orderCode + "', '" + memberReservationArrBo.seatId + "')", connection);
@@ -123,7 +129,8 @@ namespace xiaotasi.Service.Impl
         // 取得旅遊梯次乘車詳情
         public TripStepTransportMatchModel getTravelStepInfo(string travelStepCode)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "tsl.travel_step_id as travelStepId, tsl.travel_step_code as travelStepCode, tsl.travel_cost as travelCost, tsl.travel_num as travelNum, tsl.travel_s_time as travelStime, tsl.travel_e_time as travelEtime, tsl.travel_id as travelId, tsl.sell_seat_num as sellSeatNum, tsl.remain_seat_num as remainSeatNum, ttml.transportation_ids as transportationIds";
             SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_step_list as tsl inner join travel_transportation_match_list ttml ON  ttml.travel_step_id = tsl.travel_step_id WHERE tsl.travel_step_code = @travelStepCode", connection);
@@ -152,7 +159,8 @@ namespace xiaotasi.Service.Impl
         // 取得旅遊梯次乘車詳情
         public List<TripReservationSeatMatchModel> getTravelSeatList(string transportationId, int travelStepId)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "select sl.seat_id as seatId, spl.seat_pos_name as seatName, stml.status from seat_list AS sl INNER JOIN seat_pos_list spl ON spl.seat_pos = sl.seat_pos LEFT JOIN seat_travel_match_list stml ON stml.seat_id = sl.seat_id and stml.travel_step_id = @travelStepId WHERE sl.transportation_id = @transportationId order by sl.transportation_id ASC, sl.seat_pos ASC";
             SqlCommand select = new SqlCommand(fieldSql, connection);
@@ -176,7 +184,8 @@ namespace xiaotasi.Service.Impl
         // 取得旅遊梯次乘車詳情
         public List<TripReservationSeatMatchModel> getTraveltransportationList(string transportationId)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "select sl.seat_id as seatId, spl.seat_pos_name as seatName, stml.status from seat_list AS sl INNER JOIN seat_pos_list spl ON spl.seat_pos = sl.seat_pos LEFT JOIN seat_travel_match_list stml ON stml.seat_id = sl.seat_id and stml.travel_step_id = @travelStepId WHERE sl.transportation_id = @transportationId order by sl.transportation_id ASC, sl.seat_pos ASC";
             SqlCommand select = new SqlCommand(fieldSql, connection);
@@ -199,7 +208,8 @@ namespace xiaotasi.Service.Impl
         // 取得旅遊梯次乘車詳情
         public List<TripBoardingMatchPojo> getTripReservationBoardingList(string travelCode)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "tl.travel_code as travelCode, bl.boarding_id as boardingId, bl.boarding_datetime as boardingTime, ll.location_name as locationName";
             SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_list as tl inner join boarding_list bl ON bl.travel_id = tl.travel_id inner join location_list ll ON ll.location_id = bl.location_id WHERE tl.travel_code = @travelCode", connection);

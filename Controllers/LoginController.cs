@@ -100,7 +100,8 @@ namespace xiaotasi.Controllers
         // 新增旅遊預定會員資訊
         private void addTokenToDb(string token, string username)
         {
-            SqlConnection connection = new SqlConnection("Server = localhost; User ID = sa; Password = reallyStrongPwd123; Database = tasiTravel");
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string cmdText = "UPDATE account_list set token = @token, token_exp = @tokenExp, token_iat = @tokenIat where username = @username";
             int timestampExp = Convert.ToInt32(DateTime.UtcNow.AddHours(10).Subtract(new DateTime(1970, 1, 1)).TotalSeconds);

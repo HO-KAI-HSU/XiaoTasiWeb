@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;700&family=Open+Sans:ital,wght@1,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title>@ViewData["Title"]</title>
 </head>
 <body>
@@ -119,48 +118,63 @@
 
     <!-- ... Header ... -->
     <header class="header_box">
+        <div id="mobile_menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="header_detail clearfix">
-            <a asp-area="" asp-controller="" asp-action=""><img class="logo" src="~/images/logo.png" alt="小蔡旅行社LOGO" title="小蔡旅行社LOGO"></a>
+            <a asp-area="" asp-controller="" asp-action=""><img class="logo" src="~/images/logo.png" alt="小蔡旅遊商標" title="小蔡旅遊商標"></a>
             <div class="header_right">
-                <ul class="sub_menu clearfix">
-                    <li><a href="#">語言選擇</a></li>
-                    <li><a class="login_in_btn" href="#">登入</a></li>
-                    <li><a class="register_btn" href="#">註冊</a></li>
-                </ul>
-                <ul class="menu_box clearfix">
-                    <li><a asp-area="" asp-controller="Trip" asp-action="SingledayTrip"><img src="~/images/menu_icon1.png" alt="一日旅遊" title="一日旅遊">一日旅遊</a></li>
-                    <li><a asp-area="" asp-controller="Trip" asp-action="MultipledayTrip"><img src="~/images/menu_icon2.png" alt="多日旅遊" title="多日旅遊">多日旅遊</a></li>
-                    <li><a asp-area="" asp-controller="Trip" asp-action="IslandTrip"><img src="~/images/menu_icon3.png" alt="離島旅遊" title="離島旅遊">離島旅遊</a></li>
-                    <li><a asp-area="" asp-controller="Trip" asp-action="CarTrip"><img src="~/images/menu_icon4.png" alt="包車服務" title="包車服務">包車服務</a></li>
-                    <li><a asp-area="" asp-controller="Trip" asp-action="ForeignTrip"><img src="~/images/menu_icon5.png" alt="國外旅遊" title="國外旅遊">國外旅遊</a></li>
-                    <li><a href="#"><img src="~/images/menu_icon6.png" alt="客製旅遊" title="客製旅遊">客製旅遊</a></li>
-                    <li><a href="#"><img src="~/images/menu_icon7.png" alt="乘車時間" title="乘車時間">乘車時間</a></li>
-                    <li><a asp-area="" asp-controller="Member" asp-action="MemberInfo"><img src="~/images/menu_icon8.png" alt="訂位查詢" title="訂位查詢">會員專區</a></li>
-                </ul>
+                <div class="header_right_info">
+                    <ul class="sub_menu clearfix">
+                        <li><a href="#">語言選擇</a></li>
+                        <li><a class="login_in_btn" href="#">登入</a></li>
+                        <li><a class="register_btn" href="#">註冊</a></li>
+                    </ul>
+                    <ul class="menu_box clearfix">
+                        <li><a asp-area="" asp-controller="Trip" asp-action="SingledayTrip"><img src="~/images/menu_icon1.png" alt="一日旅遊" title="一日旅遊">一日旅遊</a></li>
+                        <li><a asp-area="" asp-controller="Trip" asp-action="MultipledayTrip"><img src="~/images/menu_icon2.png" alt="多日旅遊" title="多日旅遊">多日旅遊</a></li>
+                        <li><a asp-area="" asp-controller="Trip" asp-action="IslandTrip"><img src="~/images/menu_icon3.png" alt="離島旅遊" title="離島旅遊">離島旅遊</a></li>
+                        <li><a asp-area="" asp-controller="Trip" asp-action="CarTrip"><img src="~/images/menu_icon4.png" alt="包車服務" title="包車服務">包車服務</a></li>
+                        <li><a asp-area="" asp-controller="Trip" asp-action="ForeignTrip"><img src="~/images/menu_icon5.png" alt="國外旅遊" title="國外旅遊">國外旅遊</a></li>
+                        <li><a href="#"><img src="~/images/menu_icon6.png" alt="客製旅遊" title="客製旅遊">客製旅遊</a></li>
+                        <li><a href="#"><img src="~/images/menu_icon7.png" alt="乘車時間" title="乘車時間">乘車時間</a></li>
+                        <li><a asp-area="" asp-controller="Member" asp-action="MemberInfo"><img src="~/images/menu_icon8.png" alt="訂位查詢" title="訂位查詢">會員專區</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </header>
 
     @RenderBody()
 
-
     <!-- ... Footer ... -->
-    <footer class="footer_box">
+    <footer class="footer_box desktop_footer_box clearfix">
         <div class="footer_content clearfix">
-            <h2><a asp-area="" asp-controller="" asp-action=""><img src="~/images/footer_logo.png" alt="小蔡旅遊" title="小蔡旅遊"></a></h2>
+            <h2><a asp-area="" asp-controller="" asp-action="" class="footer_logo"><img src="~/images/footer_logo.png" alt="小蔡旅遊商標" title="小蔡旅遊商標"></a></h2>
             <ul class="footer_menu clearfix">
                 <li><a asp-area="" asp-controller="Home" asp-action="Brand">品牌理念</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Download" asp-fragment="certificate">執照與保單</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Rule">隱私政策</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Rule">使用條款</a></li>
-                <li><a href="#">訂位資訊</a></li>
+                <li><a asp-area="" asp-controller="Member" asp-action="MemberInfo">訂位資訊</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="MediaNews">媒體報導</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Download">下載專區</a></li>
             </ul>
             <ul class="company_info clearfix">
-                <li><img class="icon" src="~/images/footer_phone_icon.png" alt="客服icon">客服專線：<a href="tel:02-8201-7366">02-8201-7366</a> (客服時間：週一～週日9:00a.m.~9:00p.m.)</li>
-                <li><img class="icon" src="~/images/footer_mobilephone_icon.png" alt="室內手機icon">室內手機：<a href="tel:0988-357-545">0988-357-545</a> / <a href="tel:0982-169-332">0982-169-332</a></li>
-                <li><img class="icon" src="~/images/footer_mail_icon.png" alt="電子信箱icon">電子信箱：<a href="mailto:a87827622@gmail.com?">a87827622@gmail.com</a></li>
+                <li>
+                    <img class="icon" src="~/images/footer_phone_icon.png" alt="客服icon">客服專線：
+                    <a href="tel:02-8201-7366">02-8201-7366</a> (客服時間：週一～週日9:00a.m.~9:00p.m.)
+                </li>
+                <li>
+                    <img class="icon" src="~/images/footer_mobilephone_icon.png" alt="室內手機icon">室內手機：
+                    <a href="tel:0988-357-545">0988-357-545</a><a href="tel:0982-169-332">0982-169-332</a>
+                </li>
+                <li>
+                    <img class="icon" src="~/images/footer_mail_icon.png" alt="電子信箱icon">電子信箱：
+                    <a href="mailto:a87827622@gmail.com?">a87827622@gmail.com</a>
+                </li>
             </ul>
             <ul class="register_info clearfix">
                 <li>交關甲03066</li>
@@ -171,9 +185,54 @@
             <p class="footer_copyright">Copyright © MR.TSAI TRAVEL CO, LTD.2020 版權所有 未經授權禁止轉載</p>
         </div>
     </footer>
+    <footer class="footer_box mobile_footer_box clearfix">
+        <div class="footer_content clearfix">
+            <img class="footer_bus" src="~/images/footer_bus.png" alt="手機Footer的公車圖樣">
+            <img class="footer_left_cloud1" src="~/images/footer_left_cloud1.png" alt="手機Footer左方的雲圖樣">
+            <img class="footer_right_cloud1" src="~/images/footer_right_cloud1.png" alt="手機Footer右方的雲圖樣">
+            <img class="footer_left_cloud2" src="~/images/footer_left_cloud2.png" alt="手機Footer左方的雲圖樣">
+            <img class="footer_right_cloud2" src="~/images/footer_right_cloud2.png" alt="手機Footer右方的雲圖樣">
+            <img class="footer_right_building" src="~/images/footer_right_building.png" alt="手機Footer右方的101大樓圖樣">
+            <h2><a asp-area="" asp-controller="" asp-action="" class="mobile_footer_logo"><img src="~/images/mobile_footer_logo.png" alt="行動網頁小蔡旅遊商標" title="行動網頁小蔡旅遊商標"></a></h2>
+            <ul class="footer_menu clearfix">
+                <li><a asp-area="" asp-controller="Home" asp-action="Brand">品牌理念</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Download" asp-fragment="certificate">執照與保單</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Rule">隱私政策</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Rule">使用條款</a></li>
+                <li><a asp-area="" asp-controller="Member" asp-action="MemberInfo">訂位資訊</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="MediaNews">媒體報導</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Download">下載專區</a></li>
+            </ul>
+            <ul class="company_info clearfix">
+                <li>
+                    <img class="icon" src="~/images/footer_phone_icon.png" alt="客服icon">客服專線：
+                    <a href="tel:06-9272-456">06-9272-456</a><br /> (客服時間：週一～週日9:00a.m.~9:00p.m.)
+                </li>
+                <li>
+                    <img class="icon" src="~/images/footer_mobilephone_icon.png" alt="室內手機icon">室內手機：
+                    <a href="tel:0988-357-545">0988-357-545</a>
+                </li>
+                <li>
+                    <img class="icon" src="~/images/footer_mail_icon.png" alt="電子信箱icon">電子信箱：
+                    <a href="mailto:a87827622@gmail.com?">a87827622@gmail.com</a>
+                </li>
+                <li><img class="icon" src="~/images/footer_address_icon.png" alt="地址icon">地　　址：澎湖縣馬公市民福路127號2樓</li>
+            </ul>
+            <img class="footer_bottom_painting" src="~/images/footer_bottom_painting.png" alt="手機Footer底部的插畫圖樣">
+        </div>
+        <div class="footer_bottom_box">
+            <ul class="register_info clearfix">
+                <li>交關甲03066</li>
+                <li>品保彭0101</li>
+                <li>統一編號24875523</li>
+            </ul>
+            <p class="footer_copyright">©尚騰旅行社有限公司 Copyright © MR.TSAI TRAVEL CO, LTD.2020 版權所有 未經授權禁止轉載</p>
+        </div>
+    </footer>
     <script type="text/javascript" src="~/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="~/js/slick.js"></script>
     <script type="text/javascript" src="~/js/script.js"></script>
+    <script type="text/javascript" src="~/js/jquery-ui-1.8.17.custom.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

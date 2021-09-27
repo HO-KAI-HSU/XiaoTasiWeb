@@ -32,7 +32,7 @@ $(function () {
         console.log($dayDetailTab.attr("style"));
         $(".month_content_" + hrefTabArr[2]).show();
         console.log($dayDetailTab.attr("style"));
-        $(this).addClass("two_day_current selected").siblings().removeClass("two_day_current selected");
+        $(this).addClass("tab_current selected").siblings().removeClass("tab_current selected");
         $inputTab = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input");
         var travelStepCode = $inputTab.val();
         console.log(travelStepCode);
@@ -52,7 +52,7 @@ $(function () {
     $(document).on("click", ".trip_more_btn", function () {
         console.log("trip_more_btn");
         console.log($(document).find("input#travel_step_code").find("input#travel_step_code").val());
-        const hrefTab = $(document).find("li.two_day_current").find("div").attr("class");
+        const hrefTab = $(document).find("li.tab_current").find("div").attr("class");
         console.log(hrefTab);
         var hrefTabArr = hrefTab.split('_');
         $inputTab = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input");
@@ -212,7 +212,7 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
             travelMonStatisticsItem += `</div>`;
 
             if (monIndex == 0) {
-                travelStatisticsMonItem += `<li class="two_day_current" >`;
+                travelStatisticsMonItem += `<li class="tab_current">`;
                 tabNum = monIndex + 1;
             } else {
                 travelStatisticsMonItem += `<li class="">`;

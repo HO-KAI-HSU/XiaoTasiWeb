@@ -1,6 +1,6 @@
 // JavaScript Document 
 $(function () {
-	const $banner_place = $(".banner_place");
+	const $header_right = $(".header_right");
 	const $header_box = $(".header_box").offset().top;
 	const $policy_btn = $(".policy_btn");
 	const $rule_btn = $(".rule_btn");
@@ -13,9 +13,46 @@ $(function () {
 	const $phone_verification_modal = $(".phone_verification_modal");
 	const $add_member_modal = $(".add_member_modal");
 	const $video_modal = $(".video_modal");
+	const $banner_place = $(".banner_place");
 	const $upload_pay_modal = $(".upload_pay_modal");
 	const $fixed_btn_box = $(".fixed_btn_box");
+	const $mobile_menu = $("#mobile_menu");
 	refreshSubMenu();
+
+	//Mobile Menu
+	function open() {
+		$header_right.slideToggle('4600', "easeInOutBack");
+		$mask.fadeToggle(500);
+	}
+	function clear_style() {
+		if ($(window).innerWidth() > 1024) {
+			$("#nav").attr("style", "");
+		}
+	}
+	$mobile_menu.on("click", function () {
+		$(this).toggleClass("open");
+		open();
+	});
+	$(window).on("resize", function () {
+		clear_style();
+	});
+
+	//Modal
+	function menu_toggle() {
+		$mobile_menu.removeClass("open");
+		$mask.show();
+	}
+	if ($(window).innerWidth() > 1250) {
+		$(".login_in_btn,.member_login_btn,.forget_psw,.register_btn,.agree_btn,.add_member,.disagree_btn,photo_video,img.multiple_day_video_photo,.video_close_model,.upload_pay_btn").on("click", function () {
+			menu_toggle();
+		});
+	}
+	if ($(window).innerWidth() <= 1250) {
+		$(".login_in_btn,.member_login_btn,.forget_psw,.register_btn,.agree_btn,.add_member,.disagree_btn,photo_video,img.multiple_day_video_photo,.video_close_model,.upload_pay_btn").on("click", function () {
+			$header_right.slideUp('4600', "easeInOutBack");
+			menu_toggle();
+		});
+	}
 
 	//Modal 
 	$(".login_in_btn").on("click", function () {
@@ -111,62 +148,71 @@ $(function () {
 		$(".tab_content[class!='tab_content_1']").hide();
 		$(this).addClass("travel_btn_current").siblings().removeClass("travel_btn_current");
 		$($travel_tab).fadeIn(300);
-		switch($travel_tab_title){
+		switch ($travel_tab_title) {
 			case "multi_day_trip":
 				multipledayTripList(2, "tab_1");
+				$banner_text_h1.text("多日旅遊");
+				$banner_icon.attr("src", "/images/banner_multiple_day_trip_icon.png");
+				$bread_page_name.text("多日旅遊");
 				$("#tab_1").show();
 				break;
 			case "island_trip":
 				multipledayTripList(3, "tab_2");
+				$banner_text_h1.text("離島旅遊");
+				$banner_icon.attr("src", "/images/banner_island_trip_icon.png");
+				$bread_page_name.text("離島旅遊");
 				$("#tab_2").show();
 				break;
 			case "car_trip":
 				multipledayTripList(4, "tab_3");
+				$banner_text_h1.text("包車旅遊");
+				$banner_icon.attr("src", "/images/banner_car_trip_icon.png");
+				$bread_page_name.text("包車旅遊");
 				$("#tab_3").show();
 				break;
 			case "foreign_trip":
 				multipledayTripList(5, "tab_4");
+				$banner_text_h1.text("國外旅遊");
+				$banner_icon.attr("src", "/images/banner_foreign_trip_icon.png");
+				$bread_page_name.text("國外旅遊");
 				$("#tab_4").show();
 				break;
 		}
 		return false;
 	});
-	$("ul.two_day_tabs > li,ul.multiple_day_travel_list_tabs > li").on("click", function () {
-		console.log("2222");
+	$(".two_day_tabs > li:not(.two_day_tabs li:last()),.multiple_day_travel_list_tabs > li,.tour_bus_choose_box > li").on("click", function () {
 		let $now_tab = $(this).find("a").attr("href");
-		$($now_tab).fadeIn(300);
 		$(".tab_content[class!='tab_content_1']").hide();
-		$(this).addClass("two_day_current").siblings().removeClass("two_day_current");
+		$(this).addClass("tab_current").siblings().removeClass("tab_current");
+		$($now_tab).fadeIn(300);
 		return false;
 	});
-	$("ul.month_choose > li").on("click", function () {
-		console.log("1111");
+	$(".month_choose > li").on("click", function () {
 		let $month_tab = $(this).find("a").attr("href");
-		$($month_tab).fadeIn(300);
-		console.log($month_tab);
 		$(".month_content[class!='month_content_1']").hide();
-		$(this).addClass("two_day_current").siblings().removeClass("two_day_current");
+		$(this).addClass("tab_current").siblings().removeClass("tab_current");
+		$($month_tab).fadeIn(300);
 		return false;
 	});
-	$("ul.two_day_tabs li:last").on("click", function () {
-		$("ul.two_day_tabs").find("li").removeClass("two_day_current");
-		$(this).addClass("two_day_current");
+	$(".two_day_tabs li:last").on("click", function () {
+		$(".two_day_tabs").find("li").removeClass("tab_current");
+		$(this).addClass("tab_current");
 		window.location.replace("https://docs.google.com/forms/d/1-usgHugOctshpg8lj9xrSMe9mCax97DGKXF-Yh1Dmsg/edit?hl=zh-tw");
 	});
-	$("ul.rule_tabs > li").on("click",function(){
+	$(".rule_tabs > li").on("click", function () {
 		let $now_tab = $(this).find("a").attr("href");
-		$($now_tab).fadeIn(300);
 		$(".tab_content[class!='tab_content_1']").hide();
 		$(this).addClass("rule_current").siblings().removeClass("rule_current");
-		if($policy_btn.hasClass("rule_current")){
-			$policy_btn.find("img").attr("src","images/arrow_icon_orange"+".png");
-		}else{
-			$policy_btn.find("img").attr("src","images/arrow_icon_blue"+".png");
+		$($now_tab).fadeIn(300);
+		if ($policy_btn.hasClass("rule_current")) {
+			$policy_btn.find("img").attr("src", "/images/arrow_icon_orange" + ".png");
+		} else {
+			$policy_btn.find("img").attr("src", "/images/arrow_icon_blue" + ".png");
 		}
-		if($rule_btn.hasClass("rule_current")){
-			$rule_btn.find("img").attr("src","images/arrow_icon_orange"+".png");
-		}else{
-			$rule_btn.find("img").attr("src","images/arrow_icon_blue"+".png");
+		if ($rule_btn.hasClass("rule_current")) {
+			$rule_btn.find("img").attr("src", "/images/arrow_icon_orange" + ".png");
+		} else {
+			$rule_btn.find("img").attr("src", "/images/arrow_icon_blue" + ".png");
 		}
 		return false;
 	});
@@ -199,19 +245,12 @@ $(function () {
 		slidesToScroll: 4,
 		responsive: [
 			{
-				breakpoint: 1024,
+				breakpoint: 1250,
 				settings: {
-					slidesToShow: 4,
-					slidesToScroll: 4,
+					slidesToShow: 1,
+					slidesToScroll: 1,
 					infinite: true,
-					dots: true
-				}
-			},
-			{
-				breakpoint: 600,
-				settings: {
-					slidesToShow: 2,
-					slidesToScroll: 2
+					dots: false
 				}
 			},
 			{
@@ -324,8 +363,9 @@ function login() {
 	var number = $("#number").val();
 	var psw = $("#psw").val();
 	$.post('/Login/login', { username: number, password: psw }).done(function (loginRes) {
-		var exp = parseInt(now.getTime() / 1000) + 3600;
+		var exp = parseInt(now.getTime() / 1000) + 7200;
 		console.log(exp);
+		console.log(loginRes.data);
 		loginRes.data.expired = exp;
 		localStorage.setItem("loginInfo", JSON.stringify(loginRes.data));
 		window.location.href = "";
@@ -398,7 +438,6 @@ function loginFlagMethod(loginInfo = null) {
 
 function getWithExpired(key) {
 	const itemStr = localStorage.getItem(key);
-	console.log(itemStr);
 	// if the item doesn't exist, return null
 	if (!itemStr) {
 		return null;

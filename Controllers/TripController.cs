@@ -346,32 +346,35 @@ namespace xiaotasi.Controllers
 
                 // 取得行程月份索引鍵
                 int monIndex = travelMonArr.IndexOf(startDate.ToString(monFormat));
-
-                double nrOfDays = t.TotalDays;
-                if (travelStepCodeFlag && (string)reader[2] == travelStepCode)
+                if (monIndex > -1)
                 {
-                    nearTravelFlag = 1;
-                }
-                else if (!travelStepCodeFlag)
-                {
-                    if (nrOfDays > 0 && !minTotalDayFlag)
+                    double nrOfDays = t.TotalDays;
+                    if (travelStepCodeFlag && (string)reader[2] == travelStepCode)
                     {
                         nearTravelFlag = 1;
-                        minTotalDayFlag = true;
                     }
-                }
+                    else if (!travelStepCodeFlag)
+                    {
+                        if (nrOfDays > 0 && !minTotalDayFlag)
+                        {
+                            nearTravelFlag = 1;
+                            minTotalDayFlag = true;
+                        }
+                    }
 
-                travelStepInfo.startDate = startDate.ToString(format);
-                travelStepInfo.endDate = endDate.ToString(format);
-                travelStepInfo.travelStep = (string)reader[2];
-                travelStepInfo.travelNum = (int)reader[3];
-                travelStepInfo.travelCost = (int)reader[4];
-                travelStepInfo.sellSeatNum = (int)reader[5];
-                travelStepInfo.remainSeatNum = (int)reader[6];
-                travelStepInfo.dest = "";
-                travelStepInfo.dayNum = (int)endDate.Subtract(startDate).TotalDays + 1;
-                travelStepInfo.travelStepSelectFlag = nearTravelFlag;
-                travelMonStatisticList[monIndex].travelStatisticList.Add(travelStepInfo);
+                    travelStepInfo.startDate = startDate.ToString(format);
+                    travelStepInfo.endDate = endDate.ToString(format);
+                    travelStepInfo.travelStep = (string)reader[2];
+                    travelStepInfo.travelNum = (int)reader[3];
+                    travelStepInfo.travelCost = (int)reader[4];
+                    travelStepInfo.sellSeatNum = (int)reader[5];
+                    travelStepInfo.remainSeatNum = (int)reader[6];
+                    travelStepInfo.dest = "";
+                    travelStepInfo.dayNum = (int)endDate.Subtract(startDate).TotalDays + 1;
+                    travelStepInfo.travelStepSelectFlag = nearTravelFlag;
+                    travelMonStatisticList[monIndex].travelStatisticList.Add(travelStepInfo);
+                }
+                
             }
             connection.Close();
             return travelMonStatisticList;
