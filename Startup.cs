@@ -35,6 +35,7 @@ namespace xiaotasi
             services.AddScoped<ApiResultService, ApiResultServiceImpl>();
             services.AddScoped<MemberService, MemberServiceImpl>();
             services.AddScoped<NewsService, NewsServiceImpl>();
+            services.AddScoped<IndexService, IndexServiceImpl>();
 
             services.AddDistributedMemoryCache();
 
@@ -77,12 +78,15 @@ namespace xiaotasi
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseCookiePolicy();
+
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseSession();

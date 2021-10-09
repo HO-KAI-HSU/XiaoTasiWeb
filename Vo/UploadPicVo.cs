@@ -9,6 +9,8 @@ namespace xiaotasi.Vo
 
         public string reason { get; set; }
 
+        public string picName { get; set; }
+
         public string picPath { get; set; }
     }
 }

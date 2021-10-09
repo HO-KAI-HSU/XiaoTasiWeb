@@ -45,11 +45,12 @@ function getMemberInfo(token = "", memberCode = "", logout) {
         var reason = getMemberInfoRes.reason;
         var success = getMemberInfoRes.success;
         var memberInfo = getMemberInfoRes.data;
-        console.log(getMemberInfoRes);
-        console.log(success);
         if (success == 0) {
             alert(reason);
-            logout();
+            var code = getMemberInfoRes.code;
+            if (code == 90010) {
+                logout();
+            }
         }
         var memberData = `
             <tr>
@@ -104,11 +105,12 @@ function getMemberReservationList(token = "", memberCode = "", logout) {
         var reason = memberReservationListRes.reason;
         var success = memberReservationListRes.success;
         var memberReservationList = memberReservationListRes.data;
-        console.log(memberReservationListRes);
-        console.log(success);
         if (success == 0) {
             alert(reason);
-            logout();
+            var code = memberReservationListRes.code;
+            if (code == 90010) {
+                logout();
+            }
         }
         var list = `
                 <tr>
@@ -160,9 +162,12 @@ function updateMemberInfo(logout) {
         var success = updateRes.success;
         if (success == 1) {
             window.location.href = '/Member/MemberInfo';
-        } else {
+        } else if (success == 0) {
             alert(reason);
-            logout();
+            var code = updateRes.code;
+            if (code == 90010) {
+                logout();
+            }
         }
     });
 }

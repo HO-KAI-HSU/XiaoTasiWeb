@@ -10,7 +10,7 @@
 }
 
 body {
-    color: #212121;
+    color: #2d2a28;
     font-family: ‘cwTeXYen’, sans-serif;
     font-size: 100%;
     letter-spacing: 1px;
@@ -100,7 +100,7 @@ ul.sub_menu {
         }
 
         ul.sub_menu > li a {
-            color: #000;
+            color: #2d2a28;
             font-size: 16px;
             font-weight: 600;
             text-decoration: none;
@@ -116,7 +116,7 @@ ul.menu_box {
     }
 
         ul.menu_box li a {
-            color: #000;
+            color: #2d2a28;
             font-size: 16px;
             font-weight: 600;
             text-decoration: none;
@@ -136,7 +136,7 @@ ul.menu_box {
     position: relative;
 }
 
-    .search .searchsubmit {
+    .search .search_submit {
         background: url(../images/search_icon.png) no-repeat;
         border: 0;
         cursor: pointer;
@@ -207,6 +207,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
 }
 
     .service_box h2, .index_news h2, .two_day_service h2 {
+        color: #2d2a28;
         font-size: 26px;
         padding-left: 20px;
         position: relative;
@@ -230,7 +231,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
         }
 
         .index_news > p.news_more_read a {
-            color: #333;
+            color: #2d2a28;
             float: right;
             font-size: 14px;
             font-weight: 600;
@@ -251,21 +252,25 @@ ul.one_day_search_box li input::-ms-input-placeholder {
                 width: 8px;
             }
 
-    .two_day_service h2:before {
-        background: #02a2f7;
-    }
+.news_slider {
+    max-width: 1250px;
+}
 
-    .service_box h2:before, .index_news h2:before, .two_day_service h2:before,
-    .multiple_day_video_box h2:before, .multiple_day_travel_list_box h2:before {
-        content: "";
-        display: block;
-        height: 26px;
-        left: 0;
-        position: absolute;
-        right: -20px;
-        top: 0;
-        width: 6px;
-    }
+.two_day_service h2:before {
+    background: #02a2f7;
+}
+
+.service_box h2:before, .index_news h2:before, .two_day_service h2:before,
+.multiple_day_video_box h2:before, .multiple_day_travel_list_box h2:before {
+    content: "";
+    display: block;
+    height: 26px;
+    left: 0;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    width: 6px;
+}
 
 .service_box_list {
     margin-top: 26px;
@@ -295,12 +300,13 @@ ul.one_day_search_box li input::-ms-input-placeholder {
 
         .service_box_list li img {
             display: block;
+            height: auto;
             margin: 0 auto;
         }
 
         .service_box_list li p {
             bottom: -46px;
-            color: #333;
+            color: #2d2a28;
             font-size: 18px;
             font-weight: 600;
             left: 50%;
@@ -330,7 +336,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
     .two_day_tabs li.two_day_btn {
         background: #e6e6e8;
         border-radius: 8px;
-        color: #333;
+        color: #2d2a28;
         cursor: pointer;
         display: block;
         float: left;
@@ -366,7 +372,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
     }
 
     .two_day_tabs li.two_day_btn a {
-        color: #333;
+        color: #2d2a28;
         font-size: 16px;
         font-weight: 600;
         line-height: 54px;
@@ -378,21 +384,38 @@ ul.one_day_search_box li input::-ms-input-placeholder {
         color: #fff;
     }
 
+body ul.news_slider {
+    margin: 0 auto;
+    max-width: 1250px;
+    width: 100%;
+}
+
+    body ul.news_slider li {
+        margin: 0 10px;
+        width: 25%;
+    }
+
 ul.index_two_day_trip li {
     border: none;
     float: left;
-    margin-right: 43px;
+    margin-right: 22px;
     outline: none;
     position: relative;
-    width: 22.1%;
 }
+
+    ul.index_two_day_trip li a {
+        color: #2d2a28;
+        text-decoration: none;
+    }
 
     ul.index_two_day_trip li:last-child {
         margin-right: 0;
     }
 
     ul.index_two_day_trip li img {
+        height: auto;
         padding-bottom: 6px;
+        width: 100%;
     }
 
 ul.index_two_day_trip span.date {
@@ -401,13 +424,15 @@ ul.index_two_day_trip span.date {
 }
 
 ul.index_two_day_trip li h4 {
+    color: #2d2a28;
     font-size: 22px;
     line-height: 28px;
     padding: 6px 0;
+    text-align: justify;
 }
 
     ul.index_two_day_trip li h4 a {
-        color: #000;
+        color: #2d2a28;
         text-decoration: none;
     }
 
@@ -415,6 +440,13 @@ ul.index_two_day_trip li p {
     font-size: 14px;
     line-height: 24px;
     padding-bottom: 6px;
+    text-align: justify;
+}
+
+ul.travel_list li {
+    float: left;
+    margin-right: 22px;
+    width: 23.68%;
 }
 
 a.trip_more_btn {
@@ -497,7 +529,6 @@ a.trip_more_btn {
 }
 
 .bread_crumb {
-    color: #000;
     font-weight: 600;
     font-size: 14px;
     text-align: left;
@@ -505,7 +536,7 @@ a.trip_more_btn {
 }
 
     .bread_crumb a {
-        color: #000;
+        color: #2d2a28;
         font-weight: 600;
         opacity: 1;
         text-decoration: none;
@@ -521,12 +552,15 @@ a.trip_more_btn {
     margin-right: 6px;
 }
 
-.fa-angle-right {
+.fa.fa-angle-right {
+    color: #2d2a28;
+    font-weight: 500;
     margin: 0 6px;
 }
 
 /* --Brand--------------------------------- */
 .brand_sales_text h2 {
+    color: #2d2a28;
     font-size: 30px;
     max-width: 626px;
     margin: 0 auto 40px auto;
@@ -546,6 +580,7 @@ a.trip_more_btn {
     }
 
 .brand_sales_text h3 {
+    color: #2d2a28;
     font-size: 20px;
     line-height: 34px;
     margin-bottom: 60px;
@@ -626,7 +661,7 @@ a.trip_more_btn {
         }
 
         .news_detail_box ul.travel_btn_box li.travel_btn_current a {
-            color: #333;
+            color: #2d2a28;
         }
 
 .tab_content.travel_current {
@@ -636,6 +671,15 @@ a.trip_more_btn {
 ul.news_content.mt0 {
     margin: 0;
 }
+
+ul.news_content li a {
+    color: #2d2a28;
+    text-decoration: none;
+}
+
+    ul.news_content li a.one_day_booking_btn {
+        color: #fff;
+    }
 
 ul.news_content li p.travel_fee {
     font-size: 14px;
@@ -671,12 +715,14 @@ span.dollars {
     }
 
     .news_detail_box ul.one_day_content li h4 {
+        color: #2d2a28;
         font-size: 22px;
         font-weight: 600;
-        padding: 0 0 4px 0;
+        padding: 0 0 6px 0;
     }
 
     .news_detail_box ul.one_day_content li p.one_day_time {
+        color: #2d2a28;
         font-size: 22px;
     }
 
@@ -687,10 +733,12 @@ span.dollars {
     }
 
     .news_detail_box ul.one_day_content li img {
+        height: auto;
         padding-bottom: 0;
     }
 
         .news_detail_box ul.one_day_content li img.one_day_trip_pic {
+            height: auto;
             width: 34%;
         }
 
@@ -721,6 +769,7 @@ span.dollars {
             font-size: 16px;
             line-height: 26px;
             padding: 0 0 6px 0;
+            text-align: justify;
         }
 
             .news_content_right ul.place_detail li:last-child {
@@ -765,7 +814,7 @@ ul.one_day_search_box {
 }
 
     ul.one_day_search_box li {
-        color: #333;
+        color: #2d2a28;
         float: left;
         font-size: 16px;
         font-weight: 600;
@@ -816,6 +865,7 @@ a.one_day_search_btn {
 }
 
     .travel_info_post img {
+        height: auto;
         position: relative;
     }
 
@@ -999,7 +1049,7 @@ a.one_day_search_btn {
 
     .multiple_day_video_box p {
         font-size: 16px;
-        line-height: 28px;
+        line-height: 26px;
         padding-bottom: 18px;
         text-align: justify;
     }
@@ -1010,6 +1060,7 @@ a.one_day_search_btn {
 
 img.multiple_day_video_photo {
     cursor: pointer;
+    height: auto;
     opacity: 1;
 }
 
@@ -1023,7 +1074,7 @@ img.multiple_day_video_photo {
     .multiple_day_travel_list_tabs li.two_day_btn {
         background: #e6e6e8;
         border-radius: 8px;
-        color: #333;
+        color: #2d2a28;
         cursor: pointer;
         display: block;
         float: left;
@@ -1055,7 +1106,7 @@ img.multiple_day_video_photo {
         }
 
     .multiple_day_travel_list_tabs li.two_day_btn a {
-        color: #333;
+        color: #2d2a28;
         font-size: 16px;
         font-weight: 600;
         line-height: 54px;
@@ -1078,7 +1129,7 @@ img.multiple_day_video_photo {
 
     .tabs_fee_text p {
         font-size: 16px;
-        line-height: 30px;
+        line-height: 28px;
     }
 
         .tabs_fee_text p.tabs_fee_text_notice {
@@ -1189,8 +1240,8 @@ span.tabs_brief_btn {
     }
 
     .timeline_content p {
-        font-size: 14px;
-        line-height: 24px;
+        font-size: 16px;
+        line-height: 26px;
         text-align: justify;
     }
 
@@ -1205,27 +1256,32 @@ span.tabs_brief_btn {
 }
 
     .booking_list_box h2 {
-        font-size: 21px;
+        font-size: 22px;
         font-weight: 600;
+        line-height: 28px;
     }
 
     .booking_list_box p {
         border-bottom: 1px solid #ddd;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 26px;
-        padding: 5px 0;
+        padding: 14px 0;
     }
+
+        .booking_list_box p.no_top_padding {
+            padding: 2px 0 14px 0;
+        }
 
         .booking_list_box p span.dollars {
             color: #ff0000;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 400;
         }
 
     .booking_list_box ul {
         border-bottom: 1px solid #ddd;
         list-style-type: none;
-        padding: 10px 0;
+        padding: 14px 0;
     }
 
         .booking_list_box ul:last-child {
@@ -1233,13 +1289,15 @@ span.tabs_brief_btn {
         }
 
     .booking_list_box li {
-        font-size: 15px;
-        line-height: 27px;
+        font-size: 14px;
+        line-height: 26px;
     }
 
         .booking_list_box li.booking_list_title {
             font-weight: 600;
-            font-size: 21px;
+            font-size: 22px;
+            line-height: 28px;
+            margin-bottom: 4px;
         }
 
         .booking_list_box li a.file_download {
@@ -1259,9 +1317,9 @@ span.tabs_brief_btn {
 
     .booking_ticket .booking_seat {
         background: #F4A100;
-        border-radius: 10px;
+        border-radius: 6px;
         color: #fff;
-        font-size: 19px;
+        font-size: 16px;
         font-weight: 600;
         padding: 10px;
         text-align: center;
@@ -1278,10 +1336,10 @@ span.tabs_brief_btn {
 
         .booking_ticket .booking_list .booking_title {
             background: #FFFAC6;
-            color: #333;
+            color: #2d2a28;
             display: block;
             float: left;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             line-height: 34px;
             text-align: center;
@@ -1297,7 +1355,7 @@ span.tabs_brief_btn {
                 background: #fff;
                 border: 2px solid #ddd;
                 display: block;
-                font-size: 15px;
+                font-size: 14px;
                 height: 33.6px;
                 margin: 0 auto;
                 outline: none;
@@ -1321,7 +1379,7 @@ span.tabs_brief_btn {
     border-radius: 10px;
     float: left;
     max-width: 760px;
-    padding: 20px 10px;
+    padding: 20px 10px 6px 10px;
     width: 100%;
 }
 
@@ -1343,7 +1401,7 @@ span.tabs_brief_btn {
 
 .tour_bus_choose_box {
     list-style-type: none;
-    margin: 40px auto 30px auto;
+    margin: 30px auto;
     max-width: 1250px;
     width: 100%;
 }
@@ -1357,9 +1415,10 @@ span.tabs_brief_btn {
     }
 
         .tour_bus_choose_box li a {
-            color: #333;
+            color: #2d2a28;
             display: block;
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 600;
             padding: 14px 18px;
             text-decoration: none;
         }
@@ -1376,9 +1435,10 @@ span.tabs_brief_btn {
     background: #02a2f7;
     border-radius: 6px;
     color: #fff;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
     display: inline-block;
-    margin-bottom: 13px;
+    margin-bottom: 14px;
     padding: 18px;
     text-align: center;
     width: 49%;
@@ -1403,8 +1463,9 @@ span.tabs_brief_btn {
 .tour_bus_safe_door {
     background: #ddd;
     border-radius: 6px;
-    color: #333;
+    color: #2d2a28;
     font-size: 14px;
+    font-weight: 600;
     margin-bottom: 13px;
     padding: 18px;
     text-align: center;
@@ -1443,6 +1504,7 @@ span.tabs_brief_btn {
     }
 
 .news_box h1 {
+    color: #2d2a28;
     font-size: 28px;
     font-weight: 600;
     margin: 0 auto;
@@ -1451,6 +1513,11 @@ span.tabs_brief_btn {
     text-align: center;
     width: 100%;
 }
+
+    .news_box h1.news_page_title {
+        line-height: 28px;
+        max-width: none;
+    }
 
     .news_box h1:before, .news_box h1:after {
         content: "";
@@ -1491,6 +1558,7 @@ span.tabs_brief_btn {
 .news_box img.photo_video {
     cursor: pointer;
     display: block;
+    height: auto;
     margin: 0 auto;
     padding-top: 36px;
 }
@@ -1524,7 +1592,7 @@ ul.news_content {
         ul.news_content li img {
             height: auto;
             max-width: 100%;
-            padding-bottom: 6px;
+            padding-bottom: 4px;
             transition: .4s opacity ease-in-out;
         }
 
@@ -1534,13 +1602,15 @@ ul.news_content {
         }
 
         ul.news_content li h4 {
+            color: #2d2a28;
             font-size: 22px;
-            line-height: 30px;
+            line-height: 28px;
             padding: 6px 0;
+            text-align: justify;
         }
 
             ul.news_content li h4 a {
-                color: #000;
+                color: #2d2a28;
                 opacity: 1;
                 text-decoration: none;
                 transition: .4s opacity ease-in-out;
@@ -1554,6 +1624,7 @@ ul.news_content {
         ul.news_content li p {
             font-size: 14px;
             line-height: 24px;
+            text-align: justify;
         }
 
         ul.news_content li img.ticket_icon {
@@ -1621,6 +1692,7 @@ ul.fixed_btn_box {
     }
 
     .doc_rule_regular h3, .rule_text h3 {
+        color: #2d2a28;
         font-size: 26px;
         font-weight: 600;
     }
@@ -1633,7 +1705,7 @@ ul.fixed_btn_box {
 }
 
     .download_box table tr {
-        color: #000;
+        color: #2d2a28;
     }
 
         .download_box table tr:nth-child(odd) {
@@ -1649,6 +1721,7 @@ ul.fixed_btn_box {
 }
 
     .download_box table td.doc_rule_text {
+        color: #2d2a28;
         font-size: 16px;
         font-weight: 600;
         width: 85%;
@@ -1663,7 +1736,7 @@ a.blue_btn, a.green_btn {
     color: #fff;
     display: block;
     float: right;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     opacity: 1;
     padding: 16px;
@@ -1705,7 +1778,7 @@ ul.travel_tabs, ul.rule_tabs {
         cursor: pointer;
         display: block;
         float: left;
-        font-size: 17px;
+        font-size: 16px;
         margin-right: 40px;
         padding: 16px;
         text-align: center;
@@ -1736,7 +1809,7 @@ ul.travel_tabs, ul.rule_tabs {
 
 .rule_text {
     border-bottom: 2px solid #dadada;
-    color: #333;
+    color: #2d2a28;
     margin-top: 35px;
     padding-bottom: 32px;
 }
@@ -1752,8 +1825,8 @@ ul.travel_tabs, ul.rule_tabs {
     }
 
     .rule_text p {
-        font-size: 15px;
-        line-height: 27px;
+        font-size: 16px;
+        line-height: 26px;
         text-align: justify;
     }
 
@@ -1769,15 +1842,17 @@ ul.travel_tabs, ul.rule_tabs {
         }
 
     .rule_text dl dt {
-        font-size: 15px;
-        line-height: 27px;
+        font-size: 16px;
+        line-height: 26px;
+        text-align: justify;
     }
 
     .rule_text dl dd {
-        font-size: 15px;
-        line-height: 27px;
-        padding: 0 0 0 15px;
+        font-size: 16px;
+        line-height: 26px;
+        padding: 0 0 0 16px;
         position: relative;
+        text-align: justify;
     }
 
         .rule_text dl dd:last-child {
@@ -1975,8 +2050,8 @@ ul.order_notice {
 }
 
     ul.order_notice li {
-        color: #333;
-        font-size: 14px;
+        color: #2d2a28;
+        font-size: 16px;
         line-height: 28px;
         text-align: justify;
     }
@@ -2097,6 +2172,38 @@ p.footer_copyright {
     width: 100%;
 }
 
+.go_top_btn {
+    background: #009DE1;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 0 rgb(45 42 40 / 20%);
+    bottom: 32px;
+    display: none;
+    height: 60px;
+    position: fixed;
+    right: 28px;
+    transition: all .24s ease-in-out 0s;
+    width: 60px;
+    z-index: 1000;
+}
+
+    .go_top_btn:hover {
+        background: #0682b8;
+        bottom: 42px;
+    }
+
+    .go_top_btn i.fas.fa-arrow-alt-up {
+        bottom: 0;
+        color: #fff;
+        font-size: 30px;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
 /* --Slider--------------------------------- */
 .index_slider {
     width: 100%;
@@ -2104,6 +2211,7 @@ p.footer_copyright {
 
     .index_slider img, .video_slider img {
         background-size: cover;
+        height: auto;
         width: 100%;
     }
 
@@ -2117,7 +2225,8 @@ p.footer_copyright {
 
 /* --Index Modal--------------------------------- */
 .mask {
-    background: rgba(0,0,0,.75);
+    background: rgba(45,42,40,.4);
+    backdrop-filter: blur(3px);
     bottom: 0;
     display: none;
     height: 100%;
@@ -2129,8 +2238,7 @@ p.footer_copyright {
     z-index: 2000;
 }
 
-.login_modal, .forget_psw_modal, .register_member_modal,
-.add_member_modal, .phone_verification_modal, .upload_pay_modal {
+.login_modal, .forget_psw_modal, .register_member_modal, .add_member_modal, .phone_verification_modal, .upload_pay_modal {
     background: #fff;
     border-radius: 12px;
     display: none;
@@ -2334,7 +2442,7 @@ ul.login_modal_link {
     }
 
         ul.login_modal_link li:first-child {
-            border-right: 1px solid #333;
+            border-right: 1px solid #2d2a28;
             padding-right: 18px;
         }
 
@@ -2343,7 +2451,7 @@ ul.login_modal_link {
         }
 
         ul.login_modal_link li a {
-            color: rgba(33,33,33,.65);
+            color: #2d2a28;
             font-size: 16px;
             font-weight: 600;
             text-decoration: none;
@@ -2426,6 +2534,7 @@ ul.login_modal_link {
 
     img.logo {
         display: block;
+        height: auto;
         float: none;
         margin: 0 auto 12px auto;
         max-width: 160px;
@@ -2460,7 +2569,7 @@ ul.login_modal_link {
             margin-right: 19px;
             padding: 12px 0;
             text-align: center;
-            width: 32.2%;
+            width: 32.44%;
         }
 
             ul.sub_menu > li:nth-child(3) {
@@ -2573,7 +2682,7 @@ ul.login_modal_link {
     }
 
     .two_day_service {
-        margin-top: 20px;
+        margin-top: 42px;
     }
 
         .service_box h2, .index_news h2, .two_day_service h2 {
@@ -2589,7 +2698,7 @@ ul.login_modal_link {
     }
 
         .two_day_tabs li.two_day_btn {
-            height: 48px;
+            height: 46px;
             margin-bottom: 23px;
             width: 43.84%;
         }
@@ -2599,8 +2708,8 @@ ul.login_modal_link {
             }
 
             .two_day_tabs li.two_day_btn a {
-                font-size: 16px;
-                line-height: 48px;
+                font-size: 14px;
+                line-height: 46px;
             }
 
         .two_day_tabs li.tab_current:after {
@@ -2614,6 +2723,10 @@ ul.login_modal_link {
         .two_day_tabs li.two_day_btn:nth-child(2n+2) {
             margin-right: 0;
         }
+
+    body ul.news_slider li {
+        margin: 0 0 0 11px;
+    }
 
     ul.index_two_day_trip {
         width: 100%;
@@ -2632,6 +2745,8 @@ ul.login_modal_link {
 
             ul.index_two_day_trip li h4 {
                 font-size: 20px;
+                line-height: 26px;
+                text-align: justify;
             }
 
         ul.index_two_day_trip span.date {
@@ -2640,6 +2755,7 @@ ul.login_modal_link {
 
         ul.index_two_day_trip li p {
             font-size: 14px;
+            text-align: justify;
         }
 
     .mt32 {
@@ -2695,22 +2811,23 @@ ul.login_modal_link {
         }
 
     .news_info_detail p {
-        font-size: 13px;
-        line-height: 23px;
+        font-size: 14px;
+        line-height: 24px;
+        text-align: justify;
     }
 
     .news_detail_box, .doc_rule_regular, .rule_box {
         border-radius: 10px;
-        padding: 20px 16px 32px 16px;
+        padding: 32px 16px;
         width: 100%;
     }
 
         .news_box h1, .doc_rule_regular h3, .rule_text h3 {
-            font-size: 20px;
+            font-size: 22px;
         }
 
     .news_box h1 {
-        max-width: 200px;
+        max-width: 220px;
         text-align: center;
     }
 
@@ -2729,7 +2846,7 @@ ul.login_modal_link {
 
         .download_box table td.doc_rule_text {
             font-size: 14px;
-            line-height: 22px;
+            line-height: 20px;
             text-align: justify;
         }
 
@@ -2742,8 +2859,8 @@ ul.login_modal_link {
     }
 
     a.blue_btn, a.green_btn {
-        font-size: 16px;
-        padding: 12px 8px 12px 12px;
+        font-size: 14px;
+        padding: 15px 12px 15px;
         width: 130px;
     }
 
@@ -2752,14 +2869,18 @@ ul.login_modal_link {
     }
 
         ul.travel_tabs li.tab-link, ul.rule_tabs li.tab-link {
-            border-radius: 20px;
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 20px;
-            padding: 12px 8px 12px 12px;
+            padding: 15px 12px 15px;
             width: 130px;
         }
 
+            ul.travel_tabs li.tab-link a, ul.rule_tabs li.tab-link a {
+                font-size: 14px;
+            }
+
     img.btn_icon {
+        height: auto;
         max-width: 15px;
     }
 
@@ -2770,7 +2891,7 @@ ul.login_modal_link {
     }
 
         .rule_text h3 {
-            font-size: 20px;
+            font-size: 22px;
             line-height: 28px;
             margin-bottom: 14px;
             text-align: justify;
@@ -2790,6 +2911,7 @@ ul.login_modal_link {
                 font-size: 14px;
                 line-height: 24px;
                 padding: 0;
+                text-align: justify;
             }
 
     .news_box img.photo_video, ul.news_content li img.trip {
@@ -2825,7 +2947,9 @@ ul.login_modal_link {
 
             ul.news_content li h4 {
                 font-size: 20px;
+                line-height: 26px;
                 padding: 4px 0;
+                text-align: justify;
             }
 
             ul.news_content li p, ul.order_notice li {
@@ -2835,17 +2959,18 @@ ul.login_modal_link {
             }
 
     .news_box img.photo_video {
+        height: auto;
         padding-top: 30px;
     }
 
-    .mt70 {
-        margin-top: 36px;
+    .mt60, .mt70 {
+        margin-top: 42px;
     }
 
     a.adjust_btn, a.cancel_btn {
-        font-size: 15px;
-        height: 44px;
-        line-height: 44px;
+        font-size: 14px;
+        height: 46px;
+        line-height: 46px;
         width: 146px;
     }
 
@@ -2884,6 +3009,7 @@ ul.login_modal_link {
 
         ul.one_day_search_box li input {
             display: block;
+            font-size: 14px;
             margin: 0 auto;
             margin-left: auto;
             margin-right: auto;
@@ -2895,14 +3021,16 @@ ul.login_modal_link {
             }
 
     a.one_day_search_btn {
-        font-size: 16px;
-        height: 44px;
-        line-height: 44px;
+        border-radius: 62px;
+        font-size: 14px;
+        height: 46px;
+        line-height: 46px;
         margin: 0 auto;
         width: 146px;
     }
 
     .news_detail_box ul.one_day_content li img.one_day_trip_pic {
+        height: auto;
         margin-bottom: 14px;
         width: 100%;
     }
@@ -2917,7 +3045,7 @@ ul.login_modal_link {
     }
 
     .news_detail_box ul.one_day_content li h4 {
-        line-height: 20px;
+        line-height: 22px;
     }
 
     .news_detail_box ul.one_day_content li p.one_day_time {
@@ -2928,6 +3056,7 @@ ul.login_modal_link {
         font-size: 14px;
         line-height: 24px;
         padding-bottom: 0;
+        text-align: justify;
     }
 
     .news_content_right p.one_day_brief {
@@ -2947,15 +3076,15 @@ ul.login_modal_link {
     }
 
     a.one_day_booking_btn {
-        font-size: 16px;
+        font-size: 14px;
         height: 44px;
         line-height: 44px;
-        margin: 16px auto 0 auto;
+        margin: 22px auto 0 auto;
         width: 146px;
     }
 
     .brand_sales_text h2 {
-        font-size: 20px;
+        font-size: 22px;
         line-height: 30px;
         margin: 0 auto 16px auto;
         padding-top: 10px;
@@ -2965,7 +3094,7 @@ ul.login_modal_link {
             background-size: 36px;
             height: 42px;
             left: 0;
-            top: -36px;
+            top: -44px;
             width: 36px;
         }
 
@@ -2978,6 +3107,7 @@ ul.login_modal_link {
     .brand_spirit img.logo {
         display: block;
         float: none;
+        height: auto;
         margin: 20px auto 0 auto;
         max-width: 200px;
     }
@@ -2985,6 +3115,7 @@ ul.login_modal_link {
     .brand_spirit p {
         font-size: 14px;
         line-height: 24px;
+        margin-top: 20px;
         text-align: justify;
     }
 
@@ -3087,7 +3218,7 @@ ul.login_modal_link {
     .multiple_day_video_box h3 {
         font-size: 22px;
         line-height: 32px;
-        padding: 30px 0 14px 0;
+        padding: 24px 0 14px 0;
         text-align: justify;
     }
 
@@ -3106,8 +3237,8 @@ ul.login_modal_link {
     }
 
     .tabs_fee_text p {
-        font-size: 13px;
-        line-height: 23px;
+        font-size: 14px;
+        line-height: 24px;
     }
 
     .tabs_fee_text:last-child {
@@ -3120,27 +3251,31 @@ ul.login_modal_link {
         width: 5px;
     }
 
-    .multiple_day_travel_list_tabs li.two_day_btn {
-        border-radius: 6px;
-        height: 46px;
-        line-height: 46px;
-        margin: 0 13px 21px 0;
-        width: 48%;
+    .multiple_day_travel_list_tabs {
+        margin: 10px auto 0 auto;
     }
 
-    .multiple_day_travel_list_tabs li.tab_current:after {
-        margin: -6px auto 0 auto;
-    }
+        .multiple_day_travel_list_tabs li.two_day_btn {
+            border-radius: 6px;
+            height: 46px;
+            line-height: 46px;
+            margin: 0 13px 21px 0;
+            width: 48%;
+        }
 
-    .multiple_day_travel_list_tabs li.two_day_btn a {
-        font-size: 16px;
-        line-height: 46px;
-    }
+        .multiple_day_travel_list_tabs li.tab_current:after {
+            margin: -6px auto 0 auto;
+        }
 
-    .multiple_day_travel_list_tabs li.two_day_btn:nth-child(2n+2) {
-        float: right;
-        margin-right: 0;
-    }
+        .multiple_day_travel_list_tabs li.two_day_btn a {
+            font-size: 14px;
+            line-height: 46px;
+        }
+
+        .multiple_day_travel_list_tabs li.two_day_btn:nth-child(2n+2) {
+            float: right;
+            margin-right: 0;
+        }
 
     span.tabs_brief_btn {
         font-size: 14px;
@@ -3148,6 +3283,10 @@ ul.login_modal_link {
         line-height: 24px;
         margin: -6px 0 20px 0;
         width: 84px;
+    }
+
+    .tabs_fee_text:first-child {
+        margin-top: 4px;
     }
 
     .timeline_travel {
@@ -3178,7 +3317,9 @@ ul.login_modal_link {
 
         .timeline_content h4 {
             font-size: 20px;
+            line-height: 26px;
             padding: 8px 0;
+            text-align: justify;
         }
 
         .timeline_content p {
@@ -3187,11 +3328,11 @@ ul.login_modal_link {
         }
 
     a.trip_more_btn {
-        font-size: 16px;
+        font-size: 14px;
         height: 46px;
         line-height: 46px;
         margin: 0 auto;
-        width: 148px;
+        width: 146px;
     }
 
     .multiple_day_travel_list_box .travel_table {
@@ -3201,14 +3342,14 @@ ul.login_modal_link {
     }
 
     .order_table tr th {
-        font-size: 13px;
-        line-height: 23px;
+        font-size: 14px;
+        line-height: 24px;
         padding: 7px;
     }
 
     .order_table tr td {
-        font-size: 13px;
-        line-height: 23px;
+        font-size: 14px;
+        line-height: 24px;
     }
 
     .multiple_day_travel_list_box .travel_table tr th.order_date {
@@ -3254,7 +3395,7 @@ ul.login_modal_link {
     }
 
     .tour_bus_seat {
-        font-size: 16px;
+        font-size: 14px;
         width: 100%;
     }
 
@@ -3329,7 +3470,7 @@ ul.login_modal_link {
         }
 
         .tour_bus_choose_box li a {
-            font-size: 16px;
+            font-size: 14px;
             padding: 14px;
         }
 
@@ -3350,14 +3491,14 @@ ul.login_modal_link {
     }
 
         .member_table tr th.member_title {
-            font-size: 13px;
-            line-height: 23px;
+            font-size: 14px;
+            line-height: 24px;
             padding: 7px;
             width: 39%;
         }
 
         .member_table tr td.member_text {
-            font-size: 13px;
+            font-size: 14px;
             padding: 7px;
         }
 
@@ -3394,19 +3535,19 @@ ul.login_modal_link {
     .video_modal {
         border: 6px solid #fff;
         height: 300px;
-        width: 80%;
+        width: 83%;
     }
 
     .video_close_model {
-        height: 36px;
-        right: -18px;
-        top: -18px;
-        width: 36px;
+        height: 34px;
+        right: -17px;
+        top: -17px;
+        width: 34px;
     }
 
         .video_close_model .fa-close {
-            font-size: 23px;
-            left: 9px;
+            font-size: 20px;
+            left: 10px;
         }
 
     .login_modal h3, .forget_psw_modal h3, .register_member_modal h3, .add_member_modal h3, .phone_verification_modal h3,
@@ -3415,13 +3556,13 @@ ul.login_modal_link {
     }
 
     .choose_photo_file_btn, a.login_btn {
-        font-size: 16px;
-        height: 44px;
-        line-height: 44px;
+        font-size: 14px;
+        height: 46px;
+        line-height: 46px;
     }
 
     .register_member_text {
-        height: 175px;
+        height: 162px;
     }
 
     .login_modal input[name="number"], .login_modal input[name="psw"], .forget_psw_modal input[name="number"], .forget_psw_modal input[name="psw"],
@@ -3440,8 +3581,8 @@ ul.login_modal_link {
     }
 
         ul.register_member_btn li > a.agree_btn, ul.register_member_btn li > a.disagree_btn {
-            font-size: 16px;
-            height: 44px;
+            font-size: 14px;
+            height: 46px;
             margin-top: 24px;
         }
 
@@ -3461,14 +3602,16 @@ ul.login_modal_link {
     .footer_box {
         height: auto;
         overflow: hidden;
-        padding: 16px 0 0 0;
+        padding: 28px 0 0 0;
         position: relative;
         width: 100%;
     }
 
     .footer_content h2 img {
         display: none;
-        padding-top: 74px;
+        height: auto;
+        margin: auto;
+        padding-top: 0;
     }
 
     .footer_content {
@@ -3481,8 +3624,14 @@ ul.login_modal_link {
 
     .footer_content a.mobile_footer_logo, .footer_content a.mobile_footer_logo img {
         display: block;
-        margin: auto;
+        height: auto;
+        margin: 74px auto 0 auto;
         max-width: 280px;
+        z-index: 1000;
+    }
+
+    .footer_content a.mobile_footer_logo {
+        margin: auto;
     }
 
     ul.footer_menu {
@@ -3543,6 +3692,7 @@ ul.login_modal_link {
         }
 
             ul.company_info li img.icon {
+                height: auto;
                 max-width: 20px;
             }
 
@@ -3566,6 +3716,7 @@ ul.login_modal_link {
     img.footer_bus, img.footer_left_cloud1, img.footer_right_cloud1,
     img.footer_left_cloud2, img.footer_right_cloud2, img.footer_right_building,
     .footer_content img.footer_bottom_painting {
+        height: auto;
         position: absolute;
     }
 
@@ -3614,6 +3765,7 @@ ul.login_modal_link {
         }
 
             ul.company_info li img.icon {
+                height: auto;
                 left: -30px;
             }
 
@@ -3636,81 +3788,34 @@ ul.login_modal_link {
         right: 0;
         width: 100%;
     }
-}
 
-@media screen and (max-width:1240px) {
-    ul.sub_menu > li {
-        margin-right: 19px;
-    }
-}
-
-@media screen and (max-width:1200px) and (min-width:630px) {
-    .multiple_day_banner_box .banner_text h1 {
-        width: 84%;
-    }
-
-    .two_day_tabs li.two_day_btn {
-        width: 47%;
-    }
-
-    ul.mobile_index_two_day_trip li {
-        float: left;
-        margin-right: 40px;
-        width: 47%;
+    .go_top_btn {
+        background: #02a2f7;
+        bottom: 0;
+        border-radius: 0;
+        box-shadow: none;
+        display: block;
+        height: 44px;
+        margin: auto;
+        position: fixed;
+        right: 0;
+        transition: background .2s ease-in-out 0s;
+        width: 44px;
+        z-index: 2000;
     }
 
-        ul.mobile_index_two_day_trip li:nth-child(2n+2) {
-            float: right;
-            margin-right: 0;
+        .go_top_btn i.fas.fa-arrow-alt-up {
+            font-size: 22px;
         }
 
-    .news_detail_box ul.one_day_content li {
-        border-bottom: 0;
-        float: left;
-        margin-right: 40px;
-        padding: 0 0 38px 0;
-        width: 47%;
-    }
-
-        .news_detail_box ul.one_day_content li:nth-last-child(1),
-        .news_detail_box ul.one_day_content li:nth-last-child(2) {
-            margin-bottom: 0;
-            padding: 0;
+        .go_top_btn:hover {
+            background: #02a2f7;
+            bottom: 0;
         }
 
-    .news_content_right ul.place_detail li {
-        margin-right: 0;
-        padding: 0;
-        width: 100%;
-    }
-
-    ul.news_content li {
-        float: left;
-        margin-right: 40px;
-        width: 47%;
-    }
-
-        .news_detail_box ul.one_day_content li:nth-child(2n+2), ul.news_content li:nth-child(2n+2) {
-            margin-right: 0;
+        .go_top_btn.lightblue {
+            background: #0075AF;
         }
-
-    ul.mobile_news_content li, ul.mobile_news_content li:nth-child(3), ul.mobile_news_content li:nth-child(3n+3) {
-        float: left;
-    }
-
-    ul.news_content li:nth-child(3n+3) {
-        margin-right: 40px;
-    }
-
-    ul.register_info {
-        left: 0;
-        margin: none;
-        max-width: none;
-    }
-
-    p.footer_copyright {
-        text-align: left;
-    }
 }
 
 @media screen and (max-width:1240px) {
@@ -3791,6 +3896,7 @@ ul.login_modal_link {
 @media screen and (max-width:1250px) and (min-width:415px) {
     img.footer_bus {
         float: none;
+        height: auto;
         left: 0;
         margin: auto;
         right: 0;

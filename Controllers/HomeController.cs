@@ -4,18 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using xiaotasi.Models;
+using xiaotasi.Pojo;
+using xiaotasi.Service;
+using xiaotasi.Vo;
 
 namespace xiaotasi.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IndexService _indexService;
+        private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IConfiguration config, IndexService indexService)
         {
-            _logger = logger;
+            _config = config;
+            _indexService = indexService;
         }
 
         public IActionResult Index()
@@ -43,6 +49,11 @@ namespace xiaotasi.Controllers
             return View();
         }
 
+        public IActionResult MediaNewsInfo()
+        {
+            return View();
+        }
+
         public IActionResult Download()
         {
             return View();
@@ -51,6 +62,24 @@ namespace xiaotasi.Controllers
         public IActionResult Rule()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult GetIndexBannerList(int page, int limit)
+        {
+            IndexBannerListVo indexBannerListVo = new IndexBannerListVo();
+
+            List<IndexBannerPojo> list = _indexService.getIndexBannerList();
+
+            PageControl<IndexBannerPojo> pageControl = new PageControl<IndexBannerPojo>();
+
+            List<IndexBannerPojo> listNew = pageControl.pageControl(page, limit, list);
+            indexBannerListVo.success = 1;
+            indexBannerListVo.count = pageControl.size;
+            indexBannerListVo.page = page;
+            indexBannerListVo.limit = limit;
+            indexBannerListVo.indexBannerList = listNew;
+            return Json(indexBannerListVo);
         }
     }
 }

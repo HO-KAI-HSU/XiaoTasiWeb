@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "小蔡旅行社-離島旅遊";
+}
+
+<!-- ... Video Modal ... -->
+<div class="video_modal">
+    <div class="video_close_model"><i class="fa fa-close fa-2x"></i></div>
+    <iframe id="video_detail" width="100%" height="100%" src="https://www.youtube.com/embed/CYq3Pl1Rig4" frameborder="0" autoplay muted=”true” allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<div class="mask"></div>
+
+<!-- ... Banner ... -->
+<section class="banner_box banner_place">
+    <div class="banner_detail">
+        <div class="banner_text clearfix">
+            <img class="banner_icon" src="~/images/banner_island_trip_icon.png" alt="離島旅遊ICON">
+            <h1>離島旅遊</h1>
+        </div>
+    </div>
+</section>
+
+<!-- ...  離島旅遊行程小簡介 ... -->
+<section class="multiple_day_travel_box">
+    <div class="container">
+        <div class="bread_crumb">
+            <a asp-area="" asp-controller="" asp-action=""><i class="fa fa-1g fa-home"></i>首頁</a><i class="fa fa-angle-right"></i><span class="page_name">離島旅遊</span><i class="fa fa-angle-right"></i><span class="bread_title"></span>
+        </div>
+    </div>
+    <div class="multiple_day_calendar_box clearfix">
+        <div class="calendar_list">
+            <ul class="month_choose clearfix"></ul>
+        </div>
+        <div class="travel_info_post">
+            <h2 class="travel_info_post_title"></h2>
+            <table class="travel_info_post_table"></table>
+            <img class="travel_info_paper" src="~/images/travel_info_paper.png" alt="旅遊行程資訊站">
+        </div>
+    </div>
+    <div class="multiple_day_video_box">
+        <h2>行程小簡介</h2>
+        <!-- ... Slider -->
+        <section class="video_slider">
+        </section>
+        <img class="multiple_day_banner" src="~/images/multiple_day_banner.png" alt="行程banner" title="行程banner">
+        <h3 class="travel_title_text">新北福隆東北角旅遊<span class="video_mark">世界級的風景饗宴</span></h3>
+        <p class="travel_content_text"></p>
+    </div>
+    <!-- ...  多日旅遊行程小資訊 ... -->
+    <div class="multiple_day_travel_list_box">
+        <h2>行程小資訊</h2>
+        <ul class="multiple_day_travel_list_tabs clearfix">
+            <li class="tab-link two_day_btn tab_current"><a href="#tab_1">行程內容</a></li>
+            <li class="tab-link two_day_btn"><a href="#tab_2">費用說明</a></li>
+            <li class="tab-link two_day_btn"><a href="#tab_3">注意事項</a></li>
+            <li class="tab-link two_day_btn"><a href="#tab_4">退費辦法</a></li>
+        </ul>
+
+        <div id="tab_1" class="tab_content tab_content_1 travel_current">
+            <span class="tabs_brief_btn">精簡模式</span>
+            <div class="timeline_travel_content"></div>
+            <table class="order_table travel_table">
+            </table>
+        </div>
+        <div id="tab_2" class="tab_content tab_content_2">
+            <div class="tabs_fee_text">
+                <h3>費用說明</h3>
+                <p>1.車資：遊覽車二日來回車資及過路停車費。</p>
+                <p>2.餐食：1早餐、1午餐、1晚。</p>
+                <p>3.住宿：花蓮兆豐農場荷蘭式木屋。</p>
+                <p>4.活動：農場門票/露天溫泉SPA門票/果醬DIY。</p>
+                <p>5.貼心：車上每人每日1瓶礦泉水。</p>
+                <p>6.保險：本行程包含旅行業責任保險【意外死殘保額新臺幣500萬、意外醫療保額新臺幣20萬(實支實付)】</p>
+                <p class="tabs_fee_text_notice">＊旅客未滿15歲或70歲以上，依法限制最高【意外死殘保額新臺幣20萬元、意外醫療保額新臺幣20萬 (實支實付)】</p>
+            </div>
+            <div class="tabs_fee_text">
+                <h3>費用不包含</h3>
+                <p>1.旅行業為服務業，所以小費一直是領隊和司機的主要收入之一，世界各國皆如此，台灣也不例外。所以小費一直是領隊和司機的主要收入之一主要收入之一以下為建議小費，敬請參考：每人每天100元，二天共200元。</p>
+                <p>2.個人因素所產生之消費，如飲料、酒類、私人購物費…等。</p>
+                <p>3.個人旅遊平安保險，依規定旅客若有個別需求，得自行投保旅行平安保險。</p>
+                <p>4.本行程表上未註明之各項開銷，建議、自費或自由行程所衍生之任何費用。建議、自費或自由行程所衍生之任何費用。建議、自費或自由行程所衍生費用。</p>
+            </div>
+        </div>
+        <div id="tab_3" class="tab_content tab_content_3">
+            <div class="tabs_fee_text">
+                <h3>行程注意事項</h3>
+                <p>1.全程二段票，以水湳洞為分段點，一段票全票15元、學生票12元、半票8元，一段票全票15元、學生票12元、半票8元一段票全票15元、學生票12元、半票</p>
+                <p>2.一日券50元，當日內不限次數搭乘。亦可搭乘基隆客運825、826、827、788等線與之重疊路段等線與之重疊路段一日巴士兌換券者，亦可搭乘基隆客運825、826、827、788等線與之重疊路段</p>
+                <p>3.購票方式：車上購票，可使用悠遊卡或一卡通，投現不找零；一日券可於車上購買或至OK超商</p>
+                <p>4.基隆客運客服專線：0800-588010</p>
+                <p>5.基隆汽車客運股份有限公司電話：(02)2497-2055</p>
+                <p>6.東北角暨宜蘭海岸國家風景區管理處電話：(02)2499-1210</p>
+                <p>7.高山氣候寒冷，日夜溫差大，請自備禦寒衣物，建議您採取多層次(洋蔥式)穿法，以方便穿脫。</p>
+            </div>
+        </div>
+        <div id="tab_4" class="tab_content tab_content_4">
+            <div class="tabs_fee_text">
+                <h3>行程退費辦法</h3>
+                <p>1.全程二段票，以水湳洞為分段點，一段票全票15元、學生票12元、半票8元，一段票全票15元、學生票12元、半票8元一段票全票15元、學生票12元、半票</p>
+                <p>2.一日券50元，當日內不限次數搭乘。亦可搭乘基隆客運825、826、827、788等線與之重疊路段等線與之重疊路段一日巴士兌換券者，亦可搭乘基隆客運825、826、827、788等線與之重疊路段</p>
+                <p>3.購票方式：車上購票，可使用悠遊卡或一卡通，投現不找零；一日券可於車上購買或至OK超商</p>
+                <p>4.基隆客運客服專線：0800-588010</p>
+                <p>5.基隆汽車客運股份有限公司電話：(02)2497-2055</p>
+                <p>6.東北角暨宜蘭海岸國家風景區管理處電話：(02)2499-1210</p>
+                <p>7.高山氣候寒冷，日夜溫差大，請自備禦寒衣物，建議您採取多層次(洋蔥式)穿法，以方便穿脫。</p>
+            </div>
+        </div>
+        <a class="trip_more_btn" href="#">立即報名</a>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/islandTripInfo.js"></script>
+}

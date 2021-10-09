@@ -36,11 +36,30 @@ $(function () {
         }
         return false;
     });
+
+    $(document).on("click", "li.news_slide", function () {
+        console.log("news_slide");
+        var imgUrl = $(this).find("img").attr('src');
+        var newsDate = $(this).children(".newsDate").text();
+        var newsTitle = $(this).children(".newsTitle").text();
+        var newsContent = $(this).children("p.newsContent").text();
+        console.log(newsDate);
+        console.log(newsTitle);
+        console.log(newsContent);
+        var newsInfo = {
+            url: imgUrl,
+            newsDate: newsDate,
+            newsTitle: newsTitle,
+            newsContent: newsContent
+        };
+        localStorage.setItem("newsInfo", JSON.stringify(newsInfo));
+        window.location.href = '/Home/News';
+    });
 });
 
 // 取得所有旅遊 API 模塊 
 function allTripList(_sDate = "", _location = "", _travelType = 2, _tabName = "tab_1") {
-    console.log(_sDate);
+    console.log("allTripList");
     var tripItem = "";
     $.post('/Trip/GetTravelListForMember', { page: 1, limit: 8, travelType: _travelType, searchDate: _sDate, searchString: _location }).done(function (tripList) {
         $.each(tripList.travelList, function (i, trip) {
@@ -56,7 +75,7 @@ function allTripList(_sDate = "", _location = "", _travelType = 2, _tabName = "t
             }
 
             tripItem += `<li>
-                        <img src="/images/multipleday_trip_photo2.png" alt="台南文化古都三日遊" title="台南文化古都三日遊">
+                        <a href="#" id="tripInfo"><img src="${trip.travelPicPath}" alt="台南文化古都三日遊" title="台南文化古都三日遊"></a>
                         <input type="hidden" id="travelCode" value="${trip.travelCode}">
                         <span class="date">${trip.travelFdate}</span>
                         <h4>${trip.travelTraditionalTitle}</h4>
@@ -74,16 +93,16 @@ function allTripList(_sDate = "", _location = "", _travelType = 2, _tabName = "t
 
 // 取得最新消息 API 模塊 
 function newsList(_sDate = "") {
-    console.log(_sDate);
+    console.log("newsList");
     $.post('/News/getLatestNewsList', { page: 1, limit: 50, searchDate: _sDate }).done(function (newslist) {
         var newsItem = "";
         $.each(newslist.lateNewsList, function (i, news) {
             newsItem += `
                 <li class="news_slide">
-                    <img src="/images/index_trip_photo1.png" alt="台北近郊二日遊-沙崙海水浴場" title="台北近郊二日遊-沙崙海水浴場">
-                    <span class="date">${news.date}</span>
-                    <h4>${news.newsTraditionalTitle}</h4>
-                    <p>${news.newsTraditionalContent}</p>
+                    <img src="${news.newsPicPath}" alt="台北近郊二日遊-沙崙海水浴場" title="台北近郊二日遊-沙崙海水浴場">
+                    <span class="date newsDate">${news.date}</span>
+                    <h4 class="newsTitle">${news.newsTraditionalTitle}</h4>
+                    <p class="newsContent">${news.newsTraditionalContent}</p>
                 </li>`;
         });
         $("ul.news_slider").append(newsItem);
@@ -92,19 +111,19 @@ function newsList(_sDate = "") {
 }
 
 // 取得banner圖 API 模塊
-function bannerList() {
-    var bannerItem = `
-        <div class="slick-slide">
-            <img src="/images/index_banner1.png" alt="首頁banner">
-        </div>
-        <div class="slick-slide">
-            <img src="/images/index_banner2.png" alt="首頁banner">
-        </div>
-        <div class="slick-slide">
-            <img src="/images/index_banner3.png" alt="首頁banner">
-        </div>`;
-    $(".index_slider").append(bannerItem);
-    $('.slick-slider').slick('refresh');
+function bannerList(_sDate = "") {
+    console.log("bannerList");
+    $.post('/Home/getIndexBannerList', { page: 1, limit: 10, searchDate: _sDate }).done(function (list) {
+        var indexBannerItem = "";
+        $.each(list.indexBannerList, function (i, indexBanner) {
+            indexBannerItem += `
+                <div class="slick-slide">
+                    <img src="${indexBanner.indexBannerPicPath}" alt="首頁banner">
+                </div>`;
+        });
+        $(".index_slider").append(indexBannerItem);
+        $('.slick-slider').slick('refresh');
+    });
 }
 
 // 取得今日日期  

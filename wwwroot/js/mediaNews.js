@@ -7,6 +7,25 @@ $(function () {
 
     // loading 頁面時 query API  
     newsList();
+
+    $(document).on("click", "li", function () {
+        console.log("news_slide");
+        var imgUrl = $(this).find("img").attr('src');
+        var newsDate = $(this).children(".newsDate").text();
+        var newsTitle = $(this).children(".newsTitle").text();
+        var newsContent = $(this).children("p.newsContent").text();
+        console.log(newsDate);
+        console.log(newsTitle);
+        console.log(newsContent);
+        var newsInfo = {
+            url: imgUrl,
+            newsDate: newsDate,
+            newsTitle: newsTitle,
+            newsContent: newsContent
+        };
+        localStorage.setItem("mediaNewsInfo", JSON.stringify(newsInfo));
+        window.location.href = '/Home/MediaNewsInfo';
+    });
 });
 
 
@@ -22,11 +41,10 @@ function newsList(_sDate = "") {
             }
             item += `
                 <li>
-                    <img class="ticket_icon" src="/images/ticket_icon.png" alt="車票ICON">
-                    <img class="news_photo" src="/images/news_photo2.png" alt="小蔡旅遊-國泰航空建立夥伴關係" title="小蔡旅遊-國泰航空建立夥伴關係">
+                    <img class="news_photo" src="${news.mediaNewsPicPath}" alt="小蔡旅遊-國泰航空建立夥伴關係" title="小蔡旅遊-國泰航空建立夥伴關係">
                     <span class="date">${news.date}</span>
-                    <h4>${news.mediaNewsTraditionalTitle}</h4>
-                    <p>${news.mediaNewsTraditionalContent}</p>
+                    <h4 class="newsTitle">${news.mediaNewsTraditionalTitle}</h4>
+                    <p class="newsContent">${news.mediaNewsTraditionalContent}</p>
                 </li>`;
             if (i % 3 == 2) {
                 // 第一排尾部 

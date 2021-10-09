@@ -25,11 +25,11 @@
         <h2>旅遊行程資訊</h2>
         <div class="two_day_detail_box">
             <ul class="two_day_tabs two_day_btn_box clearfix">
-                <li class="tab-link two_day_btn tab_current"><a href="#tab_1">多日旅遊</a></li>
-                <li class="tab-link two_day_btn"><a href="#tab_2">離島旅遊</a></li>
-                <li class="tab-link two_day_btn"><a href="#tab_3">包車旅遊</a></li>
-                <li class="tab-link two_day_btn"><a href="#tab_4">國外旅遊</a></li>
-                <li class="tab-link two_day_btn"><a href="#tab_5">客製服務</a></li>
+                <li id="multi_day_trip" class="tab-link two_day_btn tab_current travel_schedule_btn"><a href="#tab_1">多日旅遊</a></li>
+                <li id="island_trip" class="tab-link two_day_btn travel_schedule_btn"><a href="#tab_2">離島旅遊</a></li>
+                <li id="car_trip" class="tab-link two_day_btn travel_schedule_btn"><a href="#tab_3">包車旅遊</a></li>
+                <li id="foreign_trip" class="tab-link two_day_btn travel_schedule_btn"><a href="#tab_4">國外旅遊</a></li>
+                <li class="tab-link two_day_btn travel_schedule_btn"><a href="#tab_5">客製服務</a></li>
             </ul>
             <div id="tab_1" class="tab_content tab_content_1 travel_current">
             </div>
@@ -39,7 +39,7 @@
             </div>
             <div id="tab_4" class="tab_content tab_content_4">
             </div>
-            <a class="trip_more_btn" asp-area="" asp-controller="Trip" asp-action="MultipledayTrip">瞭解更多</a>
+            <a class="trip_more_btn" href="/Trip/MultipledayTrip">瞭解更多</a>
         </div>
     </section>
 </div>

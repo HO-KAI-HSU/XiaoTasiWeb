@@ -15,4 +15,13 @@ namespace xiaotasi.Bo
         [Required]
         public IFormFile file { get; set; }
     }
+
+    public class UploadPicFromMgtBo
+    {
+        [Required]
+        public int picType { get; set; }
+
+        [Required]
+        public IFormFile file { get; set; }
+    }
 }

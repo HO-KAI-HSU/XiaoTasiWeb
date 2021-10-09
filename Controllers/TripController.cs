@@ -38,6 +38,7 @@ namespace xiaotasi.Controllers
         public IActionResult GetTravelListForMember(int page, int limit, int travelType, string searchDate, string searchString)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            var domainUrl = string.Format(_config.GetValue<string>("Domain"));
             SqlConnection connection = new SqlConnection(connectionString);
             string travelSql = "WITH travelSql AS ( SELECT tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY tl.travel_id) AS rowId FROM (select travel_id from travel_step_list WHERE convert(DATETIME, travel_s_time, 23) >= @searchDate GROUP BY travel_id) as tsln inner join travel_list tl ON tl.travel_id = tsln.travel_id WHERE tl.travel_type = @travelType and tl.travel_name like @searchStr )";
             //string travelSql = "WITH travelSql AS ( SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY travel_id) AS rowId FROM travel_list WHERE travel_type = @travelType and convert(DATETIME, travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr )";
@@ -60,7 +61,7 @@ namespace xiaotasi.Controllers
                 travelShowData.cost = (int)reader[4];
                 travelShowData.travelType = (int)reader[5];
                 travelShowData.startDate = this._getTravelStepStartDateInfo((int)reader[0]) == null ? "" : this._getTravelStepStartDateInfo((int)reader[0]);
-                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" : "http://localhost:8080//~/Scripts/img/viewpoint/" + (string)reader[6];
+                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" :  domainUrl + "/images/trip/" + (string)reader[6].ToString();
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
@@ -82,6 +83,7 @@ namespace xiaotasi.Controllers
         public ActionResult GetTravelInfoForMember(string travelCode, string travelStepCode)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            var domainUrl = string.Format(_config.GetValue<string>("Domain"));
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string travelSql = "SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, travel_subject as travelSubject, travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
@@ -157,6 +159,7 @@ namespace xiaotasi.Controllers
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            var domainUrl = string.Format(_config.GetValue<string>("Domain"));
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string travelSql = "select tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.travel_subject as travelSubject, tl.travel_content as travelContent from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
@@ -178,7 +181,7 @@ namespace xiaotasi.Controllers
                 travelShowData.travelType = (int)reader[5];
                 travelShowData.startDate = this._getTravelStepStartDateInfo((int)reader[0]) == null ? "" : this._getTravelStepStartDateInfo((int)reader[0]);
                 travelShowData.dateTravelPicList = this._getDateTravelPicList((int)reader[0], 1);
-                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" : "http://localhost:8080//~/Scripts/img/viewpoint/" + (string)reader[6];
+                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" :  domainUrl + "/images/trip/" + (string)reader[6].ToString();
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
@@ -492,6 +495,7 @@ namespace xiaotasi.Controllers
         private List<TripPicIntroModel> _getTravelPicIntroList(int travelDetailId)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            var domainUrl = string.Format(_config.GetValue<string>("Domain"));
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             SqlCommand select = new SqlCommand("select vl.viewpoint_title as travelPicTraditionalTitle, vl.viewpoint_title as travelPicEnTitle, vl.viewpoint_content as travelPicTraditionalIntro, vl.viewpoint_content as travelPicEnIntro, vl.viewpoint_pic_path as travelPicPath, tpil.travel_detail_id as travelDetailId from travel_pic_intro_list tpil inner join viewpoint_list vl ON tpil.viewpoint_id = vl.viewpoint_id where tpil.travel_detail_id = @travelDetailId", connection);
@@ -507,7 +511,7 @@ namespace xiaotasi.Controllers
                 travelPicListTest.travelPicEnTitle = reader.IsDBNull(1) ? "" : (string)reader[1];
                 travelPicListTest.travelPicTraditionalIntro = reader.IsDBNull(2) ? "" : (string)reader[2];
                 travelPicListTest.travelPicEnIntro = reader.IsDBNull(3) ? "" : (string)reader[3];
-                travelPicListTest.travelPicPath = reader.IsDBNull(4) ? "" : (string)reader[4];
+                travelPicListTest.travelPicPath = reader.IsDBNull(4) ? "" : domainUrl + "/images/trip/viewpoint/" + (string)reader[4];
                 travelPicListTest.travelDetailCode = "";
                 travelPicListTests.Add(travelPicListTest);
             }
@@ -526,6 +530,11 @@ namespace xiaotasi.Controllers
             return View();
         }
 
+        public IActionResult IslandTripInfo()
+        {
+            return View();
+        }
+
         public IActionResult IslandTrip()
         {
             return View();
@@ -536,7 +545,17 @@ namespace xiaotasi.Controllers
             return View();
         }
 
+        public IActionResult CarTripInfo()
+        {
+            return View();
+        }
+
         public IActionResult ForeignTrip()
+        {
+            return View();
+        }
+
+        public IActionResult ForeignTripInfo()
         {
             return View();
         }

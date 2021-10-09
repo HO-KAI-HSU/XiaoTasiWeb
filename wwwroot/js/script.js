@@ -17,6 +17,8 @@ $(function () {
 	const $upload_pay_modal = $(".upload_pay_modal");
 	const $fixed_btn_box = $(".fixed_btn_box");
 	const $mobile_menu = $("#mobile_menu");
+	const $trip_more_btn = $(".trip_more_btn");
+	const $go_top_btn = $(".go_top_btn");
 	refreshSubMenu();
 
 	//Mobile Menu
@@ -180,6 +182,26 @@ $(function () {
 		}
 		return false;
 	});
+
+	//Tab   
+	$(".travel_schedule_btn").on("click", function () {
+		let $travel_theme = $(this).attr("id");
+		switch ($travel_theme) {
+			case "multi_day_trip":
+				$trip_more_btn.attr("href", "/Trip/MultipledayTrip");
+				break;
+			case "island_trip":
+				$trip_more_btn.attr("href", "/Trip/IslandTrip");
+				break;
+			case "car_trip":
+				$trip_more_btn.attr("href", "/Trip/CarTrip");
+				break;
+			case "foreign_trip":
+				$trip_more_btn.attr("href", "/Trip/ForeignTrip");
+				break;
+		}
+	});
+
 	$(".two_day_tabs > li:not(.two_day_tabs li:last()),.multiple_day_travel_list_tabs > li,.tour_bus_choose_box > li").on("click", function () {
 		let $now_tab = $(this).find("a").attr("href");
 		$(".tab_content[class!='tab_content_1']").hide();
@@ -315,6 +337,31 @@ $(function () {
 		sendVerificationNumber();
 	});
 
+	//Go Top
+	if ($(window).innerWidth() > 1250) {
+		$(window).on("scroll", function () {
+			if ($(this).scrollTop() > 450) {
+				$go_top_btn.fadeIn(1000);
+			} else {
+				$go_top_btn.fadeOut(1000);
+			}
+		});
+	}
+	if ($(window).innerWidth() <= 1250) {
+		$(window).on("scroll", function () {
+			if ($(this).scrollTop() >= $(".mobile_footer_box").offset().top / 1.15) {
+				$go_top_btn.addClass("lightblue");
+			} else {
+				$go_top_btn.removeClass("lightblue");
+			}
+		});
+	}
+
+	$go_top_btn.on("click", function () {
+		$("html,body").stop().animate({ scrollTop: $(".header_box").offset().top }, 800, "easeOutCubic");
+		return false;
+	});
+
 	function closePhoneVerificationModel() {
 		$mask.hide();
 		$phone_verification_modal.hide();
@@ -353,22 +400,43 @@ function multipledayTripList(travelType = 0, tabName = null) {
 }
 
 
-function multipledayTripInfo(travelCode = null) {
+function tripInfo(travelCode = null, _travelId = null, indexFlag = false) {
 	var travelCode = travelCode;
-	window.location.href = 'MultipledayTripInfo?travelCode=' + travelCode;
+	switch (_travelId) {
+		case "1":
+			window.location.href = indexFlag ? "Trip/MultipledayTripInfo?travelCode=" + travelCode : 'MultipledayTripInfo?travelCode=' + travelCode;
+			break;
+		case "2":
+			window.location.href = indexFlag ? "Trip/IslandTripInfo?travelCode=" + travelCode : 'IslandTripInfo?travelCode=' + travelCode;
+			break;
+		case "3":
+			window.location.href = indexFlag ? "Trip/CarTripInfo?travelCode=" + travelCode : 'CarTripInfo?travelCode=' + travelCode;
+			break;
+		case "4":
+			window.location.href = indexFlag ? "Trip/ForeignTripInfo?travelCode=" + travelCode : 'ForeignTripInfo?travelCode=' + travelCode;
+			break;
+	}
 }
+
 
 function login() {
 	const now = new Date();
 	var number = $("#number").val();
 	var psw = $("#psw").val();
 	$.post('/Login/login', { username: number, password: psw }).done(function (loginRes) {
-		var exp = parseInt(now.getTime() / 1000) + 7200;
-		console.log(exp);
-		console.log(loginRes.data);
-		loginRes.data.expired = exp;
-		localStorage.setItem("loginInfo", JSON.stringify(loginRes.data));
-		window.location.href = "";
+		var reason = loginRes.reason;
+		if (loginRes.success == 1) {
+			var exp = parseInt(now.getTime() / 1000) + 7200;
+			console.log(exp);
+			console.log(loginRes.data);
+			loginRes.data.expired = exp;
+			localStorage.setItem("loginInfo", JSON.stringify(loginRes.data));
+			window.location.href = "";
+		} else {
+			alert(reason);
+			window.location.href = "";
+		}
+		
 	});
 }
 
@@ -408,7 +476,8 @@ function sendVerificationNumber() {
 // 手機驗證碼驗證
 function verify(closePhoneVerificationModel) {
 	var cellphone = $("#phone").val();
-	var verificationNumber = $("#verification_number").val();
+	var verificationNumber = $("#validate_number").val();
+	console.log(verificationNumber);
 	$.post('/Register/verifyPhoneCaptcha', { cellphone: cellphone, captcha: verificationNumber }).done(function (verifyRes) {
 		var reason = verifyRes.reason;
 		var success = verifyRes.success;
@@ -473,11 +542,21 @@ function refreshSubMenu() {
 	$(".sub_menu").html(item);
 }
 
-$("#tab_1,tab_2,tab_3,tab_4").on('click', '#tripInfo', function () {
-	var travelCode = $(this).closest("li")
-		.find("#travelCode")
-		.val();
-	multipledayTripInfo(travelCode);
+$("#tab_1,#tab_2,#tab_3,#tab_4").on('click', '#tripInfo', function () {
+	console.log("tripInfo");
+	var travelCode = $(this).closest("li").find("#travelCode").val();
+	let $tab_title = $(this).parents("div").attr("id");
+	console.log($tab_title);
+	var tabTitleArr = $tab_title.split('_');
+	var url = window.location.href;
+	var urlArr = url.split('/');
+	var indexFlag = (urlArr[urlArr.length - 1] == "" || urlArr[urlArr.length - 1] == "#") ? true : false;
+	console.log(indexFlag);
+	console.log(urlArr.length);
+	console.log(url);
+	console.log(travelCode);
+	console.log(tabTitleArr[1]);
+	tripInfo(travelCode, tabTitleArr[1], indexFlag);
 })
 
 // 上傳會員行程預定匯款圖片
@@ -516,4 +595,3 @@ function addReservationCheck(_data = "") {
 		}
 	})
 }
-

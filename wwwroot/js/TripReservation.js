@@ -125,7 +125,7 @@ $(function () {
     });
 });
 
-// 取得會員資訊模塊   
+// 取得會員資訊模塊  
 function verifyMemberInfo(_loginModal, _mask) {
     
     // 判斷是否已登入，沒登入則跳回首頁  

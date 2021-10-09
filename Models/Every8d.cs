@@ -8,7 +8,7 @@ namespace xiaotasi.Models
         /*Every8d參數設定*/
         public string sendSMSUrl = "https://oms.every8d.com/API21/HTTP/sendSMS.ashx";
         public string uid = "0917620588";
-        public string pwd = "zpmp";
+        public string pwd = "George128458162";
         public string sb = "小蔡旅遊";
 
         HttpClientTest httpClientTest = new HttpClientTest();

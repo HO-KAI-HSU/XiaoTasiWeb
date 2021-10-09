@@ -30,7 +30,7 @@ function singledayTripList(_date = null, _location = "") {
             });
             travelPicItem += `</ul>`;
             item += `<li>
-                    <img src="/images/multipleday_trip_photo1.png" alt="台北近郊一日遊" title="台北近郊一日遊">
+                    <img src="${trip.travelPicPath}" alt="台北近郊一日遊" title="台北近郊一日遊">
                     <div class="news_content_right">
                         <h4>${trip.travelTraditionalTitle}</h4>
                         <p class="one_day_time"><span class="news_s_title">出發日期:</span><span class="time">${trip.travelFdate}</span>(<span class="day">星期一</span>)</p>
