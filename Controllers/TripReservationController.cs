@@ -72,7 +72,7 @@ namespace xiaotasi.Controllers
             List<int> seatRetainCount = new List<int>();
             foreach (var transportationId in transportationIdArr)
             {
-                int useStatus = 1;
+                int useStatus = 0;
                 Console.WriteLine("{0}", transportationId);
                 ReservationSeatModel reservationSeatData = new ReservationSeatModel();
                 TransportationModel transportationListData = new TransportationModel();
@@ -82,18 +82,16 @@ namespace xiaotasi.Controllers
                 Console.WriteLine("{0}", retainSeat);
                 foreach (TripReservationSeatMatchModel reservationSeatMatchTmp in reservationSeatMatch)
                 {
-                    Console.WriteLine("{0}", reservationSeatMatchTmp.seatStatus);
                     if (reservationSeatMatchTmp.seatStatus.Equals(1))
                     {
                         retainSeat = retainSeat + 1;
                     }
                 }
                 seatRetainCount.Add(retainSeat);
-                if (transportationStep == 1 && retainSeat > 0 || seatRetainCount[transportationStep - 1] <= 5)
+                if ((transportationStep == 1 && retainSeat >= 0) || ((transportationStep - 2) >= 0 && seatRetainCount[transportationStep - 2] <= 5))
                 {
                     useStatus = 1;
                 }
-
                 reservationSeatData.transportationId = Convert.ToInt16(transportationId);
                 reservationSeatData.transportationStep = transportationStep;
                 Console.WriteLine("{0}", transportationStep);
@@ -177,8 +175,13 @@ namespace xiaotasi.Controllers
             int reservationCost = memberReservationArrBo.Count() * travelStepTransportMatch.travelCost;
             int travelStepId = travelStepTransportMatch.travelStepId;
             string orderCode = this.createOrderNumber();
+            bool writeFlag = false;
             foreach (MemberReservationArrBo memberReservation in memberReservationArrBo)
             {
+                if ((memberReservation.name == null || memberReservation.name == "") || (memberReservation.id == null || memberReservation.id == "") || (memberReservation.birthday == null || memberReservation.birthday == "") || (memberReservation.phone == null || memberReservation.phone == "") || memberReservation.mealsType == 0 || memberReservation.roomsType == 0)
+                {
+                    writeFlag = true;
+                }
                 // 新增旅遊預定會員資訊
                 _tripReservationService.addReservationMemberInfo(memberReservation, travelStepId, memberCode, orderCode);
                 if (seatIds == "")
@@ -192,6 +195,11 @@ namespace xiaotasi.Controllers
 
                 // 新增行程定位與座位綁定資訊
                 _tripReservationService.addTravelReservationSeat(travelStepId, memberReservation.seatId);
+            }
+            if (writeFlag)
+            {
+                ApiError1 apiError = _apiResultService.apiAFailResult("zh-tw", 2, 90052, "");
+                return Json(apiError);
             }
 
             // 新增旅遊預定資訊

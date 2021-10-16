@@ -13,11 +13,11 @@
     <Folder Include="Service\Impl\" />
     <Folder Include="wwwroot\images\reservationCheck\" />
     <Folder Include="Pojo\" />
+    <Folder Include="wwwroot\images\mediaNews\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\member.html" />
     <Content Remove="wwwroot\singleday_trip.html" />
-    <Content Remove="wwwroot\file\domestic_trip_contract.pdf" />
     <Content Remove="wwwroot\js\.DS_Store" />
     <Content Remove="wwwroot\lib\bootstrap\LICENSE" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
@@ -61,6 +61,10 @@
     <Content Remove="wwwroot\images\banner_multiple_day_trip_icon.png" />
     <Content Remove="wwwroot\images\multipleday_trip_photo6.png" />
     <Content Remove="wwwroot\images\arrow_icon_green.png" />
+    <Content Remove="wwwroot\images\footer_left_cloud2.png" />
+    <Content Remove="wwwroot\images\banner_car_trip_icon.png" />
+    <Content Remove="wwwroot\images\book_icon.png" />
+    <Content Remove="wwwroot\images\banner_media_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using xiaotasi.Models;
@@ -87,6 +88,92 @@ namespace xiaotasi.Service.Impl
             }
             connection.Close();
             return travelReservationInfoDatas;
+        }
+
+        private string[] getMembrReservationSeatIdsInfo(string travelReservationCode)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            string fieldSql = "select travel_step_id as travelStepId, seat_ids as seatIds, status from reservation_list  WHERE reservation_code = @travelReservationCode and status >= 0";
+            SqlCommand select = new SqlCommand(fieldSql, connection);
+            select.Parameters.AddWithValue("@travelReservationCode", travelReservationCode);
+            // 開啟資料庫連線
+            connection.Open();
+            SqlDataReader reader = select.ExecuteReader();
+            string[] stepIdseatIdsInfo = new string[] { "", "", "-1" };
+            while (reader.Read())
+            {
+                stepIdseatIdsInfo[0] = reader.IsDBNull(0) ? "" : reader.GetSqlInt32(0).ToString();
+                Console.WriteLine("{0}", reader.GetSqlInt32(0).ToString());
+                stepIdseatIdsInfo[1] = reader.IsDBNull(1) ? "" : (string)reader[1];
+                Console.WriteLine("{0}", (string)reader[1]);
+                stepIdseatIdsInfo[2] = reader.IsDBNull(2) ? "" : reader.GetSqlInt32(2).ToString();
+                Console.WriteLine("{0}", reader.GetSqlInt32(2).ToString());
+            }
+            connection.Close();
+            return stepIdseatIdsInfo;
+        }
+
+        private void cancelMembrReservationSeat(string travelStepId, string seatId)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            SqlCommand select = new SqlCommand("UPDATE seat_travel_match_list SET status = @status WHERE travel_step_id = @travelStepId and seat_id = @seatId and status >= 0", connection);
+            select.Parameters.AddWithValue("@travelStepId", Convert.ToInt16(travelStepId));
+            select.Parameters.AddWithValue("@seatId", Convert.ToInt16(seatId));
+            select.Parameters.Add("@status", SqlDbType.Int).Value = -1;
+            connection.Open();
+            select.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        private void cancelMembrReservation(string travelReservationCode)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            SqlCommand select = new SqlCommand("UPDATE reservation_list SET status = @status WHERE reservation_code = @travelReservationCode and status >= 0", connection);
+            select.Parameters.AddWithValue("@travelReservationCode", travelReservationCode);
+            select.Parameters.Add("@status", SqlDbType.Int).Value = -1;
+            connection.Open();
+            select.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        // 取消訂單
+        public int cancelMemberReservation(string travelReservationCode)
+        {
+            string[] seatIdsInfo = this.getMembrReservationSeatIdsInfo(travelReservationCode);
+            string travelStepId = seatIdsInfo[0];
+            string seatIds = seatIdsInfo[1];
+            string status = seatIdsInfo[2];
+            int errorCode = 0;
+
+            if (status == "-1" || seatIds == "")
+            {
+                errorCode = 90053;
+                return errorCode;
+            }
+
+            // 將字串轉為陣列
+            String[] seatIdArr = seatIds == null ? new String[0] : seatIds.Split(',');
+
+            // 取消座位
+            foreach (var seatId in seatIdArr)
+            {
+                if (seatId == "")
+                {
+                    continue;
+                }
+                this.cancelMembrReservationSeat(travelStepId, seatId);
+            }
+
+            // 取消訂單
+            this.cancelMembrReservation(travelReservationCode);
+
+            return errorCode;
         }
     }
 }

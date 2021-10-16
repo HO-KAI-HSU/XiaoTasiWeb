@@ -142,7 +142,7 @@ function verifyMemberInfo(_loginModal, _mask) {
 
 // 定位座位資訊 API 模塊  
 function getReservationSeatInfo(_travelCode = "", _travelStepCode = "", _token = "") {
-    $.post('/TripReservation/getTripReservationSeatList', { token: _token, travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripReservationSeatInfo) { 
+    $.post('/TripReservation/getTripReservationSeatList', { token: _token, travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripReservationSeatInfo) {
         var reservationSeatList = tripReservationSeatInfo.reservationSeatList; // 定位座位列表 
         var reservationSeatContent = "";  // 定位座位資訊
         var reservationTransportationContent = "";   // 定位車次資訊
@@ -197,13 +197,11 @@ function getReservationSeatInfo(_travelCode = "", _travelStepCode = "", _token =
                     } else if (seatIndex >= 24 && seatIndex < 43) {
                         if (seatIndex == 24) {
                             reservationSeatContent += `<div class="tour_bus_seat_right_box">
-                                <div class="tour_bus_seat_right clearfix">
-                                    <div class="tour_bus_seat no_seat">右0排道</div>
-                                    <div class="tour_bus_seat no_seat">右0排窗</div>
+                                <div class="tour_bus_seat_right">
+                                    <div class="tour_bus_safe_door">座位車頭區</div>
                                 </div>
-                                <div class="tour_bus_seat_right clearfix">
-                                    <div class="tour_bus_seat no_seat">右0排道</div>
-                                    <div class="tour_bus_seat no_seat">右0排窗</div>
+                                <div class="tour_bus_seat_right">
+                                    <div class="tour_bus_safe_door">前門</div>
                                 </div>`;
                         }
                         if (seatIndex % 2 == 0) {
@@ -261,8 +259,15 @@ function createReservation(_data = "") {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            alert(data.reason);
-            window.location.href = "";
+            var reason = data.reason;
+            var success = data.success;
+            if (success == 0) {
+                showAlert(false, reason);
+                return;
+            } else {
+                showAlert(true, reason, function () { window.location.href = "/"; });
+            }
+           
         }
     })    
 }

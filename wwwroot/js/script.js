@@ -1,19 +1,15 @@
 // JavaScript Document 
 $(function () {
 	const $header_right = $(".header_right");
-	const $header_box = $(".header_box").offset().top;
+	const $header_box = $(".header_box");
 	const $policy_btn = $(".policy_btn");
 	const $rule_btn = $(".rule_btn");
-	const $banner_text_h1 = $(".banner_text").find("h1");
-	const $banner_icon = $("img.banner_icon");
-	const $bread_page_name = $(".bread_crumb").find("span.page_name");
 	const $mask = $(".mask");
 	const $login_modal = $(".login_modal");
 	const $register_member_modal = $(".register_member_modal");
 	const $phone_verification_modal = $(".phone_verification_modal");
 	const $add_member_modal = $(".add_member_modal");
 	const $video_modal = $(".video_modal");
-	const $banner_place = $(".banner_place");
 	const $upload_pay_modal = $(".upload_pay_modal");
 	const $fixed_btn_box = $(".fixed_btn_box");
 	const $mobile_menu = $("#mobile_menu");
@@ -54,9 +50,7 @@ $(function () {
 			$header_right.slideUp('4600', "easeInOutBack");
 			menu_toggle();
 		});
-	}
-
-	//Modal 
+	} 
 	$(".login_in_btn").on("click", function () {
 		$mask.show();
 		$login_modal.show();	
@@ -88,6 +82,9 @@ $(function () {
 		$(".login_modal,.register_member_modal").hide();
 		$mask.hide();
 	})
+	$(".alert_close_btn").on("click", function () {
+		$(".alert.success, .alert.warning").css("display", "none"); 
+	});
 	$(".photo_video,img.multiple_day_video_photo").on("click", function () {
 		console.log("multiple_day_video_photo");
 		$mask.show();
@@ -130,7 +127,14 @@ $(function () {
 		addReservationCheck(dataJson);
 		$upload_pay_modal.hide();
 		$mask.hide();
-	}); 
+	});
+
+	$(document).on("click", ".cancel_btn", function () {
+		var travelReservationCode = $(this).closest("tr").find("input#travelReservationCode").val();
+		var _token = JSON.parse(localStorage.getItem('loginInfo')).token;
+		cancelReservation(_token, travelReservationCode);
+	});
+
 	$(document).on("click", ".choose_photo_file_btn", function () {
 		console.log("choose_photo_file_btn");
 		var file = $("#upload_pay_photo").get(0).files;
@@ -143,7 +147,6 @@ $(function () {
 	});
 
 
-
 	$("ul.travel_tabs").find("li").on("click",function(){
 		let $travel_tab = $(this).find("a").attr("href");
 		let $travel_tab_title = $(this).attr("id");
@@ -153,30 +156,18 @@ $(function () {
 		switch ($travel_tab_title) {
 			case "multi_day_trip":
 				multipledayTripList(2, "tab_1");
-				$banner_text_h1.text("多日旅遊");
-				$banner_icon.attr("src", "/images/banner_multiple_day_trip_icon.png");
-				$bread_page_name.text("多日旅遊");
 				$("#tab_1").show();
 				break;
 			case "island_trip":
 				multipledayTripList(3, "tab_2");
-				$banner_text_h1.text("離島旅遊");
-				$banner_icon.attr("src", "/images/banner_island_trip_icon.png");
-				$bread_page_name.text("離島旅遊");
 				$("#tab_2").show();
 				break;
 			case "car_trip":
 				multipledayTripList(4, "tab_3");
-				$banner_text_h1.text("包車旅遊");
-				$banner_icon.attr("src", "/images/banner_car_trip_icon.png");
-				$bread_page_name.text("包車旅遊");
 				$("#tab_3").show();
 				break;
 			case "foreign_trip":
 				multipledayTripList(5, "tab_4");
-				$banner_text_h1.text("國外旅遊");
-				$banner_icon.attr("src", "/images/banner_foreign_trip_icon.png");
-				$bread_page_name.text("國外旅遊");
 				$("#tab_4").show();
 				break;
 		}
@@ -251,7 +242,7 @@ $(function () {
 		$(".timeline_travel,.travel_table").toggle();
 	});
 
-	//Slider
+	//Slider 
 	$(".index_slider,.video_slider").slick({
 		arrows: false,
 		slidesToShow: 1,
@@ -286,16 +277,6 @@ $(function () {
 	});
 
 
-	//Media Icon
-	$(window).on("scroll", function () {
-		if ($(this).scrollTop() >= $banner_place.offset().top - $banner_place.outerHeight() / 5) {
-			$fixed_btn_box.fadeIn(700);
-		} else {
-			$fixed_btn_box.fadeOut(700);
-		}
-	});
-
-
 	//Calendar
 	$("ul.month_choose").find("li").on("click", function () {
 		console.log("month_choose");
@@ -326,27 +307,26 @@ $(function () {
 	});
 
 	$(".add_member_btn").on("click", function () {
-		register($add_member_modal, $phone_verification_modal);
+		registerCheck($add_member_modal, $phone_verification_modal);
 	});
 
 	$(".submit_verification_btn").on("click", function () {
-		verify(closePhoneVerificationModel);
+		verify(closePhoneVerificationModel, register($add_member_modal, $phone_verification_modal, closePhoneVerificationModel));
 	});
 
 	$(".resend_verification_btn").on("click", function () {
 		sendVerificationNumber();
+		settime($("a.resend_verification_btn"), 60);
 	});
 
 	//Go Top
-	if ($(window).innerWidth() > 1250) {
-		$(window).on("scroll", function () {
-			if ($(this).scrollTop() > 450) {
-				$go_top_btn.fadeIn(1000);
-			} else {
-				$go_top_btn.fadeOut(1000);
-			}
-		});
-	}
+	$(window).on("scroll", function () {
+		if ($(this).scrollTop() > $(".banner_box_height").offset().top) {
+			$fixed_btn_box.fadeIn(500);
+		} else {
+			$fixed_btn_box.fadeOut(500);
+		}
+	});
 	if ($(window).innerWidth() <= 1250) {
 		$(window).on("scroll", function () {
 			if ($(this).scrollTop() >= $(".mobile_footer_box").offset().top / 1.15) {
@@ -356,8 +336,7 @@ $(function () {
 			}
 		});
 	}
-
-	$go_top_btn.on("click", function () {
+	$(".desktop_go_top_btn,.go_top_btn").on("click", function () {
 		$("html,body").stop().animate({ scrollTop: $(".header_box").offset().top }, 800, "easeOutCubic");
 		return false;
 	});
@@ -365,6 +344,7 @@ $(function () {
 	function closePhoneVerificationModel() {
 		$mask.hide();
 		$phone_verification_modal.hide();
+		settime($("a.resend_verification_btn"), 0);
 	}
 });
 
@@ -431,17 +411,15 @@ function login() {
 			console.log(loginRes.data);
 			loginRes.data.expired = exp;
 			localStorage.setItem("loginInfo", JSON.stringify(loginRes.data));
-			window.location.href = "";
+			showAlert(true, "登入成功", function () { window.location.href = ""; });
 		} else {
-			alert(reason);
-			window.location.href = "";
+			showAlert(false, reason);
 		}
-		
 	});
 }
 
-// 註冊
-function register(add_member_modal, phone_verification_modal) {
+// 註冊參數判斷 
+function registerCheck(add_member_modal, phone_verification_modal) {
 	var number = $("#username").val();
 	var password = $("#password").val();
 	var name = $("#name").val();
@@ -453,37 +431,76 @@ function register(add_member_modal, phone_verification_modal) {
 	var emerContactName = $("#contact_name").val();
 	var emerContactPhone = $("#contact_phone").val();
 	var success = 0;
-	$.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone}).done(function (registerRes) {
+	$.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 1 }).done(function (registerRes) {
 		var reason = registerRes.reason;
 		success = registerRes.success;
 		if (success == 1) {
-			add_member_modal.hide();
-			phone_verification_modal.show();
+			sendVerificationNumber(add_member_modal, phone_verification_modal);
+		} else {
+			showAlert(false, reason);
 		}
-		alert(reason);
 	});
 	return true;
 }
 
-// 重送驗證碼
-function sendVerificationNumber() {
+// 註冊帳戶 
+function register(add_member_modal, phone_verification_modal, closePhoneVerificationModel) {
+	var number = $("#username").val();
+	var password = $("#password").val();
+	var name = $("#name").val();
+	var email = $("#email").val();
+	var address = "";;
+	var birthday = $("#date").val();
+	var telephone = "";
+	var cellphone = $("#phone").val();
+	var emerContactName = $("#contact_name").val();
+	var emerContactPhone = $("#contact_phone").val();
+	var success = 0;
+	$.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 0 }).done(function (registerRes) {
+		var reason = registerRes.reason;
+		var success = registerRes.success;
+		if (success == 1) {
+			showAlert(true, reason);
+			closePhoneVerificationModel();
+		} else {
+			showAlert(false, reason);
+        }
+	});
+	return true;
+}
+
+// 發送驗證碼
+function sendVerificationNumber(modal1 = "", modal2 = "") {
 	var cellphone = $("#phone").val();
 	$.post('/Register/getPhoneCaptcha', { cellphone: cellphone }).done(function (sendVerificationNumberRes) {
-		alert("已重送驗證碼");
+		var reason = sendVerificationNumberRes.reason;
+		var success = sendVerificationNumberRes.success;
+		if (success == 1) {
+			showAlert(true, reason);
+			if (modal1 != "" && modal2 != "") {
+				modal1.hide();
+				modal2.show();
+				settime($(".resend_verification_btn"), 60);
+            }
+		} else {
+			showAlert(false, reason);
+		}
 	});
 }
 
 // 手機驗證碼驗證
-function verify(closePhoneVerificationModel) {
+function verify(callbackFun) {
 	var cellphone = $("#phone").val();
 	var verificationNumber = $("#validate_number").val();
 	console.log(verificationNumber);
 	$.post('/Register/verifyPhoneCaptcha', { cellphone: cellphone, captcha: verificationNumber }).done(function (verifyRes) {
 		var reason = verifyRes.reason;
 		var success = verifyRes.success;
-		alert(reason);
 		if (success == 1) {
-			closePhoneVerificationModel();
+			showAlert(true, reason);
+			callbackFun;
+		} else {
+			showAlert(false, reason);
 		}
 	});
 	return true;
@@ -493,7 +510,7 @@ function logout() {
 	var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
 	$.post('/Login/logout', { token: loginInfo.token }).done(function (logoutRes) {
 		localStorage.removeItem('loginInfo');
-		window.location.href = "";
+		showAlert(true, logoutRes.reason, function () { window.location.href = ""; });
 	});
 }
 
@@ -575,13 +592,13 @@ function uploadPic(file, picType) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			alert(data.reason);
+			showAlert(true, data.reason);
 			localStorage.setItem("picPath", data.picPath);
 		}
 	});
 }
 
-// 建立旅遊預約      
+// 建立旅遊預定匯款證明      
 function addReservationCheck(_data = "") {
 	$.ajax({
 		url: "/TripReservation/addReservationCheck",
@@ -590,8 +607,62 @@ function addReservationCheck(_data = "") {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (data) {
-			alert(data.reason);
-			window.location.href = "";
+			showAlert(true, data.reason, function () { window.location.href = ""; });
 		}
 	})
+}
+
+// 取消旅遊訂單      
+function cancelReservation(_token = "", _travelReservationCode = "") {
+	$.post('/Member/cancelMemberReservation', { token: _token, travelReservationCode: _travelReservationCode }).done(function (cancelReservationRes) {
+		var reason = cancelReservationRes.reason;
+		var success = cancelReservationRes.success;
+		if (success == 1) {
+			showAlert(true, reason, function () { window.location.href = ""; });
+		} else {
+			showAlert(false, reason);
+		}
+	});
+}
+
+// 顯示alert     
+function showAlert(_success = true, _msg = "", _callback = "") {
+	if (_success) {
+		$(".alert_success_msg").html(_msg);
+		$(".alert.success").fadeTo(0, 500).css("display", "block");
+	} else {
+		$(".alert_warning_msg").html(_msg);
+		$(".alert.warning").fadeTo(0, 500).css("display", "block");
+    } 
+	window.setTimeout(function () {
+		$(".alert").fadeTo(500,0).slideUp(500, function () {
+			if (_success) {
+				$(".alert.success").css("display", "none");
+			} else {
+				$(".alert.warning").css("display", "none");
+			} 
+		});
+		if (_callback != "") {
+			console.log("_callback");
+			_callback();
+		}
+	}, 2000);
+}
+
+function settime(obj, countdown) {
+	if (countdown == 0) {
+		obj.css("opacity", "1");
+		obj.css("pointer-events", "");
+		obj.html(`獲取驗證碼`);
+		countdown = 60;
+		return;
+	} else {
+		obj.css("opacity", "0.5");
+		obj.css("pointer-events", "none");
+		obj.html(`重新傳送(${countdown})`);
+		countdown--;
+	}
+	setTimeout(function () {
+		settime(obj, countdown)
+	}, 1000)
 }

@@ -131,15 +131,25 @@ function getMemberReservationList(token = "", memberCode = "", logout) {
                 <td class="td_bottom">${memberReservationInfo.travelStepDate}</td>
                 <td class="td_bottom">${""}</td>
                 <td class="td_bottom">${memberReservationInfo.travelTraditionalTitle}</td>
-                <td class="td_bottom">${""}</td>
-                <td class="td_bottom td_button"><a href="#" class="cancel_btn">取消行程</a></td>`;
+                <td class="td_bottom">${""}</td>`;
+
             if (memberReservationInfo.payStatus == 0) {
-                list += `<td class="td_bottom td_button"><a href="#" class="upload_pay_btn" disabled>上傳匯款證明</a></td>`;
+                list += `
+                    <td class="td_bottom td_button"><a href="#" class="cancel_btn">取消行程</a></td>
+                    <td class="td_bottom td_button"><a href="#" class="upload_pay_btn" disabled>上傳匯款證明</a></td>`;
             } else if (memberReservationInfo.payStatus == 1) {
-                list += `<td class="td_bottom td_button"><a href="#" class="upload_pay_finish_btn" disabled>已確認匯款</a></td>`;
+                list += `
+                    <td class="td_bottom td_button"><a href="#" class="cancel_btn">取消行程</a></td>
+                    <td class="td_bottom td_button"><a href="#" class="upload_pay_finish_btn" disabled>已確認匯款</a></td>`;
             } else if (memberReservationInfo.payStatus == 2) {
-                list += `<td class="td_bottom td_button"><a href="#" class="pay_check_btn">匯款證明確認中</a></td>`;
-            }    
+                list += `
+                     <td class="td_bottom td_button"><a href="#" class="cancel_btn">取消行程</a></td>
+                     <td class="td_bottom td_button"><a href="#" class="pay_check_btn">匯款證明確認中</a></td>`;
+            } else {
+                list += `
+                    <td class="td_bottom td_button"><a href="#" class="cancel_finish_btn" disabled>行程已取消</a></td>
+                    <td class="td_bottom td_button"><a href="#" class="upload_pay_btn disabled" disabled>上傳匯款證明</a></td>`;
+            }  
             list += `</tr>`;
         });
         $('.order_table').append(list);

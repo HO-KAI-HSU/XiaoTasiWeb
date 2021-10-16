@@ -148,5 +148,35 @@ namespace xiaotasi.Controllers
             ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 2, "MA001");
             return Json(apiRes);
         }
+
+        [HttpPost]
+        public ActionResult CancelMemberReservation(string token, string travelReservationCode)
+        {
+            int paramsAuthStatus = 0;
+
+            // 必傳參數判斷
+            if ((token == null || token.Length == 0) || (travelReservationCode == null || travelReservationCode.Length == 0))
+            {
+                paramsAuthStatus = 1;
+            }
+
+            // 初始驗證
+            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            if (apiAuth.code > 0)
+            {
+                return Json(apiAuth);
+            }
+
+            int errorCode = _memberService.cancelMemberReservation(travelReservationCode);
+
+            if (errorCode > 0)
+            {
+                ApiError1 apiError = _apiResultService.apiAFailResult("zh-tw", 2, errorCode, "");
+                return Json(apiError);
+            }
+
+            ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 2, "TR003");
+            return Json(apiRes);
+        }
     }
 }

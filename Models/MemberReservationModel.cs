@@ -21,4 +21,5 @@ namespace xiaotasi.Models
         public string travelStepDate { get; set; }
         public string travelReservationDate { get; set; }
     }
+
 }

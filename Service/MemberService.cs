@@ -9,5 +9,7 @@ namespace xiaotasi.Service
         MemberInfoModel getMemberInfo(string memberCode, string token);
 
         List<MemberReservationModel> getMembrReservationList(string memberCode);
+
+        int cancelMemberReservation(string travelReservationCode);
     }
 }

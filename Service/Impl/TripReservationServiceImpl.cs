@@ -162,7 +162,7 @@ namespace xiaotasi.Service.Impl
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string fieldSql = "select sl.seat_id as seatId, spl.seat_pos_name as seatName, stml.status from seat_list AS sl INNER JOIN seat_pos_list spl ON spl.seat_pos = sl.seat_pos LEFT JOIN seat_travel_match_list stml ON stml.seat_id = sl.seat_id and stml.travel_step_id = @travelStepId WHERE sl.transportation_id = @transportationId order by sl.transportation_id ASC, sl.seat_pos ASC";
+            string fieldSql = "select sl.seat_id as seatId, spl.seat_pos_name as seatName, stml.status from seat_list AS sl INNER JOIN seat_pos_list spl ON spl.seat_pos = sl.seat_pos LEFT JOIN seat_travel_match_list stml ON stml.seat_id = sl.seat_id and stml.travel_step_id = @travelStepId and stml.status >= 0 WHERE sl.transportation_id = @transportationId order by sl.transportation_id ASC, sl.seat_pos ASC";
             SqlCommand select = new SqlCommand(fieldSql, connection);
             select.Parameters.AddWithValue("@transportationId", transportationId);
             select.Parameters.AddWithValue("@travelStepId", travelStepId);
