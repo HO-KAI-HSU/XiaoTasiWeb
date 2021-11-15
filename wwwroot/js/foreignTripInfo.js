@@ -48,7 +48,7 @@ $(function () {
         updateTripStatisticInfo(travelStepCode);
     });
 
-    // 報名   
+    // 報名    
     $(document).on("click", ".trip_more_btn", function () {
         console.log("trip_more_btn");
         console.log($(document).find("input#travel_step_code").find("input#travel_step_code").val());
@@ -58,12 +58,12 @@ $(function () {
         $inputTab = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input");
         var travelStepCode = $inputTab.val();
         console.log(travelStepCode);
-        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode;
+        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode + "&travelType=5";
     });
 });
 
 
-// 取得多日旅遊詳情 API 模塊 
+// 取得多日旅遊詳情 API 模塊  
 function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
     $.post('/Trip/GetTravelInfoForMember', { travelCode: _travelCode, travelStepCode: _travelStepCode}).done(function (tripInfo) {
         var dateTravelItem = "";          // 每日旅遊資訊

@@ -162,7 +162,7 @@ namespace xiaotasi.Controllers
             var domainUrl = string.Format(_config.GetValue<string>("Domain"));
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string travelSql = "select tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.travel_subject as travelSubject, tl.travel_content as travelContent from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
+            string travelSql = "select tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, stl.travel_s_time as travelStime, tl.travel_subject as travelSubject, tl.travel_content as travelContent, stl.travel_step_code as travelStepCode from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
             SqlCommand sqlCommand = new SqlCommand(travelSql, connection);
             sqlCommand.Parameters.AddWithValue("@searchStr", "%" + searchString + "%");
             sqlCommand.Parameters.AddWithValue("@searchDate", searchDate == null ? "" : searchDate);
@@ -185,6 +185,7 @@ namespace xiaotasi.Controllers
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
+                travelShowData.travelStepCode = reader.IsDBNull(11) ? "" : (string)reader[11];
                 travelShowDatas.Add(travelShowData);
             }
             connection.Close();

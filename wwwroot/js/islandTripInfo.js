@@ -58,7 +58,7 @@ $(function () {
         $inputTab = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input");
         var travelStepCode = $inputTab.val();
         console.log(travelStepCode);
-        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode;
+        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode + "&travelType=3";
     });
 });
 

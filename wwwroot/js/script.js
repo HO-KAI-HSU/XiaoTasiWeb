@@ -8,6 +8,8 @@ $(function () {
 	const $login_modal = $(".login_modal");
 	const $register_member_modal = $(".register_member_modal");
 	const $phone_verification_modal = $(".phone_verification_modal");
+	const $forget_psw_modal = $(".forget_psw_modal");
+	const $reset_psw_modal = $(".reset_psw_modal");
 	const $add_member_modal = $(".add_member_modal");
 	const $video_modal = $(".video_modal");
 	const $upload_pay_modal = $(".upload_pay_modal");
@@ -61,7 +63,7 @@ $(function () {
 	});
 	$(".forget_psw").on("click", function () {
 		$login_modal.hide();
-		$(".forget_psw_modal").show();
+		$forget_psw_modal.show();
 	});
 	$(".modal_close_icon").on("click", function () {
 		$(".login_modal,.forget_psw_modal,.register_member_modal,.add_member_modal,.phone_verification_modal,.upload_pay_modal").hide();
@@ -177,6 +179,7 @@ $(function () {
 	//Tab   
 	$(".travel_schedule_btn").on("click", function () {
 		let $travel_theme = $(this).attr("id");
+		console.log($travel_theme);
 		switch ($travel_theme) {
 			case "multi_day_trip":
 				$trip_more_btn.attr("href", "/Trip/MultipledayTrip");
@@ -189,6 +192,9 @@ $(function () {
 				break;
 			case "foreign_trip":
 				$trip_more_btn.attr("href", "/Trip/ForeignTrip");
+				break;
+			case "single_day_trip":
+				window.location.href = "/Trip/SingledayTrip";
 				break;
 		}
 	});
@@ -311,12 +317,36 @@ $(function () {
 	});
 
 	$(".submit_verification_btn").on("click", function () {
-		verify(closePhoneVerificationModel, register($add_member_modal, $phone_verification_modal, closePhoneVerificationModel));
+		var verificationType = $("#verification_type").val();
+		if (verificationType == "1") {
+             // 註冊使用
+			var cellphone = $("#phone").val();
+			verify(cellphone, register("", "", closePhoneVerificationModel()));
+		} else if (verificationType == "2") {
+             // 忘記密碼使用
+			var cellphone = $("#forget_phone").val();
+			verify(cellphone, showResetPwdModel(closePhoneVerificationModel()));
+        }
 	});
 
 	$(".resend_verification_btn").on("click", function () {
-		sendVerificationNumber();
+		var cellphone = $("#phone").val();
+		var verificationType = $("#verification_type").val();
+		sendVerificationNumber(verificationType, cellphone);
 		settime($("a.resend_verification_btn"), 60);
+	});
+
+	$(".forget_psw_btn").on("click", function () {
+		$forget_psw_modal.hide();
+		$phone_verification_modal.show();
+		$("#verification_type").val("2");
+		var cellphone = $("#forget_phone").val();
+		sendVerificationNumber("2", cellphone);
+		settime($("a.resend_verification_btn"), 60);
+	});
+
+	$(".reset_psw_btn").on("click", function () {
+		resetPwd(closeResetPwdModel());
 	});
 
 	//Go Top
@@ -345,6 +375,16 @@ $(function () {
 		$mask.hide();
 		$phone_verification_modal.hide();
 		settime($("a.resend_verification_btn"), 0);
+	}
+
+	function showResetPwdModel(closePhoneVerificationModel) {
+		closePhoneVerificationModel;
+		$reset_psw_modal.show();
+	}
+	function closeResetPwdModel() {
+		console.log("closeResetPwdModel");
+		$mask.hide();
+		$reset_psw_modal.hide();
 	}
 });
 
@@ -384,16 +424,16 @@ function tripInfo(travelCode = null, _travelId = null, indexFlag = false) {
 	var travelCode = travelCode;
 	switch (_travelId) {
 		case "1":
-			window.location.href = indexFlag ? "Trip/MultipledayTripInfo?travelCode=" + travelCode : 'MultipledayTripInfo?travelCode=' + travelCode;
+	        window.location.href = indexFlag ? "Trip/MultipledayTripInfo?travelCode=" + travelCode : 'MultipledayTripInfo?travelCode=' + travelCode;
 			break;
 		case "2":
-			window.location.href = indexFlag ? "Trip/IslandTripInfo?travelCode=" + travelCode : 'IslandTripInfo?travelCode=' + travelCode;
+	        window.location.href = indexFlag ? "Trip/IslandTripInfo?travelCode=" + travelCode : 'IslandTripInfo?travelCode=' + travelCode;
 			break;
 		case "3":
-			window.location.href = indexFlag ? "Trip/CarTripInfo?travelCode=" + travelCode : 'CarTripInfo?travelCode=' + travelCode;
+	        window.location.href = indexFlag ? "Trip/CarTripInfo?travelCode=" + travelCode : 'CarTripInfo?travelCode=' + travelCode;
 			break;
 		case "4":
-			window.location.href = indexFlag ? "Trip/ForeignTripInfo?travelCode=" + travelCode : 'ForeignTripInfo?travelCode=' + travelCode;
+	        window.location.href = indexFlag ? "Trip/ForeignTripInfo?travelCode=" + travelCode : 'ForeignTripInfo?travelCode=' + travelCode;
 			break;
 	}
 }
@@ -435,7 +475,9 @@ function registerCheck(add_member_modal, phone_verification_modal) {
 		var reason = registerRes.reason;
 		success = registerRes.success;
 		if (success == 1) {
-			sendVerificationNumber(add_member_modal, phone_verification_modal);
+			$("#verification_type").val("1");
+			var cellphone = $("#phone").val();
+			sendVerificationNumber("1", cellphone, add_member_modal, phone_verification_modal);
 		} else {
 			showAlert(false, reason);
 		}
@@ -443,7 +485,7 @@ function registerCheck(add_member_modal, phone_verification_modal) {
 	return true;
 }
 
-// 註冊帳戶 
+// 註冊帳戶  
 function register(add_member_modal, phone_verification_modal, closePhoneVerificationModel) {
 	var number = $("#username").val();
 	var password = $("#password").val();
@@ -461,7 +503,7 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
 		var success = registerRes.success;
 		if (success == 1) {
 			showAlert(true, reason);
-			closePhoneVerificationModel();
+			closePhoneVerificationModel;
 		} else {
 			showAlert(false, reason);
         }
@@ -470,9 +512,8 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
 }
 
 // 發送驗證碼
-function sendVerificationNumber(modal1 = "", modal2 = "") {
-	var cellphone = $("#phone").val();
-	$.post('/Register/getPhoneCaptcha', { cellphone: cellphone }).done(function (sendVerificationNumberRes) {
+function sendVerificationNumber(verificationType = "", cellphone = "", modal1 = "", modal2 = "") {
+	$.post('/Register/getPhoneCaptcha', { cellphone: cellphone, verificationType: verificationType  }).done(function (sendVerificationNumberRes) {
 		var reason = sendVerificationNumberRes.reason;
 		var success = sendVerificationNumberRes.success;
 		if (success == 1) {
@@ -488,12 +529,30 @@ function sendVerificationNumber(modal1 = "", modal2 = "") {
 	});
 }
 
-// 手機驗證碼驗證
-function verify(callbackFun) {
-	var cellphone = $("#phone").val();
+// 手機驗證碼驗證  
+function verify(cellphone, callbackFun) {
 	var verificationNumber = $("#validate_number").val();
 	console.log(verificationNumber);
 	$.post('/Register/verifyPhoneCaptcha', { cellphone: cellphone, captcha: verificationNumber }).done(function (verifyRes) {
+		var reason = verifyRes.reason;
+		var success = verifyRes.success;
+		if (success == 1) {
+			showAlert(true, reason);
+			callbackFun;
+		} else {
+			showAlert(false, reason);
+		}
+	});
+	return true;
+}
+
+
+// 重置密碼 
+function resetPwd(callbackFun) {
+	var cellphone = $("#forget_phone").val();
+	var newPsw = $("#new_psw").val();
+	var rekeyinNewPsw = $("#rekeyin_new_psw").val();
+	$.post('/Register/resetPassword', { cellphone: cellphone, newPassword: newPsw, reKeyinPassword: rekeyinNewPsw }).done(function (verifyRes) {
 		var reason = verifyRes.reason;
 		var success = verifyRes.success;
 		if (success == 1) {

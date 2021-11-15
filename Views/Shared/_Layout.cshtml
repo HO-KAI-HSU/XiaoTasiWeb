@@ -44,10 +44,18 @@
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>忘記密碼</h3>
         <form action="#">
-            <input type="text" id="number" name="number" placeholder="請輸入您的電子信箱">
-            <input type="password" id="psw" name="psw" placeholder="請輸入您的新密碼">
+            <input type="text" id="forget_phone" name="forget_phone" placeholder="請輸入您的連絡手機" required="required">
         </form>
-        <a class="login_btn" href="#">重新設定密碼</a>
+        <a class="forget_psw_btn" href="#">發送驗證碼</a>
+    </div>
+    <div class="reset_psw_modal">
+        <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
+        <h3>重設密碼</h3>
+        <form action="#">
+            <input type="password" id="new_psw" name="new_psw" placeholder="請輸入新密碼">
+            <input type="password" id="rekeyin_new_psw" name="rekeyin_new_psw" placeholder="再次輸入密碼">
+        </form>
+        <a class="reset_psw_btn" href="#">重新設定密碼</a>
     </div>
     <div class="register_member_modal">
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
@@ -105,7 +113,7 @@
     </div>
     <div class="phone_verification_modal">
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
-        <h3>輸入手機驗證碼</h3>
+        <h3>輸入手機驗證碼</h3><input type="hidden" id="verification_type" name="verification_type">
         <form action="#">
             <input type="text" id="validate_number" name="validate_number" placeholder="請輸入手機驗證碼">
         </form>
@@ -239,6 +247,7 @@
             <p class="footer_copyright">©尚騰旅行社有限公司 Copyright © MR.TSAI TRAVEL CO, LTD.2020 版權所有 未經授權禁止轉載</p>
         </div>
     </footer>
+    <script type="module" src="~/js/firebase.js"></script>
     <script type="text/javascript" src="~/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="~/js/slick.js"></script>
     <script type="text/javascript" src="~/js/script.js"></script>

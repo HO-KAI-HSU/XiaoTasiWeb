@@ -6,18 +6,24 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using xiaotasi.Models;
- 
+using xiaotasi.Service;
+using static xiaotasi.Vo.ApiResult;
+
 namespace xiaotasi.Controllers
 {
     public class RegisterController : Controller
     {
         private readonly ILogger<LoginController> _logger;
         private readonly IConfiguration configuration;
+        private readonly ApiResultService _apiResultService;
+        private readonly RegisterService _registerService;
 
-        public RegisterController(ILogger<LoginController> logger, IConfiguration config)
+        public RegisterController(ILogger<LoginController> logger, IConfiguration config, ApiResultService apiResultService, RegisterService registerService)
         {
             _logger = logger;
             configuration = config;
+            _registerService = registerService;
+            _apiResultService = apiResultService;
         }
 
 
@@ -103,27 +109,31 @@ namespace xiaotasi.Controllers
 
         [HttpPost]
         // 傳送手機驗證碼
-        public ActionResult GetPhoneCaptcha(string cellphone)
+        public ActionResult GetPhoneCaptcha(string cellphone, string verificationType)
         {
+            int paramsAuthStatus = 0;
             if (cellphone == null || cellphone.Length == 0)
             {
-                return Json(new ApiError(1001, "Required field(s) is missing!", "必需参数缺失！"));
+                paramsAuthStatus = 1;
             }
+            // 初始驗證
+            ApiError1 apiAuth = _apiResultService.apiAuth("", "zh-tw", 2, 2, paramsAuthStatus);
+            if (apiAuth.code > 0)
+            {
+                return Json(apiAuth);
+            }
+
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // 取得帳號資訊
-            SqlCommand getMemberSelect = new SqlCommand("select * from account_list WHERE phone = @cellphone and status = @status", connection);
-            getMemberSelect.Parameters.AddWithValue("@cellphone", cellphone);
-            getMemberSelect.Parameters.AddWithValue("@status", 1);
-            connection.Open();
-            SqlDataReader getMemberReader = getMemberSelect.ExecuteReader();
-            while (getMemberReader.Read())
+            int errorCode = _registerService.isRegisterStatusByPhone(cellphone, verificationType);
+
+            if (errorCode > 0)
             {
-                if (!getMemberReader.IsDBNull(0))
-                {
-                    return Json(new ApiError(1014, "Phone used!", "電話已被註冊，請重新輸入！！"));
-                }
+                ApiError1 apiError = _apiResultService.apiAFailResult("zh-tw", 2, errorCode, "");
+                return Json(apiError);
             }
+
             connection.Close();
             int rand = this.getTimestamp();
             string captcha = rand.ToString().Substring(4, 6);
@@ -138,7 +148,7 @@ namespace xiaotasi.Controllers
 
         [HttpPost]
         // 驗證手機驗證碼
-        public ActionResult VerifyPhoneCaptcha(string cellphone, string captcha)
+        public ActionResult verifyPhoneCaptcha(string cellphone, string captcha)
         {
             if ((cellphone == null || cellphone.Length == 0) || (captcha == null || captcha.Length == 0))
             {
@@ -165,6 +175,36 @@ namespace xiaotasi.Controllers
             {
                 return Json(new ApiResult<string>("Auth Success", "手機驗證成功"));
             }
+        }
+
+        [HttpPost]
+        // 重置密碼
+        public ActionResult resetPassword(string cellphone, string newPassword, string reKeyinPassword)
+        {
+            int paramsAuthStatus = 0;
+            if ((cellphone == null || cellphone.Length == 0) || (newPassword == null || newPassword.Length == 0) || (reKeyinPassword == null || reKeyinPassword.Length == 0))
+            {
+                paramsAuthStatus = 1;
+            }
+
+            // 初始驗證
+            ApiError1 apiAuth = _apiResultService.apiAuth("", "zh-tw", 2, 2, paramsAuthStatus);
+            if (apiAuth.code > 0)
+            {
+                return Json(apiAuth);
+            }
+
+            // 新密碼匹配是否正確
+            if (newPassword != reKeyinPassword)
+            {
+                ApiError1 apiError = _apiResultService.apiAFailResult("zh-tw", 2, 90018, "");
+                return Json(apiError);
+            }
+
+            // 重置密碼
+            _registerService.resetPassword(cellphone, newPassword);
+
+            return Json(new ApiResult<string>("Reset Password Success", "密碼設定成功，請重新登入"));
         }
 
         //產生亂數（使用時間戳）

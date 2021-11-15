@@ -7,8 +7,9 @@ $(function () {
 
     // 取得旅遊梯次編碼    
     var _url = window.location.href;
-    var paramStr = _url.split('?')[1].split('=');
-    var _travelStepCode = paramStr[1];
+    var paramStr = _url.split('?')[1].split('&');
+    var _travelStepCode = paramStr[0].split('=')[1];
+    var _travelType = paramStr[1].split('=')[1];
     var _travelCode = _travelStepCode.substring(0, 16);
     console.log(_url);
 
@@ -22,7 +23,7 @@ $(function () {
     // loading 頁面時 query API
     getReservationBoardingList(_token, _travelCode, boardingArr);
     getReservationSeatInfo(_travelCode, _travelStepCode, _token);
-    multipledayTripInfo(_travelCode, _travelStepCode);
+    multipledayTripInfo(_travelCode, _travelStepCode, _travelType);
 
     // 旅遊梯次選擇    
     $(document).on("click", ".tour_bus_seat", function () {
@@ -373,9 +374,38 @@ function getReservationFieldInfo(seatSelectedArr = "") {
 }
 
 // 取得多日旅遊詳情 API 模塊 
-function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
+function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType = "") {
     console.log(_travelCode);
     console.log(_travelStepCode);
+    console.log(_travelType);
+
+    switch (_travelType) {
+        case "1":
+            $("img.banner_icon").attr("src", "../images/banner_singleday_trip_icon.png");
+            $(".trip_type_name").attr("href", "/Trip/SingledayTrip");
+            $(".page_name").html("一日旅遊");
+            break;
+        case "2":
+            $("img.banner_icon").attr("src", "../images/banner_multiple_day_trip_icon.png");
+            $(".trip_type_name").attr("href", "/Trip/MultipledayTrip");
+            $(".page_name").html("多日旅遊");
+            break;
+        case "3":
+            $("img.banner_icon").attr("src", "../images/banner_island_trip_icon.png");
+            $(".trip_type_name").attr("href", "/Trip/IslandTrip");
+            $(".page_name").html("離島旅遊");
+            break;
+        case "4":
+            $("img.banner_icon").attr("src", "../images/banner_car_trip_icon.png");
+            $(".trip_type_name").attr("href", "/Trip/CarTrip");
+            $(".page_name").html("包車旅遊");
+            break;
+        case "5":
+            $("img.banner_icon").attr("src", "../images/banner_foreign_trip_icon.png");
+            $(".trip_type_name").attr("href", "/Trip/ForeignTrip");
+            $(".page_name").html("國外旅遊");
+            break;
+    }
     $.post('/Trip/GetTravelInfoForMember', { travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripInfo) {
         var travelTitle = tripInfo.travelInfo.travelTitle;  // 旅遊標題
         var dateReducedTravelItem = "";   // 精簡模式資訊  
@@ -406,6 +436,9 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
                 }
             });
         });
+
+
+
         var travelSdate = selectedTravelStep.startDate;
         console.log(travelSdate);
         var travelEdate = selectedTravelStep.endDate;

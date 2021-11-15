@@ -2268,7 +2268,7 @@ p.footer_copyright {
     z-index: 2000;
 }
 
-.login_modal, .forget_psw_modal, .register_member_modal, .add_member_modal, .phone_verification_modal, .upload_pay_modal {
+.login_modal, .forget_psw_modal, .register_member_modal, .add_member_modal, .phone_verification_modal, .upload_pay_modal, .reset_psw_modal {
     background: #fff;
     border-radius: 12px;
     display: none;
@@ -2309,7 +2309,7 @@ img.modal_close_icon {
 
 .login_modal h3, .forget_psw_modal h3, .register_member_modal h3,
 .add_member_modal h3, .phone_verification_modal h3,
-.upload_pay_modal h3 {
+.upload_pay_modal h3, .reset_psw_modal h3 {
     border-bottom: 1px solid #d3d3d3;
     color: #02a2f7;
     font-size: 26px;
@@ -2322,7 +2322,8 @@ img.modal_close_icon {
 }
 
 .login_modal input[name="number"], .login_modal input[name="psw"],
-.forget_psw_modal input[name="number"], .forget_psw_modal input[name="psw"],
+.forget_psw_modal input[name="forget_phone"],
+.reset_psw_modal input[name="new_psw"], .reset_psw_modal input[name="rekeyin_new_psw"],
 .add_member_modal input[name="name"], .add_member_modal input[name="date"],
 .add_member_modal input[name="number"], .add_member_modal input[name="phone"],
 .add_member_modal input[name="contact_name"], .add_member_modal input[name="contact_phone"],
@@ -2375,7 +2376,7 @@ img.modal_close_icon {
     letter-spacing: 0;
 }
 
-a.login_btn, a.add_member_btn, a.submit_verification_btn, a.resend_verification_btn, a.send_reservation_check_btn {
+a.login_btn, a.add_member_btn, a.submit_verification_btn, a.resend_verification_btn, a.send_reservation_check_btn, a.send_reservation_check_btn, a.forget_psw_btn, a.reset_psw_btn {
     background: #02a2f7;
     border-radius: 58px;
     color: #fff;
@@ -3550,7 +3551,7 @@ ul.login_modal_link {
     }
 
     .login_modal, .forget_psw_modal, .register_member_modal, .add_member_modal, .phone_verification_modal,
-    .upload_pay_modal {
+    .upload_pay_modal .reset_psw_modal {
         margin: 0 auto;
         padding: 38px 28px 24px 28px;
         width: 300px;
@@ -3584,7 +3585,7 @@ ul.login_modal_link {
         }
 
     .login_modal h3, .forget_psw_modal h3, .register_member_modal h3, .add_member_modal h3, .phone_verification_modal h3,
-    .upload_pay_modal h3 {
+    .upload_pay_modal h3 .reset_psw_modal h3 {
         font-size: 22px;
     }
 
@@ -3598,10 +3599,11 @@ ul.login_modal_link {
         height: 162px;
     }
 
-    .login_modal input[name="number"], .login_modal input[name="psw"], .forget_psw_modal input[name="number"], .forget_psw_modal input[name="psw"],
+    .login_modal input[name="number"], .login_modal input[name="psw"], .forget_psw_modal input[name="forget_phone"],
     .add_member_modal input[name="name"], .add_member_modal input[name="date"], .add_member_modal input[name="number"], .add_member_modal input[name="phone"],
     .add_member_modal input[name="contact_name"], .add_member_modal input[name="contact_phone"], .add_member_modal input[name="email"],
-    .add_member_modal input[name="password"], .phone_verification_modal input[name="validate_number"], .upload_pay_modal input[name="bank_number"] {
+    .add_member_modal input[name="password"], .phone_verification_modal input[name="validate_number"], .upload_pay_modal input[name="bank_number"],
+    .reset_psw_modal input[name="new_psw"], .reset_psw_modal input[name="rekeyin_new_psw"] {
         font-size: 14px;
         margin-top: 24px;
         padding: 12px 14px;

@@ -6,6 +6,7 @@ namespace xiaotasi.Models
     public class TripViewModel
     {
         public int travelId { get; set; }
+        public string travelStepCode { get; set; }
         public string travelCode { get; set; }
         public string travelTraditionalTitle { get; set; }
         public string travelEnTitle { get; set; }

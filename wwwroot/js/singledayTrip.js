@@ -14,6 +14,15 @@ $(function () {
         var location = $("#location").val();
         singledayTripList(sTime, location);
     });
+
+    // 報名  
+    $(document).on("click", ".one_day_booking_btn", function () {
+        console.log("one_day_booking_btn");
+        const $singledayRow = $(this).closest("li");
+        var travelStepCode = $singledayRow.find("input#travel_step_code").val();
+        console.log(travelStepCode);
+        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode + "&travelType=1";
+    });
 });
 
 // 取得一日旅遊 API 模塊
@@ -30,6 +39,7 @@ function singledayTripList(_date = null, _location = "") {
             });
             travelPicItem += `</ul>`;
             item += `<li>
+                    <input type="hidden" id="travel_step_code" value="${trip.travelStepCode}">
                     <img src="${trip.travelPicPath}" alt="台北近郊一日遊" title="台北近郊一日遊">
                     <div class="news_content_right">
                         <h4>${trip.travelTraditionalTitle}</h4>
