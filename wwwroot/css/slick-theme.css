@@ -9,158 +9,113 @@
 }
 
 /* Arrows */
-.slick-prev, .slick-next {
+.slick-prev,.slick-next {
+    border: none;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    display: block;
     font-size: 0;
+    height: 20px;
     line-height: 0;
+    outline: none;
+    padding: 0;
     position: absolute;
     top: 50%;
-    display: block;
     width: 20px;
-    height: 20px;
-    padding: 0;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
     transform: translate(0, -50%);
-    cursor: pointer;
-    color: transparent;
-    border: none;
-    outline: none;
-    background: transparent;
 }
-
-    .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
-        color: transparent;
-        outline: none;
-    }
-
-    .slick-prev:before, .slick-next:before {
-        font-family: 'slick';
-        font-size: 20px;
-        line-height: 1;
-        opacity: .75;
-        color: white;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
+.slick-prev:hover,.slick-prev:focus,.slick-next:hover,.slick-next:focus {color: transparent; outline: none;}
+.slick-prev:before,.slick-next:before {
+    color: white;
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 .slick-prev {
     background: url(../images/news_slider_prev_btn.png);
     display: block;
     height: 50px;
     position: absolute;
-    left: -66px;
+    left: -62px;
     top: 32%;
     width: 50px;
 }
-
 .slick-next {
     background: url(../images/news_slider_next_btn.png);
     display: block;
     height: 50px;
     position: absolute;
-    right: -46px;
+    right: -62px;
     top: 32%;
     width: 50px;
 }
 
 /* Dots */
-.slick-dotted.slick-slider {
-    margin-bottom: 30px;
-}
-
+.slick-dotted.slick-slider {margin-bottom: 30px;}
 .slick-dots {
-    position: absolute;
     bottom: 30px;
     display: block;
-    padding: 0;
-    margin: 0;
     list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
     text-align: center;
     width: 100%;
 }
+.slick-dots li {
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    height: 10px;
+    margin: 0 6px;
+    padding: 0;
+    position: relative;
+    width: 10px;
+}
+.slick-dots li button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: transparent;
+    display: block;
+    font-size: 0;
+    height: 10px;
+    line-height: 0;
+    outline: none;
+    padding: 5px;
+    width: 10px;
+}
+.slick-dots li button:hover,.slick-dots li button:focus {outline: none;}
+.slick-dots li button:hover:before,.slick-dots li button:focus:before {opacity: 1;}
+.slick-dots li button:before {
+    color: black;
+    font-family: 'slick';
+    font-size: 6px;
+    height: 12px;
+    left: 0;
+    line-height: 20px;
+    opacity: .25;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 12px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.slick-dots li.slick-active {background: #ea142a;}
+.slick-dots li.slick-active button:before {color: black; opacity: .75;}
 
-    .slick-dots li {
-        background: #fff;
-        border-radius: 12px;
-        position: relative;
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        margin: 0 6px;
-        padding: 0;
-        cursor: pointer;
-    }
-
-        .slick-dots li button {
-            font-size: 0;
-            line-height: 0;
-            display: block;
-            width: 12px;
-            height: 12px;
-            padding: 5px;
-            cursor: pointer;
-            color: transparent;
-            border: 0;
-            outline: none;
-            background: transparent;
-        }
-
-            .slick-dots li button:hover, .slick-dots li button:focus {
-                outline: none;
-            }
-
-                .slick-dots li button:hover:before, .slick-dots li button:focus:before {
-                    opacity: 1;
-                }
-
-            .slick-dots li button:before {
-                font-family: 'slick';
-                font-size: 6px;
-                line-height: 20px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 12px;
-                height: 12px;
-                text-align: center;
-                opacity: .25;
-                color: black;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-
-        .slick-dots li.slick-active {
-            background: #ea142a;
-        }
-
-            .slick-dots li.slick-active button:before {
-                opacity: .75;
-                color: black;
-            }
-
-@media screen and (max-width: 1250px) {
-    .slick-dots {
-        bottom: 12px;
-    }
-
-        .slick-dots li {
-            height: 8px;
-            margin: 0 5px;
-            width: 8px;
-        }
-
-    .slick-prev {
-        left: -12px;
-        z-index: 1000;
-    }
-
-    .slick-next {
-        right: -12px;
-    }
-
-    .slick-prev, .slick-next {
-        background-size: 40px;
-        height: 40px;
-        width: 40px;
-    }
+@media screen and (max-width: 1250px){
+    .slick-dots {bottom: 12px;}
+    .slick-dots li {height: 8px; margin: 0 5px; width: 8px;}
+    .slick-prev {left: -12px; z-index: 1000;}
+    .slick-next {right: -12px;}
+    .slick-prev,.slick-next {background-size: 40px; height: 40px; width: 40px;}
 }

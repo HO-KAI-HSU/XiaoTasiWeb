@@ -12,7 +12,7 @@ $(function () {
 
     // 按鈕 update memberInfo API
     $(".adjust_btn").on("click", function () {
-        updateMemberInfo(logout);
+        updateMemberInfo(logout, updateMemberInfoCheck());
     });
 });
 
@@ -82,21 +82,46 @@ function getMemberInfo(token = "", memberCode = "", logout) {
                 <td class="member_text"><input type="text" id="member_email" name="member_email" value=${memberInfo.email}></td>
             </tr>
             <tr>
-                <th class="member_title">姓名</th>
-                <td class="member_text"><input type="text" id="member_name" name="member_name" value=${memberInfo.name}></td>
-            </tr>
-            <tr>
-
                 <th class="member_title">緊急聯絡人姓名</th>
                 <td class="member_text"><input type="text" id="member_emer_name" name="member_emer_name" value=${memberInfo.emerContactName}></td>
             </tr>
             <tr>
-
                 <th class="member_title">緊急聯絡人電話</th>
                 <td class="member_text"><input type="text" id="member_emer_phone" name="member_emer_phone" value=${memberInfo.emerContactPhone}></td>
             </tr>`;
         $('.member_table').append(memberData);
     });
+}
+
+// 註冊參數判斷 
+function updateMemberInfoCheck() {
+    var name = $("#member_name").val();
+    var birthday = $("#member_birthday").val();
+    var cellphone = $("#member_cellphone").val();
+    var errorCount = 0;
+    if (birthday == null || birthday == "") {
+        errorCount++;
+        $("#member_birthday").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+    } else {
+        $("#member_birthday").css('border', "");
+    }
+    if (name == null || name == "") {
+        errorCount++;
+        $("#member_name").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+    } else {
+        $("#member_name").css('border', "");
+    }
+    if (cellphone == null || cellphone == "") {
+        errorCount++;
+        $("#member_cellphone").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+    } else {
+        $("#member_cellphone").css('border', "");
+    }
+    console.log(errorCount);
+    if (errorCount > 0) {
+        return false;
+    }
+    return true;
 }
 
 // 取得會員訂位列表模塊  
@@ -157,7 +182,11 @@ function getMemberReservationList(token = "", memberCode = "", logout) {
 }
 
 // 更新會員資訊模塊  
-function updateMemberInfo(logout) {
+function updateMemberInfo(logout, requiredCheckFun) {
+    var res = requiredCheckFun;
+    if (!res) {
+        return;
+    }
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var name = $("#member_name").val();
     var email = $("#member_email").val();
@@ -171,9 +200,9 @@ function updateMemberInfo(logout) {
         var reason = updateRes.reason;
         var success = updateRes.success;
         if (success == 1) {
-            window.location.href = '/Member/MemberInfo';
+            showAlert(true, reason, function () { window.location.href = '/Member/MemberInfo'; });
         } else if (success == 0) {
-            alert(reason);
+            showAlert(false, reason);
             var code = updateRes.code;
             if (code == 90010) {
                 logout();

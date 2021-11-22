@@ -66,7 +66,7 @@ $(function () {
 		$forget_psw_modal.show();
 	});
 	$(".modal_close_icon").on("click", function () {
-		$(".login_modal,.forget_psw_modal,.register_member_modal,.add_member_modal,.phone_verification_modal,.upload_pay_modal").hide();
+		$(".login_modal,.forget_psw_modal,.register_member_modal,.add_member_modal,.phone_verification_modal,.upload_pay_modal,.reset_psw_modal").hide();
 		$mask.hide();
 	});
 	$("a.register_btn").on("click", function () {
@@ -379,6 +379,7 @@ $(function () {
 
 	function showResetPwdModel(closePhoneVerificationModel) {
 		closePhoneVerificationModel;
+		$mask.show();
 		$reset_psw_modal.show();
 	}
 	function closeResetPwdModel() {
@@ -445,7 +446,7 @@ function login() {
 	var psw = $("#psw").val();
 	$.post('/Login/login', { username: number, password: psw }).done(function (loginRes) {
 		var reason = loginRes.reason;
-		if (loginRes.success == 1) {
+		if (loginRes.success === 1) {
 			var exp = parseInt(now.getTime() / 1000) + 7200;
 			console.log(exp);
 			console.log(loginRes.data);
@@ -471,10 +472,46 @@ function registerCheck(add_member_modal, phone_verification_modal) {
 	var emerContactName = $("#contact_name").val();
 	var emerContactPhone = $("#contact_phone").val();
 	var success = 0;
+	var errorCount = 0;
+	if (number == null || number == "") {
+		errorCount++;
+		$("#username").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+	} else {
+		$("#username").css('border', "");
+    }
+	if (password == null || password == "") {
+		errorCount++;
+		$("#password").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+	} else {
+		$("#password").css('border', "");
+    }
+	if (birthday == null || birthday == "") {
+		errorCount++;
+		$("#date").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+	} else {
+		$("#date").css('border', "");
+    }
+	if (name == null || name == "") {
+		errorCount++;
+		$("#name").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+	} else {
+		$("#name").css('border', "");
+    }
+	if (cellphone == null || cellphone == "") {
+		errorCount++;
+		$("#phone").css('border', "2px solid rgba(255, 99, 71, 0.8)");
+	} else {
+		$("#phone").css('border', "");
+    }
+	console.log(errorCount);
+	if (errorCount > 0) {
+		return true;
+	}
+
 	$.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 1 }).done(function (registerRes) {
 		var reason = registerRes.reason;
 		success = registerRes.success;
-		if (success == 1) {
+		if (success === 1) {
 			$("#verification_type").val("1");
 			var cellphone = $("#phone").val();
 			sendVerificationNumber("1", cellphone, add_member_modal, phone_verification_modal);
@@ -500,8 +537,8 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
 	var success = 0;
 	$.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 0 }).done(function (registerRes) {
 		var reason = registerRes.reason;
-		var success = registerRes.success;
-		if (success == 1) {
+		success = registerRes.success;
+		if (success === 1) {
 			showAlert(true, reason);
 			closePhoneVerificationModel;
 		} else {
@@ -513,10 +550,11 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
 
 // 發送驗證碼
 function sendVerificationNumber(verificationType = "", cellphone = "", modal1 = "", modal2 = "") {
+	var success = 0;
 	$.post('/Register/getPhoneCaptcha', { cellphone: cellphone, verificationType: verificationType  }).done(function (sendVerificationNumberRes) {
 		var reason = sendVerificationNumberRes.reason;
-		var success = sendVerificationNumberRes.success;
-		if (success == 1) {
+		success = sendVerificationNumberRes.success;
+		if (success === 1) {
 			showAlert(true, reason);
 			if (modal1 != "" && modal2 != "") {
 				modal1.hide();
@@ -532,14 +570,18 @@ function sendVerificationNumber(verificationType = "", cellphone = "", modal1 = 
 // 手機驗證碼驗證  
 function verify(cellphone, callbackFun) {
 	var verificationNumber = $("#validate_number").val();
+	var success = 0;
 	console.log(verificationNumber);
 	$.post('/Register/verifyPhoneCaptcha', { cellphone: cellphone, captcha: verificationNumber }).done(function (verifyRes) {
 		var reason = verifyRes.reason;
-		var success = verifyRes.success;
-		if (success == 1) {
+		success = verifyRes.success;
+		console.log(success);
+		if (success === 1) {
+			console.log(1);
 			showAlert(true, reason);
 			callbackFun;
 		} else {
+			console.log(0);
 			showAlert(false, reason);
 		}
 	});
@@ -552,10 +594,11 @@ function resetPwd(callbackFun) {
 	var cellphone = $("#forget_phone").val();
 	var newPsw = $("#new_psw").val();
 	var rekeyinNewPsw = $("#rekeyin_new_psw").val();
-	$.post('/Register/resetPassword', { cellphone: cellphone, newPassword: newPsw, reKeyinPassword: rekeyinNewPsw }).done(function (verifyRes) {
-		var reason = verifyRes.reason;
-		var success = verifyRes.success;
-		if (success == 1) {
+	var success = 0;
+	$.post('/Register/resetPassword', { cellphone: cellphone, newPassword: newPsw, reKeyinPassword: rekeyinNewPsw }).done(function (resetRes) {
+		var reason = resetRes.reason;
+		success = resetRes.success;
+		if (success === 1) {
 			showAlert(true, reason);
 			callbackFun;
 		} else {
