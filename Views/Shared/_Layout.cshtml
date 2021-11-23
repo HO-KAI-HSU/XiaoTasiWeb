@@ -100,14 +100,29 @@
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>加入會員</h3>
         <form action="#" class="register_form">
-            <input type="text" id="name" name="name" placeholder="請輸入您的姓名" required>
-            <input type="date" id="date" name="date" placeholder="請輸入您的出生日期" required>
-            <input type="text" id="username" name="number" placeholder="請輸入您的帳號(身分證)" required>
-            <input type="text" id="phone" name="phone" placeholder="請輸入您的連絡手機" required>
+            <div class="add_member_input_box">
+                <span class="must_write">必填</span>
+                <input type="text" id="name" name="name" placeholder="請輸入您的姓名" required>
+            </div>
+            <div class="add_member_input_box">
+                <span class="must_write">必填</span>
+                <input type="date" id="date" name="date" placeholder="請輸入您的出生日期" required>
+            </div>
+            <div class="add_member_input_box">
+                <span class="must_write">必填</span>
+                <input type="text" id="username" name="number" placeholder="請輸入您的身分證帳號" required>
+            </div>
+            <div class="add_member_input_box">
+                <span class="must_write">必填</span>
+                <input type="text" id="phone" name="phone" placeholder="請輸入您的連絡手機" required>
+            </div>
             <input type="text" id="contact_name" name="contact_name" placeholder="請輸入您的緊急連絡人姓名">
             <input type="text" id="contact_phone" name="contact_phone" placeholder="請輸入您的緊急連絡人電話">
             <input type="email" id="email" name="email" placeholder="請輸入您的E-mail">
-            <input type="password" id="password" name="password" placeholder="請輸入您的密碼" required>
+            <div class="add_member_input_box">
+                <span class="must_write">必填</span>
+                <input type="password" id="password" name="password" placeholder="請輸入您的密碼" required>
+            </div>
         </form>
         <a class="add_member_btn" href="#">送出</a>
     </div>

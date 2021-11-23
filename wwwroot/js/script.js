@@ -748,7 +748,7 @@ function showAlert(_success = true, _msg = "", _callback = "") {
 			console.log("_callback");
 			_callback();
 		}
-	}, 2000);
+	}, 1000);
 }
 
 function settime(obj, countdown) {
