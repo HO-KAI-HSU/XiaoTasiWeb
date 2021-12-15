@@ -31,29 +31,25 @@ namespace xiaotasi.Service.Impl
         {
             int errorCode = 0;
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            string username = "";
             SqlConnection connection = new SqlConnection(connectionString);
             // 取得帳號資訊
-            SqlCommand getMemberSelect = new SqlCommand("select * from account_list WHERE phone = @cellphone and status = @status", connection);
+            SqlCommand getMemberSelect = new SqlCommand("select username from account_list WHERE phone = @cellphone and status = @status", connection);
             getMemberSelect.Parameters.AddWithValue("@cellphone", cellphone);
             getMemberSelect.Parameters.AddWithValue("@status", 1);
             connection.Open();
             SqlDataReader getMemberReader = getMemberSelect.ExecuteReader();
             while (getMemberReader.Read())
             {
-                if (verificationType == "1")
-                {
-                    if (!getMemberReader.IsDBNull(0))
-                    {
-                        errorCode = 90016;
-                    }
-                }
-                else if (verificationType == "2")
-                {
-                    if (getMemberReader.IsDBNull(0))
-                    {
-                        errorCode = 90017;
-                    }
-                }
+                username = getMemberReader.IsDBNull(0) ? "" : (string)getMemberReader[0];
+            }
+            if (verificationType == "1" && username != "")
+            {
+                errorCode = 90016;
+            }
+            else if (verificationType == "2" && username == "")
+            {
+                errorCode = 90017;
             }
             return errorCode;
         }

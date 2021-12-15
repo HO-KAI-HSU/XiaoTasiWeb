@@ -26,7 +26,7 @@ $(function () {
 	}
 	function clear_style() {
 		if ($(window).innerWidth() > 1024) {
-			$("#nav").attr("style", "");
+			$(".header_right").attr("style", "");
 		}
 	}
 	$mobile_menu.on("click", function () {
@@ -105,7 +105,6 @@ $(function () {
 		var travelReservationCode = $(this).closest("tr").find("input#travelReservationCode").val();
 		localStorage.setItem("travelReservationCode", travelReservationCode);
 		console.log("upload_pay_btn");
-		console.log(travelReservationCode);
 		$mask.show();
 		$upload_pay_modal.show();
 	});
@@ -117,7 +116,6 @@ $(function () {
 		localStorage.removeItem("travelReservationCode");
 		var _token = loginInfo.token;
 		console.log("send_reservation_check_btn");
-		console.log(picPath);
 		let dataJson = {};
 		var bankAccountCode = $(this).closest("div").find("input#bank_number").val();
 		console.log(bankAccountCode);
@@ -125,7 +123,6 @@ $(function () {
 		dataJson['travelReservationCode'] = travelReservationCode;
 		dataJson['bankAccountCode'] = bankAccountCode;
 		dataJson['travelReservationCheckPicPath'] = picPath;
-		console.log(dataJson);
 		addReservationCheck(dataJson);
 		$upload_pay_modal.hide();
 		$mask.hide();
@@ -140,11 +137,10 @@ $(function () {
 	$(document).on("click", ".choose_photo_file_btn", function () {
 		console.log("choose_photo_file_btn");
 		var file = $("#upload_pay_photo").get(0).files;
-		console.log(file);
+
 	});
 	$("#upload_pay_photo").change(function () {
 		var file = $("#upload_pay_photo").get(0).files;
-		console.log(file);
 		uploadPic(file, 1);
 	});
 
@@ -179,7 +175,6 @@ $(function () {
 	//Tab   
 	$(".travel_schedule_btn").on("click", function () {
 		let $travel_theme = $(this).attr("id");
-		console.log($travel_theme);
 		switch ($travel_theme) {
 			case "multi_day_trip":
 				$trip_more_btn.attr("href", "/Trip/MultipledayTrip");
@@ -303,9 +298,7 @@ $(function () {
 	});
 
 	$(".login_btn").on("click", function () {
-		login();
-		$mask.hide();
-		$login_modal.hide();
+		login(closeLoginModel);
 	});
 
 	$(".logout_btn").on("click", function () {
@@ -321,32 +314,35 @@ $(function () {
 		if (verificationType == "1") {
              // 註冊使用
 			var cellphone = $("#phone").val();
-			verify(cellphone, register("", "", closePhoneVerificationModel()));
+			verify(cellphone, register("", "", closePhoneVerificationModel));
 		} else if (verificationType == "2") {
-             // 忘記密碼使用
+             // 忘記密碼使用 
 			var cellphone = $("#forget_phone").val();
-			verify(cellphone, showResetPwdModel(closePhoneVerificationModel()));
+			console.log(cellphone);
+			verify(cellphone, showResetPwdModel(closePhoneVerificationModel));
         }
 	});
 
 	$(".resend_verification_btn").on("click", function () {
 		var cellphone = $("#phone").val();
 		var verificationType = $("#verification_type").val();
+		if (verificationType == "2") {
+			// 忘記密碼使用   
+			var cellphone = $("#forget_phone").val();
+		}
 		sendVerificationNumber(verificationType, cellphone);
 		settime($("a.resend_verification_btn"), 60);
 	});
 
 	$(".forget_psw_btn").on("click", function () {
-		$forget_psw_modal.hide();
-		$phone_verification_modal.show();
 		$("#verification_type").val("2");
 		var cellphone = $("#forget_phone").val();
-		sendVerificationNumber("2", cellphone);
+		sendVerificationNumber("2", cellphone, $forget_psw_modal, $phone_verification_modal);
 		settime($("a.resend_verification_btn"), 60);
 	});
 
 	$(".reset_psw_btn").on("click", function () {
-		resetPwd(closeResetPwdModel());
+		resetPwd(closeResetPwdModel);
 	});
 
 	//Go Top
@@ -378,7 +374,7 @@ $(function () {
 	}
 
 	function showResetPwdModel(closePhoneVerificationModel) {
-		closePhoneVerificationModel;
+		closePhoneVerificationModel();
 		$mask.show();
 		$reset_psw_modal.show();
 	}
@@ -386,6 +382,10 @@ $(function () {
 		console.log("closeResetPwdModel");
 		$mask.hide();
 		$reset_psw_modal.hide();
+	}
+	function closeLoginModel() {
+		$mask.hide();
+		$login_modal.hide();
 	}
 });
 
@@ -440,13 +440,14 @@ function tripInfo(travelCode = null, _travelId = null, indexFlag = false) {
 }
 
 
-function login() {
+function login(closeLoginModel) {
 	const now = new Date();
 	var number = $("#number").val();
 	var psw = $("#psw").val();
 	$.post('/Login/login', { username: number, password: psw }).done(function (loginRes) {
 		var reason = loginRes.reason;
 		if (loginRes.success === 1) {
+			closeLoginModel();
 			var exp = parseInt(now.getTime() / 1000) + 7200;
 			console.log(exp);
 			console.log(loginRes.data);
@@ -540,7 +541,7 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
 		success = registerRes.success;
 		if (success === 1) {
 			showAlert(true, reason);
-			closePhoneVerificationModel;
+			closePhoneVerificationModel();
 		} else {
 			showAlert(false, reason);
         }
@@ -551,20 +552,28 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
 // 發送驗證碼
 function sendVerificationNumber(verificationType = "", cellphone = "", modal1 = "", modal2 = "") {
 	var success = 0;
-	$.post('/Register/getPhoneCaptcha', { cellphone: cellphone, verificationType: verificationType  }).done(function (sendVerificationNumberRes) {
-		var reason = sendVerificationNumberRes.reason;
-		success = sendVerificationNumberRes.success;
-		if (success === 1) {
-			showAlert(true, reason);
-			if (modal1 != "" && modal2 != "") {
-				modal1.hide();
-				modal2.show();
-				settime($(".resend_verification_btn"), 60);
-            }
-		} else {
-			showAlert(false, reason);
-		}
-	});
+	console.log(verificationType);
+	console.log(cellphone);
+	var timelocalStor = localStorage.getItem("timeId");
+	if (timelocalStor == null) {
+		$.post('/Register/getPhoneCaptcha', { cellphone: cellphone, verificationType: verificationType }).done(function (sendVerificationNumberRes) {
+			var reason = sendVerificationNumberRes.reason;
+			success = sendVerificationNumberRes.success;
+			if (success === 1) {
+				showAlert(true, reason);
+				if (modal1 != "" && modal2 != "") {
+					modal1.hide();
+					modal2.show();
+					settime($(".resend_verification_btn"), 60);
+				}
+			} else {
+				showAlert(false, reason);
+			}
+		});
+	} else {
+		showAlert(false, "頻繁發送驗證碼，請稍後再試");
+    }
+
 }
 
 // 手機驗證碼驗證  
@@ -600,7 +609,7 @@ function resetPwd(callbackFun) {
 		success = resetRes.success;
 		if (success === 1) {
 			showAlert(true, reason);
-			callbackFun;
+			callbackFun();
 		} else {
 			showAlert(false, reason);
 		}
@@ -643,6 +652,7 @@ function getWithExpired(key) {
 }
 
 function refreshSubMenu() {
+	localStorage.removeItem('timeId');
 	var item = "";
     // 是否過期，如果未過期則取得資料 
 	var loginInfo = getWithExpired('loginInfo');
@@ -727,7 +737,7 @@ function cancelReservation(_token = "", _travelReservationCode = "") {
 	});
 }
 
-// 顯示alert     
+// 顯示alert  
 function showAlert(_success = true, _msg = "", _callback = "") {
 	if (_success) {
 		$(".alert_success_msg").html(_msg);
@@ -752,19 +762,41 @@ function showAlert(_success = true, _msg = "", _callback = "") {
 }
 
 function settime(obj, countdown) {
+	const startTime = Date.now();
+	var timelocalStor = localStorage.getItem("timeId");
+	var timeId = null;
+	if (timeId == null && timelocalStor == null) { // 如果timer為空 則開啟定時器   
+		var timeId = setInterval(function () {
+			var runFlag = time(obj, startTime);
+			if (!runFlag) {
+				clearInterval(timeId);
+				timeId = null;  // 將狀態轉為空 
+				localStorage.removeItem('timeId');
+            }
+		}, 1000)
+		localStorage.setItem("timeId", timeId);
+	}
+	console.log(timeId);
+}
+
+
+function time(obj, startTime) {
+	var runFlag = true;
+	const millis = Date.now() - startTime;
+	var sec = Math.floor(millis / 1000);
+	var countdown = 60 - sec;
 	if (countdown == 0) {
 		obj.css("opacity", "1");
 		obj.css("pointer-events", "");
 		obj.html(`獲取驗證碼`);
 		countdown = 60;
-		return;
+		runFlag = false;
+		return runFlag;
 	} else {
 		obj.css("opacity", "0.5");
 		obj.css("pointer-events", "none");
 		obj.html(`重新傳送(${countdown})`);
-		countdown--;
+		return runFlag;
 	}
-	setTimeout(function () {
-		settime(obj, countdown)
-	}, 1000)
 }
+

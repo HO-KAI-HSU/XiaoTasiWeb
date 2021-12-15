@@ -330,9 +330,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
 }
 
 .two_day_tabs {
-    margin: 32px auto 40px auto;
-    max-width: 996px;
-    width: 100%;
+    margin: 32px 0 40px 0;
 }
 
     .two_day_tabs li.two_day_btn {
@@ -375,7 +373,7 @@ ul.one_day_search_box li input::-ms-input-placeholder {
 
     .two_day_tabs li.two_day_btn a {
         color: #2d2a28;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 600;
         line-height: 54px;
         text-align: center;
@@ -415,14 +413,13 @@ ul.index_two_day_trip li {
     }
 
     ul.index_two_day_trip li img {
-        border-radius: 6px;
         height: auto;
         padding-bottom: 6px;
         width: 100%;
     }
 
 ul.index_two_day_trip span.date {
-    font-size: 14px;
+    font-size: 13px;
     padding-bottom: 10px;
 }
 
@@ -449,7 +446,7 @@ ul.index_two_day_trip li p {
 ul.travel_list li {
     float: left;
     margin-right: 22px;
-    width: 32.14%;
+    width: 23.68%;
 }
 
 a.trip_more_btn {
@@ -458,7 +455,7 @@ a.trip_more_btn {
     box-shadow: 7px 7px 20px 0 rgba(0,0,0,.08);
     color: #fff;
     display: block;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     height: 50px;
     line-height: 50px;
@@ -524,15 +521,6 @@ a.trip_more_btn {
         width: 100%;
         z-index: 200;
     }
-
-    .multiple_day_banner_box .travel_banner_text {
-        max-width: 70%;
-    }
-
-        .multiple_day_banner_box .travel_banner_text h1 {
-            float: left;
-            margin-left: 33px;
-        }
 
 .bread_crumb_container, .container {
     margin: 0 auto;
@@ -617,8 +605,8 @@ a.trip_more_btn {
 
     .brand_spirit p {
         float: right;
-        font-size: 16px;
-        line-height: 26px;
+        font-size: 14px;
+        line-height: 24px;
         margin-top: 30px;
         max-width: 540px;
         width: 100%;
@@ -717,42 +705,50 @@ span.dollars {
     width: 100%;
 }
 
-    .news_detail_box ul.one_day_content li:first-child {
-        padding-top: 0;
-    }
+.bus_time_detail_box ul.bus_time_content li {
+    padding: 38px 0;
+}
 
-    .news_detail_box ul.one_day_content li:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
+.news_detail_box ul.one_day_content li:first-child {
+    padding-top: 0;
+}
 
-    .news_detail_box ul.one_day_content li h4 {
-        color: #2d2a28;
-        font-size: 22px;
-        font-weight: 600;
-        padding: 0 0 6px 0;
-    }
+.bus_time_detail_box ul.bus_time_content li:first-child {
+    padding-top: 38px;
+}
 
-    .news_detail_box ul.one_day_content li p.one_day_time {
-        color: #2d2a28;
-        font-size: 22px;
-    }
+.news_detail_box ul.one_day_content li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
 
-    .news_detail_box ul.one_day_content li p {
-        font-size: 16px;
-        line-height: 25px;
-        padding-bottom: 6px;
-    }
+.news_detail_box ul.one_day_content li h4 {
+    color: #2d2a28;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 0 0 6px 0;
+}
 
-    .news_detail_box ul.one_day_content li img {
+.news_detail_box ul.one_day_content li p.one_day_time {
+    color: #2d2a28;
+    font-size: 22px;
+}
+
+.news_detail_box ul.one_day_content li p {
+    font-size: 16px;
+    line-height: 25px;
+    padding-bottom: 6px;
+}
+
+.news_detail_box ul.one_day_content li img {
+    height: auto;
+    padding-bottom: 0;
+}
+
+    .news_detail_box ul.one_day_content li img.one_day_trip_pic {
         height: auto;
-        padding-bottom: 0;
+        width: 34%;
     }
-
-        .news_detail_box ul.one_day_content li img.one_day_trip_pic {
-            height: auto;
-            width: 34%;
-        }
 
 .news_content_right {
     float: right;
@@ -776,7 +772,8 @@ span.dollars {
         padding-bottom: 6px;
     }
 
-        .news_content_right ul.place_detail li {
+        .news_content_right ul.place_detail li,
+        .bus_time_detail_box .news_content_right ul.place_detail li {
             border: none;
             font-size: 16px;
             line-height: 26px;
@@ -865,7 +862,7 @@ a.one_day_search_btn {
 }
 
 .multiple_day_calendar_box {
-    margin: 10px auto 0 auto;
+    margin: 8px auto 0 auto;
     max-width: 1250px;
     width: 100%;
 }
@@ -1020,6 +1017,13 @@ a.one_day_search_btn {
             font-weight: 600;
         }
 
+img.bus_time_poster {
+    border-bottom: 1px solid #ddd;
+    height: auto;
+    padding: 28px 0 38px 0;
+    width: 100%;
+}
+
 /* --Multi_ple_day_trip_info--------------------------------- */
 .multiple_day_travel_box {
     background: url(../images/texture_pattern.png) repeat;
@@ -1028,17 +1032,10 @@ a.one_day_search_btn {
     width: 100%;
 }
 
-.multiple_day_video_box {
+.multiple_day_video_box, .multiple_day_travel_list_box {
     margin: 0 auto;
     max-width: 1250px;
     padding-top: 52px;
-    width: 100%;
-}
-
-.multiple_day_travel_list_box {
-    margin: 0 auto;
-    max-width: 1250px;
-    padding-top: 42px;
     width: 100%;
 }
 
@@ -1056,27 +1053,27 @@ a.one_day_search_btn {
             background: #0c9ef0;
         }
 
-.multiple_day_video_box h3 {
-    font-size: 26px;
-    font-weight: 600;
-    padding: 20px 0 16px 0;
-}
-
-    .multiple_day_video_box h3 span.video_mark {
-        color: #02a2f7;
-        margin-left: 15px;
+    .multiple_day_video_box h3 {
+        font-size: 26px;
+        font-weight: 600;
+        padding: 20px 0 16px 0;
     }
 
-.multiple_day_video_box p {
-    font-size: 16px;
-    line-height: 26px;
-    padding-bottom: 18px;
-    text-align: justify;
-}
+        .multiple_day_video_box h3 span.video_mark {
+            color: #02a2f7;
+            margin-left: 15px;
+        }
 
-    .multiple_day_video_box p:last-child {
-        padding-bottom: 0;
+    .multiple_day_video_box p {
+        font-size: 16px;
+        line-height: 26px;
+        padding-bottom: 18px;
+        text-align: justify;
     }
+
+        .multiple_day_video_box p:last-child {
+            padding-bottom: 0;
+        }
 
 img.multiple_day_video_photo {
     cursor: pointer;
@@ -1127,7 +1124,7 @@ img.multiple_day_video_photo {
 
     .multiple_day_travel_list_tabs li.two_day_btn a {
         color: #2d2a28;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 600;
         line-height: 54px;
         text-align: center;
@@ -1260,15 +1257,9 @@ span.tabs_brief_btn {
     }
 
     .timeline_content p {
-        display: -webkit-box;
         font-size: 16px;
         line-height: 26px;
-        overflow: hidden;
         text-align: justify;
-        text-overflow: ellipsis;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        white-space: normal;
     }
 
 /* --Booking--------------------------------- */
@@ -1436,7 +1427,6 @@ span.tabs_brief_btn {
         background: #e6e6e8;
         border-radius: 6px;
         float: left;
-        height: 44px;
         margin-right: 12px;
         text-align: center;
     }
@@ -1452,19 +1442,7 @@ span.tabs_brief_btn {
 
         .tour_bus_choose_box li.tab_current {
             background: #02a2f7;
-            position: relative;
         }
-
-            .tour_bus_choose_box li.tab_current:after {
-                content: "";
-                display: block;
-                border-style: solid;
-                border-width: 10px 5px 0 5px;
-                border-color: #02a2f7 transparent transparent transparent;
-                height: 0;
-                margin: 0 auto;
-                width: 0;
-            }
 
             .tour_bus_choose_box li.tab_current a {
                 color: #fff;
@@ -1497,7 +1475,6 @@ span.tabs_brief_btn {
 
 .tour_bus_seat.disabled_seat {
     background: #b5acac;
-    pointer-events: none;
 }
 
 .tour_bus_safe_door {
@@ -1637,7 +1614,7 @@ ul.news_content {
         }
 
         ul.news_content li span.date {
-            font-size: 14px;
+            font-size: 13px;
             padding-bottom: 10px;
         }
 
@@ -1875,62 +1852,58 @@ ul.travel_tabs, ul.rule_tabs {
             text-decoration: none;
         }
 
-.register_member_text p:last-child {
-    padding-bottom: 0;
-}
-
-.rule_text p span.main_point, .register_member_text p span.main_point {
-    color: #ffa300;
-    font-weight: 600;
-}
-
-.rule_text dl dt {
-    font-size: 16px;
-    line-height: 28px;
-    text-align: justify;
-}
-
-.rule_text dl dd {
-    font-size: 16px;
-    line-height: 28px;
-    padding: 0 0 0 16px;
-    position: relative;
-    text-align: justify;
-}
-
-    .rule_text dl dd:last-child {
-        padding-bottom: 0;
-    }
-
-.rule_text table.cancel_table {
-    margin: 14px 0;
-    width: 46%;
-}
-
-    .rule_text table.cancel_table tr {
-        border-collapse: collapse;
-    }
-
-        .rule_text table.cancel_table tr.white_border {
-            border-bottom: 2px solid #fff;
-        }
-
-        .rule_text table.cancel_table tr th {
-            background: #02a2f7;
-            color: #fff;
-            font-size: 15px;
+        .rule_text p span.main_point, .register_member_text p span.main_point {
+            color: #ffa300;
             font-weight: 600;
         }
 
-        .rule_text table.cancel_table tr td {
-            background: #f3f3f3;
-            font-size: 15px;
+    .rule_text dl dt {
+        font-size: 16px;
+        line-height: 28px;
+        text-align: justify;
+    }
+
+    .rule_text dl dd {
+        font-size: 16px;
+        line-height: 28px;
+        padding: 0 0 0 16px;
+        position: relative;
+        text-align: justify;
+    }
+
+        .rule_text dl dd:last-child {
+            padding-bottom: 0;
         }
 
-        .rule_text table.cancel_table tr th, .rule_text table.cancel_table td {
-            padding: 14px 18px;
-            text-align: left;
+    .rule_text table.cancel_table {
+        margin: 14px 0;
+        width: 46%;
+    }
+
+        .rule_text table.cancel_table tr {
+            border-collapse: collapse;
         }
+
+            .rule_text table.cancel_table tr.white_border {
+                border-bottom: 2px solid #fff;
+            }
+
+            .rule_text table.cancel_table tr th {
+                background: #02a2f7;
+                color: #fff;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .rule_text table.cancel_table tr td {
+                background: #f3f3f3;
+                font-size: 15px;
+            }
+
+            .rule_text table.cancel_table tr th, .rule_text table.cancel_table td {
+                padding: 14px 18px;
+                text-align: left;
+            }
 
 /* --Member--------------------------------- */
 .member_table, .order_table {
@@ -2161,7 +2134,7 @@ span.red_order_notice {
 ul.footer_menu {
     list-style-type: none;
     position: absolute;
-    top: 154px;
+    top: 164px;
 }
 
     ul.footer_menu li {
@@ -2179,7 +2152,7 @@ ul.footer_menu {
 
 ul.company_info {
     list-style-type: none;
-    padding-top: 2px;
+    padding-top: 12px;
     position: absolute;
     top: 180px;
 }
@@ -2207,7 +2180,7 @@ ul.register_info {
     left: 50%;
     list-style-type: none;
     margin: 0 auto;
-    max-width: 642px;
+    max-width: 500px;
     position: absolute;
     top: 354px;
     transform: translate3d(-50%,0,0);
@@ -2222,11 +2195,6 @@ ul.register_info {
 
         ul.register_info li:last-child {
             margin-right: 0;
-        }
-
-        ul.register_info li a {
-            color: #fff;
-            text-decoration: none;
         }
 
 p.footer_copyright {
@@ -2258,59 +2226,6 @@ p.footer_copyright {
     width: 100%;
 }
 
-/* --Alert--------------------------------- */
-
-.alert {
-    transform: translate3d(-50%,-50%,0);
-    height: 15px;
-    background: #fff;
-    border-radius: 12px;
-    display: none;
-    left: 50%;
-    margin: 0 auto;
-    padding: 30px 40px;
-    position: fixed;
-    top: 10%;
-    color: white;
-    width: 450px;
-    z-index: 3000;
-}
-
-    .alert.success {
-        transition: opacity 0.6s;
-        background-color: #04AA6D;
-        opacity: 0.4;
-    }
-
-    .alert.info {
-        transition: opacity 0.6s;
-        background-color: #2196F3;
-        opacity: 0.4;
-    }
-
-    .alert.warning {
-        transition: opacity 0.6s;
-        background-color: #ff9800;
-        opacity: 0.4;
-    }
-
-    .alert_close_btn {
-        margin-left: 15px;
-        color: white;
-        font-weight: bold;
-        float: right;
-        font-size: 22px;
-        line-height: 15px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-        .alert_close_btn:hover {
-            color: black;
-        }
-
-
-
 /* --Index Modal--------------------------------- */
 .mask {
     background: rgba(45,42,40,.72);
@@ -2341,37 +2256,29 @@ p.footer_copyright {
 }
 
     .add_member_modal form.register_form {
-        height: 260px;
+        height: 358px;
         overflow-y: auto;
         padding-right: 16px;
     }
 
-        .add_member_modal form.register_form input[name="name"] {
-            margin-top: 0;
+        .add_member_modal form.register_form input {
+            margin: 10px 0 18px 0;
         }
 
-.add_member_input_box {
-    margin-top: 16px;
-    position: relative;
+            .add_member_modal form.register_form input.last {
+                margin: 12px 0 0 0;
+            }
+
+.register_form_field span {
+    background: #ff0000;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding: 4px;
+    text-align: center;
 }
-
-    .add_member_input_box:first-child {
-        margin-top: 0;
-    }
-
-    .add_member_input_box input {
-        margin-top: 10px !important;
-    }
-
-    .add_member_input_box span.must_write {
-        background: #ed0000;
-        border-radius: 6px;
-        color: #fff;
-        font-size: 12px;
-        left: 0;
-        padding: 3px 7px;
-        text-align: center;
-    }
 
 img.modal_close_icon {
     cursor: pointer;
@@ -2477,7 +2384,7 @@ a.login_btn, a.add_member_btn, a.submit_verification_btn, a.resend_verification_
 }
 
 .register_member_text {
-    height: 262px;
+    height: 265px;
     margin-top: 10px;
     overflow-y: scroll;
     padding-right: 10px;
@@ -2486,9 +2393,13 @@ a.login_btn, a.add_member_btn, a.submit_verification_btn, a.resend_verification_
     .register_member_text p {
         font-size: 14px;
         line-height: 24px;
-        padding-bottom: 14px;
+        padding-bottom: 15px;
         text-align: justify;
     }
+
+        .register_member_text p:last-child {
+            padding-bottom: 0;
+        }
 
     .register_member_text span.s_title {
         font-weight: 600;
@@ -2611,6 +2522,36 @@ ul.login_modal_link {
         top: 6.5px
     }
 
+.alert.warning {
+    background: #ffa300;
+}
+
+.alert.success {
+    background: #02a2f7;
+}
+
+.alert_close_btn {
+    cursor: default;
+    font-size: 28px;
+    position: absolute;
+    right: 8px;
+    top: 2px;
+}
+
+.alert.warning, .alert.success {
+    border-radius: 12px;
+    color: #fff;
+    height: auto;
+    left: 50%;
+    margin: 0 auto;
+    padding: 16px 14px;
+    position: fixed;
+    top: 0;
+    transform: translate3d(-50%,-132%,0);
+    width: 450px;
+    z-index: 10000;
+}
+
 /* --Animation--------------------------------- */
 @keyframes icon_scale {
     0% {
@@ -2665,7 +2606,7 @@ ul.login_modal_link {
     .header_right, ul.sub_menu {
         float: none;
         order: 2;
-        padding: 0 14px;
+        padding: 0 18px;
         width: 100%;
     }
 
@@ -2709,7 +2650,7 @@ ul.login_modal_link {
             font-size: 15px;
             margin: 0 0 14px 0;
             text-align: center;
-            width: 32.5%;
+            width: 33.3%;
         }
 
             ul.menu_box li:first-child {
@@ -2725,15 +2666,6 @@ ul.login_modal_link {
         padding: 14px 0 4px 0;
         position: relative;
         z-index: 4000;
-    }
-
-    #mask {
-        background: rgba(0,0,0,0.8);
-        display: none;
-        height: 100%;
-        position: fixed;
-        width: 100%;
-        z-index: 2000;
     }
 
     #mobile_menu {
@@ -2795,7 +2727,7 @@ ul.login_modal_link {
     }
 
     .two_day_service {
-        margin-top: 30px;
+        margin-top: 42px;
     }
 
         .service_box h2, .index_news h2, .two_day_service h2 {
@@ -2808,7 +2740,6 @@ ul.login_modal_link {
 
     .two_day_tabs {
         margin: 22px 0 0 0;
-        max-width: none;
     }
 
         .two_day_tabs li.two_day_btn {
@@ -2923,11 +2854,6 @@ ul.login_modal_link {
             text-overflow: ellipsis;
             word-wrap: break-word;
         }
-
-    .multiple_day_banner_box .travel_banner_text h1 {
-        margin-top: 28px;
-        overflow: visible;
-    }
 
     .news_info_detail p {
         font-size: 14px;
@@ -3051,31 +2977,35 @@ ul.login_modal_link {
             width: 100%;
         }
 
-            ul.news_content li:last-child {
-                margin-bottom: 0;
-            }
+    .bus_time_detail_box ul.bus_time_content li {
+        margin-bottom: 0;
+    }
 
-            ul.news_content li img.news_photo, .six_service_list ul.news_content li img.brand {
-                height: auto;
-                width: 100%;
-            }
+    ul.news_content li:last-child {
+        margin-bottom: 0;
+    }
 
-            ul.news_content li span.date {
-                font-size: 12px;
-            }
+    ul.news_content li img.news_photo, .six_service_list ul.news_content li img.brand {
+        height: auto;
+        width: 100%;
+    }
 
-            ul.news_content li h4 {
-                font-size: 20px;
-                line-height: 26px;
-                padding: 4px 0;
-                text-align: justify;
-            }
+    ul.news_content li span.date {
+        font-size: 12px;
+    }
 
-            ul.news_content li p, ul.order_notice li {
-                font-size: 14px;
-                line-height: 24px;
-                text-align: justify;
-            }
+    ul.news_content li h4 {
+        font-size: 20px;
+        line-height: 26px;
+        padding: 4px 0;
+        text-align: justify;
+    }
+
+    ul.news_content li p, ul.order_notice li {
+        font-size: 14px;
+        line-height: 24px;
+        text-align: justify;
+    }
 
     .news_box img.photo_video {
         height: auto;
@@ -3164,7 +3094,8 @@ ul.login_modal_link {
     }
 
     .news_detail_box ul.one_day_content li h4 {
-        line-height: 22px;
+        line-height: 27px;
+        padding-bottom: 0;
     }
 
     .news_detail_box ul.one_day_content li p.one_day_time {
@@ -3182,12 +3113,20 @@ ul.login_modal_link {
         margin-bottom: 6px;
     }
 
-    .news_content_right ul.place_detail li {
-        font-size: 14px;
-        line-height: 24px;
-        margin-bottom: 12px;
+    .news_content_right ul.place_detail {
         padding-bottom: 0;
-        text-align: justify;
+    }
+
+        .news_content_right ul.place_detail li {
+            font-size: 14px;
+            line-height: 24px;
+            margin-bottom: 12px;
+            padding-bottom: 0;
+            text-align: justify;
+        }
+
+    .bus_time_detail_box ul.bus_time_content li {
+        margin-bottom: 0;
     }
 
     .news_content_right ul.place_detail {
@@ -3603,33 +3542,36 @@ ul.login_modal_link {
     }
 
     .member_table, .order_table, .travel_table {
-        display: inline-block;
         margin-top: 20px;
         max-width: 100%;
         overflow-x: auto;
         white-space: nowrap;
     }
 
-        .member_table tr th.member_title {
-            font-size: 14px;
-            line-height: 24px;
-            padding: 7px;
-            width: 39%;
-        }
+    .order_table {
+        display: inline-block;
+    }
 
-        .member_table tr td.member_text {
-            font-size: 14px;
-            padding: 7px;
-        }
+    .member_table tr th.member_title {
+        font-size: 14px;
+        line-height: 24px;
+        padding: 7px;
+        width: 39%;
+    }
 
-        .order_table tr td {
-            padding: 8px;
-            text-align: left;
-        }
+    .member_table tr td.member_text {
+        font-size: 14px;
+        padding: 7px;
+    }
 
-        .member_table tr td.member_text input[type="text"], .member_table tr td.member_text input[type="email"] {
-            width: 100%;
-        }
+    .order_table tr td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    .member_table tr td.member_text input[type="text"], .member_table tr td.member_text input[type="email"] {
+        width: 100%;
+    }
 
     .footer_box {
         background: #02a2f7;
@@ -3644,7 +3586,7 @@ ul.login_modal_link {
     }
 
         .add_member_modal form.register_form {
-            height: 158px;
+            height: 160px;
             padding-right: 12px;
         }
 
@@ -3893,7 +3835,7 @@ ul.login_modal_link {
     ul.register_info {
         display: block;
         margin: 0 auto;
-        width: 100%;
+        max-width: 334px;
     }
 
     .footer_bottom_box {
@@ -3954,6 +3896,18 @@ ul.login_modal_link {
         bottom: 46px;
         right: 0;
     }
+
+    .alert.warning, .alert.success {
+        padding: 12px 14px;
+        top: 100%;
+        transform: translate3d(-50%,50%,0);
+        width: 300px;
+        z-index: 3000;
+    }
+
+    .brand_spirit {
+        max-width: 542px;
+    }
 }
 
 @media screen and (max-width:1240px) {
@@ -3964,7 +3918,7 @@ ul.login_modal_link {
 
 @media screen and (max-width:1200px) and (min-width:630px) {
     .multiple_day_banner_box .banner_text h1 {
-        width: 82%;
+        width: 84%;
     }
 
     .two_day_tabs li.two_day_btn {
@@ -3987,13 +3941,33 @@ ul.login_modal_link {
         float: left;
         margin-right: 40px;
         padding: 0 0 38px 0;
-        width: 47%;
+        width: 100%;
     }
 
-        .news_detail_box ul.one_day_content li:nth-last-child(1),
-        .news_detail_box ul.one_day_content li:nth-last-child(2) {
+    .bus_time_detail_box ul.one_day_content li {
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+        .bus_time_detail_box ul.one_day_content li:nth-child(2) {
+            padding-top: 38px;
+        }
+
+    .news_detail_box ul.one_day_content li:nth-last-child(1),
+    .news_detail_box ul.one_day_content li:nth-last-child(2) {
+        margin-bottom: 0;
+        padding: 0;
+    }
+
+    .news_detail_box ul.one_day_content li.mobile_bottom {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 0;
+        padding: 30px 0;
+    }
+
+        .news_detail_box ul.one_day_content li.mobile_bottom:last-child {
+            border-bottom: none;
             margin-bottom: 0;
-            padding: 0;
         }
 
     .news_content_right ul.place_detail li {
@@ -4041,6 +4015,22 @@ ul.login_modal_link {
     }
 }
 
+@media screen and (max-width:1200px) {
+    .bus_time_detail_box ul.bus_time_content li {
+        float: none;
+    }
+
+        .bus_time_detail_box ul.bus_time_content li:nth-child(2),
+        .bus_time_detail_box ul.bus_time_content li.mobile_top,
+        .bus_time_detail_box ul.bus_time_content li.mobile_bottom:first-child {
+            padding-top: 30px;
+        }
+
+    ul.one_day_search_box, ul.one_day_search_box li:last-child {
+        margin: 0 0 30px 0;
+    }
+}
+
 @media screen and (max-width:1188px) {
     ul.sub_menu > li {
         margin-right: 14px;
@@ -4077,19 +4067,21 @@ ul.login_modal_link {
     }
 }
 
-@media screen and (min-width:443px) and (max-width:661px) {
-    .multiple_day_banner_box .travel_banner_text h1 {
-        margin-top: 28px;
+@media screen and (max-width:730px) {
+    ul.news_content li {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width:630px) and (max-width:702px) {
+    ul.mobile_index_two_day_trip li {
+        width: 100%;
     }
 }
 
 @media screen and (max-width:660px) {
     ul.sub_menu > li {
         margin-right: 6px;
-    }
-
-    .multiple_day_banner_box .banner_text h1 {
-        width: 80%;
     }
 }
 
@@ -4098,13 +4090,30 @@ ul.login_modal_link {
         width: 72%;
     }
 
-    .multiple_day_banner_box .travel_banner_text h1 {
-        width: 67%;
-    }
-
     .video_modal {
         height: 250px;
     }
+
+    .bus_time_detail_box ul.bus_time_content li:nth-child(2) {
+        padding-top: 30px;
+    }
+
+    .bus_time_detail_box ul.bus_time_content li {
+        padding: 30px 0 22px 0;
+    }
+
+    .news_detail_box ul.one_day_content li.mobile_bottom {
+        margin-bottom: 0;
+        padding: 30px 0;
+    }
+
+        .news_detail_box ul.one_day_content li.mobile_bottom:first-child {
+            padding: 30px 0;
+        }
+
+        .news_detail_box ul.one_day_content li.mobile_bottom:last-child {
+            padding: 30px 0 0 0;
+        }
 }
 
 @media screen and (max-width:540px) {
@@ -4119,38 +4128,14 @@ ul.login_modal_link {
     }
 }
 
-@media screen and (min-width:414px) and (max-width:443px) {
-    .multiple_day_banner_box .travel_banner_text h1 {
-        margin-top: 16px;
-    }
-}
-
-@media screen and (max-width:414px) {
-    .multiple_day_banner_box .travel_banner_text h1 {
-        margin-top: 16px;
-    }
-}
-
 @media screen and (max-width:396px) {
     .tour_bus_choose_box li {
         width: 48%;
     }
 
         .tour_bus_choose_box li:nth-child(2n+2) {
-            margin: 0 0 20px 0;
+            margin: 0 0 10px 0;
         }
-}
-
-@media screen and (max-width:374px) {
-    .multiple_day_banner_box .banner_text h1 {
-        width: 66%;
-    }
-}
-
-@media screen and (max-width:364px) {
-    .multiple_day_banner_box .banner_text h1 {
-        width: 64%;
-    }
 }
 
 @media screen and (max-width:360px) {
@@ -4158,14 +4143,10 @@ ul.login_modal_link {
         width: 70%;
     }
 
-    .multiple_day_banner_box .travel_banner_text h1 {
-        width: 65%;
-    }
-
     ul.register_info {
         display: block;
         margin: 0 auto;
-        max-width: 327px;
+        max-width: 184px;
     }
 
         ul.register_info li:nth-child(2) {
@@ -4180,26 +4161,8 @@ ul.login_modal_link {
     }
 }
 
-@media screen and (max-width:364px) {
-    .multiple_day_banner_box .banner_text h1 {
-        width: 62%;
-    }
-}
-
 @media screen and (max-width:346px) {
     ul.company_info {
         max-width: 310px;
-    }
-}
-
-@media screen and (max-width:328px) {
-    .multiple_day_banner_box .banner_text h1 {
-        width: 60%;
-    }
-}
-
-@media screen and (max-width:327px) {
-    .calendar_list .week_day_assign {
-        margin-top: -16px;
     }
 }

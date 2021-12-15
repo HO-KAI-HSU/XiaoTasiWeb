@@ -19,15 +19,15 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <div class="alert warning" style="display: none;">
-        <span class="alert_close_btn">&times;</span>
-        <strong class="alert_warning_msg"></strong>
-    </div>
-    <div class="alert success" style="display: none;">
-        <span class="alert_close_btn">&times;</span>
-        <strong class="alert_success_msg"></strong>
-    </div>
     <div class="login_modal">
+        <div class="alert warning" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_warning_msg"></strong>
+        </div>
+        <div class="alert success" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_success_msg"></strong>
+        </div>
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>會員登入</h3>
         <form action="#">
@@ -41,6 +41,14 @@
         </ul>
     </div>
     <div class="forget_psw_modal">
+        <div class="alert warning" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_warning_msg"></strong>
+        </div>
+        <div class="alert success" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_success_msg"></strong>
+        </div>
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>忘記密碼</h3>
         <form action="#">
@@ -49,6 +57,14 @@
         <a class="forget_psw_btn" href="#">發送驗證碼</a>
     </div>
     <div class="reset_psw_modal">
+        <div class="alert warning" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_warning_msg"></strong>
+        </div>
+        <div class="alert success" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_success_msg"></strong>
+        </div>
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>重設密碼</h3>
         <form action="#">
@@ -97,36 +113,52 @@
         </ul>
     </div>
     <div class="add_member_modal">
+        <div class="alert warning" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_warning_msg"></strong>
+        </div>
+        <div class="alert success" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_success_msg"></strong>
+        </div>
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>加入會員</h3>
         <form action="#" class="register_form">
-            <div class="add_member_input_box">
-                <span class="must_write">必填</span>
+            <div class="register_form_field">
+                <span>必填</span>
                 <input type="text" id="name" name="name" placeholder="請輸入您的姓名" required>
             </div>
-            <div class="add_member_input_box">
-                <span class="must_write">必填</span>
+            <div class="register_form_field">
+                <span>必填</span>
                 <input type="date" id="date" name="date" placeholder="請輸入您的出生日期" required>
             </div>
-            <div class="add_member_input_box">
-                <span class="must_write">必填</span>
+            <div class="register_form_field">
+                <span>必填</span>
                 <input type="text" id="username" name="number" placeholder="請輸入您的身分證帳號" required>
             </div>
-            <div class="add_member_input_box">
-                <span class="must_write">必填</span>
+            <div class="register_form_field">
+                <span>必填</span>
                 <input type="text" id="phone" name="phone" placeholder="請輸入您的連絡手機" required>
             </div>
             <input type="text" id="contact_name" name="contact_name" placeholder="請輸入您的緊急連絡人姓名">
             <input type="text" id="contact_phone" name="contact_phone" placeholder="請輸入您的緊急連絡人電話">
             <input type="email" id="email" name="email" placeholder="請輸入您的E-mail">
-            <div class="add_member_input_box">
-                <span class="must_write">必填</span>
+            <div class="register_form_field">
+                <span>必填</span>
                 <input type="password" id="password" name="password" placeholder="請輸入您的密碼" required>
             </div>
         </form>
         <a class="add_member_btn" href="#">送出</a>
     </div>
     <div class="phone_verification_modal">
+        <div class="alert warning" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_warning_msg"></strong>
+        </div>
+        <div class="alert success" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_success_msg"></strong>
+        </div>
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>輸入手機驗證碼</h3><input type="hidden" id="verification_type" name="verification_type">
         <form action="#">
@@ -136,6 +168,14 @@
         <a class="resend_verification_btn" href="#">重新發送</a>
     </div>
     <div class="upload_pay_modal">
+        <div class="alert warning" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_warning_msg"></strong>
+        </div>
+        <div class="alert success" style="display: none;">
+            <span class="alert_close_btn">&times;</span>
+            <strong class="alert_success_msg"></strong>
+        </div>
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>請上傳匯款證明</h3>
         <form action="#">
@@ -168,10 +208,10 @@
                         <li><a asp-area="" asp-controller="Trip" asp-action="SingledayTrip"><img src="~/images/menu_icon1.png" alt="一日旅遊" title="一日旅遊">一日旅遊</a></li>
                         <li><a asp-area="" asp-controller="Trip" asp-action="MultipledayTrip"><img src="~/images/menu_icon2.png" alt="多日旅遊" title="多日旅遊">多日旅遊</a></li>
                         <li><a asp-area="" asp-controller="Trip" asp-action="IslandTrip"><img src="~/images/menu_icon3.png" alt="離島旅遊" title="離島旅遊">離島旅遊</a></li>
-                        <li><a asp-area="" asp-controller="Trip" asp-action="CarTrip"><img src="~/images/menu_icon4.png" alt="包車服務" title="包車服務">包車服務</a></li>
-                        <!--<li><a asp-area="" asp-controller="Trip" asp-action="ForeignTrip"><img src="~/images/menu_icon5.png" alt="國外旅遊" title="國外旅遊">國外旅遊</a></li>
-                            <li><a href="#"><img src="~/images/menu_icon6.png" alt="客製旅遊" title="客製旅遊">客製旅遊</a></li>-->
-                        <li><a href="#"><img src="~/images/menu_icon7.png" alt="乘車時間" title="乘車時間">乘車時間</a></li>
+                        <!--<li><a asp-area="" asp-controller="Trip" asp-action="CarTrip"><img src="~/images/menu_icon4.png" alt="包車服務" title="包車服務">包車服務</a></li>
+                            <li><a asp-area="" asp-controller="Trip" asp-action="ForeignTrip"><img src="~/images/menu_icon5.png" alt="國外旅遊" title="國外旅遊">國外旅遊</a></li>-->
+                        <li><a href="#"><img src="~/images/menu_icon6.png" alt="客製旅遊" title="客製旅遊">客製旅遊</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="BusTime"><img src="~/images/menu_icon7.png" alt="乘車時間" title="乘車時間">乘車時間</a></li>
                         <li><a asp-area="" asp-controller="Member" asp-action="MemberInfo"><img src="~/images/menu_icon8.png" alt="訂位查詢" title="訂位查詢">會員專區</a></li>
                     </ul>
                 </div>

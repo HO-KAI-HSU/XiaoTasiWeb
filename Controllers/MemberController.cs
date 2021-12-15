@@ -122,7 +122,7 @@ namespace xiaotasi.Controllers
             string memberCode = member.memberCode;
 
             // 會員資料是否填寫完整
-            if ((name == null || name.Length == 0) || (email == null || email.Length == 0) || (address == null || address.Length == 0) || (phone == null || phone.Length == 0) || (birthday == null || birthday.Length == 0) || (phone == null || phone.Length == 0) || (emerContactName == null || emerContactName.Length == 0) || (emerContactPhone == null || emerContactPhone.Length == 0))
+            if ((name == null || name.Length == 0) || (phone == null || phone.Length == 0) || (birthday == null || birthday.Length == 0))
             {
                 ApiError1 apiError = _apiResultService.apiAFailResult("zh-tw", 2, 90014, "");
                 return Json(apiError);

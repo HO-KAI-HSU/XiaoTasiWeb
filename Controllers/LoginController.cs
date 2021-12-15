@@ -42,7 +42,7 @@ namespace xiaotasi.Controllers
             // SQL Command
             if ((username == null || username.Length == 0) || (password == null || password.Length == 0))
             {
-                return Json(new ApiError(1001, "Required field(s) is missing!", "必需參數缺失！"));
+                return Json(new ApiError(1002, "Account or password error!", "此帳戶或密碼有誤，請重新輸入！"));
             }
             SqlCommand select = new SqlCommand("select account_id, username, password, member_code as memberCode, status, phone from account_list WHERE username = @username", connection);
             select.Parameters.AddWithValue("@username", username);
@@ -56,7 +56,7 @@ namespace xiaotasi.Controllers
                 loginData.id = (int)reader[0];
                 if (reader.IsDBNull(2) || !reader[2].ToString().Equals(password))
                 {
-                    return Json(new ApiError(1002, "password error!", "此帳戶密碼有誤，請重新輸入！"));
+                    return Json(new ApiError(1002, "Account or password error!", "此帳戶或密碼有誤，請重新輸入！"));
                 }
                 loginData.username = (string)reader[1];
                 loginData.memberCode = (string)reader[3];
@@ -67,7 +67,7 @@ namespace xiaotasi.Controllers
             connection.Close();
             if (readStatus == 0)
             {
-                return Json(new ApiError(1003, "No such user info in database!", "此帳戶不存在，請先註冊帳戶！"));
+                return Json(new ApiError(1002, "Account or password error!", "此帳戶或密碼有誤，請重新輸入！"));
             }
 
             // 取得會員資訊

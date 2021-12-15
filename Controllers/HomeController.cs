@@ -39,6 +39,11 @@ namespace xiaotasi.Controllers
             return View();
         }
 
+        public IActionResult BusTime()
+        {
+            return View();
+        }
+
         public IActionResult News()
         {
             return View();
