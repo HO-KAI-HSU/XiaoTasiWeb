@@ -61,7 +61,7 @@ namespace xiaotasi.Service.Impl
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string fieldSql = "select rl.reservation_code as travelReservationCode, tl.travel_code as travelCode, stl.travel_step_code as travelStepCode, rl.reservation_cost as cost, stl.travel_s_time as startDate, tl.travel_name as travelTraditionalTitle, rl.status as payStatus, stl.travel_s_time as travelStepSdate, stl.travel_e_time as travelStepEdate, rl.f_date as reservationFdate from reservation_list AS rl INNER JOIN travel_step_list stl ON stl.travel_step_id = rl.travel_step_id INNER JOIN travel_list tl ON tl.travel_id = stl.travel_id  WHERE rl.member_code = @memberCode";
+            string fieldSql = "select rl.reservation_code as travelReservationCode, tl.travel_code as travelCode, stl.travel_step_code as travelStepCode, rl.reservation_cost as cost, stl.travel_s_time as startDate, tl.travel_name as travelTraditionalTitle, rl.status as payStatus, stl.travel_s_time as travelStepSdate, stl.travel_e_time as travelStepEdate, rl.f_date as reservationFdate from reservation_list AS rl INNER JOIN travel_step_list stl ON stl.travel_step_id = rl.travel_step_id INNER JOIN travel_list tl ON tl.travel_id = stl.travel_id  WHERE rl.member_code = @memberCode and rl.status > -1";
             SqlCommand select = new SqlCommand(fieldSql, connection);
             select.Parameters.AddWithValue("@memberCode", memberCode);
             // 開啟資料庫連線

@@ -63,11 +63,11 @@ function allTripList(_sDate = "", _location = "", _travelType = 2, _tabName = "t
     var tripItem = "";
     $.post('/Trip/GetTravelListForMember', { page: 1, limit: 8, travelType: _travelType, searchDate: _sDate, searchString: _location }).done(function (tripList) {
         $.each(tripList.travelList, function (i, trip) {
-            if (i == 0 && i % 3 == 0) {
+            if (i == 0 && i % 4 == 0) {
                 // 第一次
                 var row = 0;
                 tripItem = `<ul class="index_two_day_trip mobile_index_two_day_trip travel_list clearfix">`;
-            } else if (i != 0 && i % 3 == 0) {
+            } else if (i != 0 && i % 4 == 0) {
                 // 第N次  
                 row++;
                 tripItem += `</ul>`;

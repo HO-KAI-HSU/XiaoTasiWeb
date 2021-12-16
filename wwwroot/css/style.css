@@ -2019,8 +2019,8 @@ a.upload_pay_btn {
     display: block;
     font-size: 16px;
     font-weight: 600;
-    height: 42px;
-    line-height: 42px;
+    height: 46px;
+    line-height: 46px;
     text-align: center;
     text-decoration: none;
 }
@@ -2030,7 +2030,6 @@ a.upload_pay_btn {
         background: #e6e6e8;
     }
 
-
 a.upload_pay_finish_btn {
     pointer-events: none;
     background: #f6b72c;
@@ -2039,8 +2038,8 @@ a.upload_pay_finish_btn {
     display: block;
     font-size: 16px;
     font-weight: 600;
-    height: 42px;
-    line-height: 42px;
+    height: 46px;
+    line-height: 46px;
     text-align: center;
     text-decoration: none;
 }
@@ -2053,8 +2052,8 @@ a.pay_check_btn {
     display: block;
     font-size: 16px;
     font-weight: 600;
-    height: 42px;
-    line-height: 42px;
+    height: 46px;
+    line-height: 46px;
     text-align: center;
     text-decoration: none;
 }
@@ -3016,7 +3015,7 @@ ul.login_modal_link {
         margin-top: 42px;
     }
 
-    a.adjust_btn, a.cancel_btn {
+    a.adjust_btn, a.cancel_btn, a.upload_pay_btn, a.upload_pay_finish_btn, a.pay_check_btn, a.cancel_finish_btn {
         font-size: 14px;
         height: 46px;
         line-height: 46px;
