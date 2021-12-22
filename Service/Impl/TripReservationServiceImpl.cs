@@ -211,8 +211,8 @@ namespace xiaotasi.Service.Impl
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string fieldSql = "tl.travel_code as travelCode, bl.boarding_id as boardingId, bl.boarding_datetime as boardingTime, ll.location_name as locationName";
-            SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_list as tl inner join boarding_list bl ON bl.travel_id = tl.travel_id inner join location_list ll ON ll.location_id = bl.location_id WHERE tl.travel_code = @travelCode", connection);
+            string fieldSql = "bl.boarding_id as boardingId, bl.boarding_datetime as boardingTime, ll.location_name as locationName";
+            SqlCommand select = new SqlCommand("select " + fieldSql + " from boarding_list bl inner join location_list ll ON ll.location_id = bl.location_id", connection);
             select.Parameters.AddWithValue("@travelCode", travelCode);
             // 開啟資料庫連線
             connection.Open();
@@ -221,11 +221,11 @@ namespace xiaotasi.Service.Impl
             while (reader.Read())
             {
                 TripBoardingMatchPojo tripBoardingMatchPojo = new TripBoardingMatchPojo();
-                tripBoardingMatchPojo.travelCode = (string)reader[0];
-                tripBoardingMatchPojo.boardingId = reader.IsDBNull(1) ? 0 : (int)reader[1];
+                tripBoardingMatchPojo.travelCode = "";
+                tripBoardingMatchPojo.boardingId = reader.IsDBNull(0) ? 0 : (int)reader[0];
                 string format = "HH:mm";
-                tripBoardingMatchPojo.boardingTime = ((DateTime)reader[2]).ToString(format);
-                tripBoardingMatchPojo.boardingLocationName = reader.IsDBNull(3) ? "" : (string)reader[3];
+                tripBoardingMatchPojo.boardingTime = ((DateTime)reader[1]).ToString(format);
+                tripBoardingMatchPojo.boardingLocationName = reader.IsDBNull(2) ? "" : (string)reader[2];
                 tripBoardingMatchPojos.Add(tripBoardingMatchPojo);
             }
             return tripBoardingMatchPojos;

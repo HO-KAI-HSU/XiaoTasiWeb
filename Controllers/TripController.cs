@@ -185,6 +185,7 @@ namespace xiaotasi.Controllers
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
+                travelShowData.travelContent = reader.IsDBNull(10) ? "" : (string)reader[10];
                 travelShowData.travelStepCode = reader.IsDBNull(11) ? "" : (string)reader[11];
                 travelShowDatas.Add(travelShowData);
             }

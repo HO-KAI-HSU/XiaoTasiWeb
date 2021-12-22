@@ -16,6 +16,7 @@ namespace xiaotasi.Models
         public string travelPicPath { get; set; }
         public string travelUrl { get; set; }
         public string travelFdate { get; set; }
+        public string travelContent { get; set; }
         public List<DateTripPicModel> dateTravelPicList { get; set; }
     }
 }

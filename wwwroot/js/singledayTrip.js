@@ -37,14 +37,15 @@ function singledayTripList(_date = null, _location = "") {
             $.each(trip.dateTravelPicList[0].travelPicList, function (i, travelPicInfo) {
                 travelPicItem += `<li><span class="place_s_title">${travelPicInfo.travelPicTraditionalTitle}:</span>${travelPicInfo.travelPicTraditionalIntro}</li>`;
             });
+            var picPath = (trip.travelPicPath == "" ? "~/images/trip/multipleday_trip_photo2.png" : trip.travelPicPath);
             travelPicItem += `</ul>`;
             item += `<li>
                     <input type="hidden" id="travel_step_code" value="${trip.travelStepCode}">
-                    <img src="${trip.travelPicPath}" alt="台北近郊一日遊" title="台北近郊一日遊">
+                    <img src="${picPath}" alt="台北近郊一日遊" title="台北近郊一日遊">
                     <div class="news_content_right">
                         <h4>${trip.travelTraditionalTitle}</h4>
                         <p class="one_day_time"><span class="news_s_title">出發日期:</span><span class="time">${trip.travelFdate}</span>(<span class="day">星期一</span>)</p>
-                        <p class="one_day_brief"><span class="news_s_title">行程簡述:</span>台版紐西蘭之美譽，絕美海景、馬兒、羊群與你相伴。</p>`;
+                        <p class="one_day_brief"><span class="news_s_title">行程簡述:</span>${trip.travelContent}</p>`;
             item += travelPicItem;
             item += `
                         <p class="travel_fee">行程旅費:<span class="dollars">${trip.cost}</span>元起</p>

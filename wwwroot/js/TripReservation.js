@@ -407,9 +407,11 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
             break;
     }
     $.post('/Trip/GetTravelInfoForMember', { travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripInfo) {
-        var travelTitle = tripInfo.travelInfo.travelTitle;  // 旅遊標題
-        var dateReducedTravelItem = "";   // 精簡模式資訊  
-        var selectedTravelStep = "";   // 已被選擇旅遊梯次資訊
+        var travelTitle = tripInfo.travelInfo.travelTitle;  // 旅遊標題 
+        var costInfo = tripInfo.costInfo;  // 行程費用
+        var dateReducedTravelItem = "";   // 精簡模式資訊
+        var selectedTravelStep = "";   // 已被選擇旅遊梯次資訊 
+        var costInfoHhtml = "行程費用: 團費含: " + (costInfo.actionInfo == "" ? "" : (costInfo.actionInfo + " + ")) + (costInfo.eatInfo == "" ? "" : (costInfo.eatInfo + " + ")) + (costInfo.insuranceInfo == "" ? "" : (costInfo.insuranceInfo + " + ")) + (costInfo.liveInfo == "" ? "" : (costInfo.liveInfo + " + ")) + (costInfo.nearInfo == "" ? "" : (costInfo.nearInfo));   // 行程費用
         var dayList = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 
         // 整理旅遊精簡模式資訊   
@@ -452,5 +454,6 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
         $(".travel_sdate").html(travelSdate + `(${dayList[sDay]})`);
         $(".travel_edate").html(travelEdate + `(${dayList[eDay]})`);
         $(".travel_info").html(dateReducedTravelItem);
+        $(".cost_info").html(costInfoHhtml);
     });
 }
