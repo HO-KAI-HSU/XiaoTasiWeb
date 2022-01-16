@@ -25,7 +25,7 @@ namespace xiaotasi.Bo
         public string phone { get; set; }
         public string birthday { get; set; }
         public int mealsType { get; set; }
-        public int roomsType { get; set; }
+        public int roomsType { get; set; } = 0;
         public int boardingId { get; set; }
         public int transportationId { get; set; }
         public int seatId { get; set; }

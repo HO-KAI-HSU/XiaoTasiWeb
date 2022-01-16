@@ -178,7 +178,9 @@ namespace xiaotasi.Controllers
             bool writeFlag = false;
             foreach (MemberReservationArrBo memberReservation in memberReservationArrBo)
             {
-                if ((memberReservation.name == null || memberReservation.name == "") || (memberReservation.id == null || memberReservation.id == "") || (memberReservation.birthday == null || memberReservation.birthday == "") || (memberReservation.phone == null || memberReservation.phone == "") || memberReservation.mealsType == 0 || memberReservation.roomsType == 0)
+
+
+                if ((memberReservation.name == null || memberReservation.name == "") || (memberReservation.id == null || memberReservation.id == "") || (memberReservation.birthday == null || memberReservation.birthday == "") || (memberReservation.phone == null || memberReservation.phone == "") || memberReservation.mealsType == 0)
                 {
                     writeFlag = true;
                 }

@@ -13,6 +13,8 @@ $(function () {
     var _travelCode = _travelStepCode.substring(0, 16);
     console.log(_url);
 
+    localStorage.setItem("travelType", JSON.stringify(_travelType));
+
     // 取得token 
     var loginInfoEncode = localStorage.getItem("loginInfo");
     var loginInfo = JSON.parse(loginInfoEncode);
@@ -42,7 +44,7 @@ $(function () {
             seatSelectedArr.splice(seatIndex, 1);
         }
 
-        getReservationFieldInfo(seatSelectedArr, boardingArr);
+        getReservationFieldInfo(seatSelectedArr);
         console.log(seatSelectedArr);
     });
 
@@ -73,6 +75,8 @@ $(function () {
                 roomsType = 3;
             } else if (room == "four_room") {
                 roomsType = 4;
+            } else {
+                roomsType = 0;
             }
             var food = $(children).find("select#food").val();
             var mealsType = 1;
@@ -279,6 +283,7 @@ function getReservationFieldInfo(seatSelectedArr = "") {
     var reservationFieldList = ""; // 預約欄位列表
     var reservationBoardingList = ""; // 預約上車列表
     var boardingArr = JSON.parse(localStorage.getItem('boardingArr'));
+    var travelType = JSON.parse(localStorage.getItem('travelType'));
 
     // 定位座位資訊 
     $.each(boardingArr, function (boardingKey, boardingInfo) {
@@ -340,20 +345,22 @@ function getReservationFieldInfo(seatSelectedArr = "") {
                     <div class="booking_field">
                         <input type="text" id="telphone">
                     </div>
+                </div>`
+        if (travelType != 1) {
+            reservationFieldList += `<div class="booking_list clearfix">
+                <div class="booking_title">
+                    <label for="food">房型</label>
                 </div>
-                <div class="booking_list clearfix">
-                    <div class="booking_title">
-                        <label for="food">房型</label>
-                    </div>
-                    <div class="booking_field">
-                        <select id="room">
-                            <option value="two_room">二人房</option>
-                            <option value="three_room">三人房</option>
-                            <option value="four_room">四人房</option>
-                        </select>
-                    </div>
+                <div class="booking_field">
+                    <select id="room">
+                        <option value="two_room">二人房</option>
+                        <option value="three_room">三人房</option>
+                        <option value="four_room">四人房</option>
+                    </select>
                 </div>
-                <div class="booking_list clearfix">
+            </div>`;
+        }
+        reservationFieldList += `<div class="booking_list clearfix">
                     <div class="booking_title">
                         <label for="food">葷食/素食</label>
                     </div>
