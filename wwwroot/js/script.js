@@ -697,7 +697,7 @@ function uploadPic(file, picType) {
 	data.append("picType", picType);
 	data.append("token", _token);
 	$.ajax({
-		url: "/File/uploadPic",
+		url: "/File/uploadPicToAzure",
 		type: "POST",
 		data: data,
 		dataType: "JSON",
@@ -712,6 +712,7 @@ function uploadPic(file, picType) {
 
 // 建立旅遊預定匯款證明      
 function addReservationCheck(_data = "") {
+	alert("111");
 	$.ajax({
 		url: "/TripReservation/addReservationCheck",
 		type: "POST",
@@ -719,6 +720,7 @@ function addReservationCheck(_data = "") {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (data) {
+			alert(data.reason);
 			showAlert(true, data.reason, function () { window.location.href = ""; });
 		}
 	})

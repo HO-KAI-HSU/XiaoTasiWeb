@@ -22,6 +22,6 @@ namespace xiaotasi.Pojo
         public string mediaNewsEnContent { get; set; }
         public string date { get; set; }
         public string mediaNewsMovieUrl { get; set; }
-        public string latestMediaNewsPicPath { get; set; }
+        public string mediaNewsPicPath { get; set; }
     }
 }

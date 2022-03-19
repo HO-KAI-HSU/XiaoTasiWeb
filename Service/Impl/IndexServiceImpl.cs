@@ -33,7 +33,8 @@ namespace xiaotasi.Service.Impl
                 IndexBannerPojo data = new IndexBannerPojo();
                 data.indexBannerId = reader.GetInt32(0);
                 data.indexBannerUrl = reader.IsDBNull(1) ? "" : reader.GetSqlString(1).ToString();
-                data.indexBannerPicPath = reader.IsDBNull(2) ? "" : domainUrl + "/images/index/" + reader.GetSqlString(2).ToString();
+                //data.indexBannerPicPath = reader.IsDBNull(2) ? "" : domainUrl + "/images/index/" + reader.GetSqlString(2).ToString();
+                data.indexBannerPicPath = reader.IsDBNull(2) ? "" : reader.GetSqlString(2).ToString();
                 list.Add(data);
             }
             connection.Close();

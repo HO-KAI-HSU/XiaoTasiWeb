@@ -63,7 +63,7 @@ namespace xiaotasi.Service.Impl
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("UPDATE reservation_list SET status = @Status,  e_date = @eDate WHERE reservation_code = @reservationCode", connection);
+            SqlCommand select = new SqlCommand("UPDATE reservation_list SET status = @status,  e_date = @eDate WHERE reservation_code = @reservationCode", connection);
             select.Parameters.AddWithValue("@reservationCode", reservationCode);
             select.Parameters.Add("@status", SqlDbType.Int).Value = status;
             select.Parameters.Add("@eDate", SqlDbType.DateTime).Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -82,7 +82,7 @@ namespace xiaotasi.Service.Impl
             // SQL Command
             SqlCommand select = new SqlCommand("select reservation_code as reservationCode, member_code as memberCode, bankbook_account_name as bankbookAccountName, bankbook_account_code as bankbookAccountCode, status as checkStatus, f_date as fDate, e_date as eDate from reservation_check_list WHERE reservation_code = @reservationCode and status = @status ", connection);
             select.Parameters.AddWithValue("@reservationCode", reservationCode);
-            select.Parameters.AddWithValue("@status", 0);
+            select.Parameters.AddWithValue("@status", 2);
 
             int errorCode = 0;
             // 開啟資料庫連線
@@ -133,7 +133,7 @@ namespace xiaotasi.Service.Impl
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "tsl.travel_step_id as travelStepId, tsl.travel_step_code as travelStepCode, tsl.travel_cost as travelCost, tsl.travel_num as travelNum, tsl.travel_s_time as travelStime, tsl.travel_e_time as travelEtime, tsl.travel_id as travelId, tsl.sell_seat_num as sellSeatNum, tsl.remain_seat_num as remainSeatNum, ttml.transportation_ids as transportationIds";
-            SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_step_list as tsl inner join travel_transportation_match_list ttml ON  ttml.travel_step_id = tsl.travel_step_id WHERE tsl.travel_step_code = @travelStepCode", connection);
+            SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_step_list as tsl inner join travel_transportation_match_list ttml ON  ttml.travel_step_id = tsl.travel_step_id WHERE tsl.travel_step_code = @travelStepCode and tsl.status = 1", connection);
             select.Parameters.AddWithValue("@travelStepCode", travelStepCode);
             // 開啟資料庫連線
             connection.Open();

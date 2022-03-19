@@ -232,8 +232,9 @@ namespace xiaotasi.Controllers
 
             string token = addTravelReservationCheckBo.token;
             string travelReservationCode = addTravelReservationCheckBo.travelReservationCode;
-            string[] travelReservationCheckPicArr = addTravelReservationCheckBo.travelReservationCheckPicPath.Split('/');
-            string travelReservationCheckPicName = travelReservationCheckPicArr[travelReservationCheckPicArr.Length - 1];
+            //string[] travelReservationCheckPicArr = addTravelReservationCheckBo.travelReservationCheckPicPath.Split('/');
+            //string travelReservationCheckPicName = travelReservationCheckPicArr[travelReservationCheckPicArr.Length - 1];
+            string travelReservationCheckPicName = addTravelReservationCheckBo.travelReservationCheckPicPath;
             string bankAccountCode = addTravelReservationCheckBo.bankAccountCode;
             string memberCode = _memberService.getMemberInfo("", token).memberCode;
 
@@ -247,9 +248,11 @@ namespace xiaotasi.Controllers
 
             // 新增旅遊訂位匯款證明
             _tripReservationService.addReservationCheck(memberCode, travelReservationCode, travelReservationCheckPicName, bankAccountCode);
+            Console.WriteLine("addReservationCheckSuccess");
 
             //更新旅遊訂位狀態
             _tripReservationService.updateReservationStatus(travelReservationCode, 2);
+            Console.WriteLine("updateReservationStatusSuccess");
 
             ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 2, "TR002");
             return Json(apiRes);

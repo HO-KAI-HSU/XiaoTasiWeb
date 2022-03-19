@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using xiaotasi.Helpers;
 
 namespace xiaotasi.Service.Impl
 {
     public class FileServiceImpl : FileService
     {
+        IConfiguration _config; 
+
+        public FileServiceImpl(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public async Task<int> uploadFile(IFormFile file, string name, string path, int maxPicSize, List<string> picFormat)
         {
             try
@@ -59,6 +68,36 @@ namespace xiaotasi.Service.Impl
             {
                 throw ex;
             }
+        }
+
+        public async Task<string> uploadFileToStorage(IFormFile file, string containerName, string groupName)
+        {
+            try
+            {
+                Console.WriteLine(containerName);
+                Console.WriteLine(groupName);
+                Console.WriteLine(file);
+                string picPathUrl = "";
+                AzureStorageHelper azureStorageHelper = new AzureStorageHelper(_config);
+
+                using (Stream stream = file.OpenReadStream())
+                {
+                    picPathUrl = await azureStorageHelper.UploadFileToStorage(stream, containerName, groupName, this.createPicName() + ".jpeg");
+                }
+                return picPathUrl;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        // 產生圖片名稱
+        private string createPicName()
+        {
+            string n = Convert.ToInt32(DateTime.UtcNow.AddHours(8).Subtract(new DateTime(1970, 1, 1)).TotalSeconds).ToString();
+            return "bankAccountRecord" + n;
         }
     }
 }

@@ -207,7 +207,7 @@ namespace xiaotasi.Controllers
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand select = new SqlCommand("select travel_s_time as startDate from travel_step_list where travel_id = @travelId", connection);
+            SqlCommand select = new SqlCommand("select travel_s_time as startDate from travel_step_list where travel_id = @travelId and status = 1", connection);
             // 開啟資料庫連線
             select.Parameters.AddWithValue("@travelId", travelId);
             connection.Open();
@@ -233,7 +233,7 @@ namespace xiaotasi.Controllers
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select travel_s_time from travel_step_list where travel_id = @travelId and convert(DATETIME, travel_s_time, 23) > @searchDate", connection);
+            SqlCommand select = new SqlCommand("select travel_s_time from travel_step_list where travel_id = @travelId and convert(DATETIME, travel_s_time, 23) > @searchDate and status = 1", connection);
             // 開啟資料庫連線
             string format = "yyyy-MM-dd";
             string monFormat = "yyyy-MM";
@@ -264,7 +264,7 @@ namespace xiaotasi.Controllers
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select travel_s_time as startDate, travel_e_time as endDate, travel_step_code as travelStep, travel_num as travelNum, travel_cost as travelCost, sell_seat_num as sellSeatNum, remain_seat_num as remainSeatNum from travel_step_list where travel_id = @travelId", connection);
+            SqlCommand select = new SqlCommand("select travel_s_time as startDate, travel_e_time as endDate, travel_step_code as travelStep, travel_num as travelNum, travel_cost as travelCost, sell_seat_num as sellSeatNum, remain_seat_num as remainSeatNum from travel_step_list where travel_id = @travelId and status = 1", connection);
             // 開啟資料庫連線
             select.Parameters.AddWithValue("@travelId", travelId);
             connection.Open();
@@ -318,7 +318,7 @@ namespace xiaotasi.Controllers
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select travel_s_time as startDate, travel_e_time as endDate, travel_step_code as travelStep, travel_num as travelNum, travel_cost as travelCost, sell_seat_num as sellSeatNum, remain_seat_num as remainSeatNum from travel_step_list where travel_id = @travelId", connection);
+            SqlCommand select = new SqlCommand("select travel_s_time as startDate, travel_e_time as endDate, travel_step_code as travelStep, travel_num as travelNum, travel_cost as travelCost, sell_seat_num as sellSeatNum, remain_seat_num as remainSeatNum from travel_step_list where travel_id = @travelId and status = 1", connection);
             // 開啟資料庫連線
             select.Parameters.AddWithValue("@travelId", travelId);
             connection.Open();
@@ -513,7 +513,7 @@ namespace xiaotasi.Controllers
                 travelPicListTest.travelPicEnTitle = reader.IsDBNull(1) ? "" : (string)reader[1];
                 travelPicListTest.travelPicTraditionalIntro = reader.IsDBNull(2) ? "" : (string)reader[2];
                 travelPicListTest.travelPicEnIntro = reader.IsDBNull(3) ? "" : (string)reader[3];
-                travelPicListTest.travelPicPath = reader.IsDBNull(4) ? "" : domainUrl + "/images/trip/viewpoint/" + (string)reader[4];
+                travelPicListTest.travelPicPath = reader.IsDBNull(4) ? "" : (string)reader[4];
                 travelPicListTest.travelDetailCode = "";
                 travelPicListTests.Add(travelPicListTest);
             }

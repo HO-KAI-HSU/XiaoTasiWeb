@@ -78,6 +78,36 @@ namespace xiaotasi.Controllers
 
         // POST UploadPic
         [HttpPost]
+        public async Task<IActionResult> UploadPicToAzure([FromForm] UploadPicBo uploadPicBo)
+        {
+            Console.WriteLine("----------UploadPic-----------");
+            Console.WriteLine("UploadPicBo : {0},{1}", uploadPicBo.token, uploadPicBo.picType);
+            Console.WriteLine("----------UploadPic-----------");
+            string containerName = "";
+            string groupName = "";
+            List<string> picFormat = new List<string>();
+            var domainUrl = string.Format(_config.GetValue<string>("Domain"));
+            if (uploadPicBo.picType == 1)
+            {
+                string extension = Path.GetExtension(uploadPicBo.file.FileName);
+                containerName = "xiaotasi";
+                groupName = "bankAccountRecord";
+            }
+
+            string picPathUrl = await _fileService.uploadFileToStorage(uploadPicBo.file, containerName, groupName);
+
+            ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 0, "ULPS001");
+            UploadPicVo uploadPicVo = new UploadPicVo();
+            uploadPicVo.success = 1;
+            uploadPicVo.message = apiRes.message;
+            uploadPicVo.reason = apiRes.reason;
+            uploadPicVo.picPath = picPathUrl;
+            return Json(uploadPicVo);
+        }
+
+
+        // POST UploadPic
+        [HttpPost]
         public async Task<IActionResult> UploadPicFromMgt([FromForm] UploadPicBo uploadPicBo)
         {
             Console.WriteLine("----------UploadPicFromMgt-----------");
