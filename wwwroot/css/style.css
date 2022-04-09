@@ -23,7 +23,7 @@ h1 {
     margin: 0;
 }
 
-ul.service_box_list, ul.sub_menu, ul.menu_box, ul.fixed_btn_box, ul.footer_menu, ul.company_info,
+ul.service_box_list, ul.sub_menu, ul.menu_bfont-size: 14px; line-height: 26px; margin-bottom: 4px; margin-right: 14px;ox, ul.fixed_btn_box, ul.footer_menu, ul.company_info,
 ul.news_content, ul.two_day_tabs, ul.two_day_btn_box, ul.travel_tabs, ul.rule_tabs,
 ul.index_two_day_trip, ul.footer_right, ul.login_modal_link, ul.register_member_btn {
     list-style-type: none;
@@ -2179,9 +2179,9 @@ ul.register_info {
     left: 50%;
     list-style-type: none;
     margin: 0 auto;
-    max-width: 500px;
+    max-width: 702px;
     position: absolute;
-    top: 354px;
+    top: 342px;
     transform: translate3d(-50%,0,0);
     width: 100%;
 }
@@ -2189,6 +2189,7 @@ ul.register_info {
     ul.register_info li {
         float: left;
         font-size: 14px;
+        margin-bottom: 10px;
         margin-right: 20px;
     }
 
@@ -2201,7 +2202,7 @@ p.footer_copyright {
     left: 50%;
     position: absolute;
     text-align: center;
-    top: 382px;
+    top: 394px;
     transform: translate3d(-50%,0,0);
     width: 100%;
 }
@@ -3766,6 +3767,7 @@ ul.login_modal_link {
         ul.register_info li {
             font-size: 14px;
             line-height: 26px;
+            margin-bottom: 4px;
             margin-right: 14px;
         }
 
@@ -3834,7 +3836,6 @@ ul.login_modal_link {
     ul.register_info {
         display: block;
         margin: 0 auto;
-        max-width: 334px;
     }
 
     .footer_bottom_box {
@@ -4068,7 +4069,7 @@ ul.login_modal_link {
 
 @media screen and (max-width:730px) {
     ul.news_content li {
-        width: 100%;
+        width: 100%;s
     }
 }
 
@@ -4145,7 +4146,6 @@ ul.login_modal_link {
     ul.register_info {
         display: block;
         margin: 0 auto;
-        max-width: 184px;
     }
 
         ul.register_info li:nth-child(2) {
