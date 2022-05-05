@@ -25,5 +25,7 @@ namespace xiaotasi.Service
         List<TripReservationSeatMatchModel> getTravelSeatList(string transportationId, int travelStepId);
 
         List<TripBoardingMatchPojo> getTripReservationBoardingList(string travelCode);
+
+        List<TripBoardingMatchPojo> getTripReservationCustomBoardingList(string travelCode);
     }
 }

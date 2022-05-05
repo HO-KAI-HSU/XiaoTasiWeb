@@ -212,7 +212,33 @@ namespace xiaotasi.Service.Impl
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "bl.boarding_id as boardingId, bl.boarding_datetime as boardingTime, ll.location_name as locationName";
-            SqlCommand select = new SqlCommand("select " + fieldSql + " from boarding_list bl inner join location_list ll ON ll.location_id = bl.location_id", connection);
+            SqlCommand select = new SqlCommand("select " + fieldSql + " from boarding_list bl inner join location_list ll ON ll.location_id = bl.location_id where custom_boarding_flag = 0", connection);
+            select.Parameters.AddWithValue("@travelCode", travelCode);
+            // 開啟資料庫連線
+            connection.Open();
+            SqlDataReader reader = select.ExecuteReader();
+            List<TripBoardingMatchPojo> tripBoardingMatchPojos = new List<TripBoardingMatchPojo>();
+            while (reader.Read())
+            {
+                TripBoardingMatchPojo tripBoardingMatchPojo = new TripBoardingMatchPojo();
+                tripBoardingMatchPojo.travelCode = "";
+                tripBoardingMatchPojo.boardingId = reader.IsDBNull(0) ? 0 : (int)reader[0];
+                string format = "HH:mm";
+                tripBoardingMatchPojo.boardingTime = ((DateTime)reader[1]).ToString(format);
+                tripBoardingMatchPojo.boardingLocationName = reader.IsDBNull(2) ? "" : (string)reader[2];
+                tripBoardingMatchPojos.Add(tripBoardingMatchPojo);
+            }
+            return tripBoardingMatchPojos;
+        }
+
+        // 取得旅遊梯次乘車詳情
+        public List<TripBoardingMatchPojo> getTripReservationCustomBoardingList(string travelCode)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            string fieldSql = "bl.boarding_id as boardingId, bl.boarding_datetime as boardingTime, ll.location_name as locationName";
+            SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_boarding_list tbl inner join travel_list tl ON tl.travel_id = tbl.travel_id and tbl.status = 1 inner join boarding_list bl ON bl.boarding_id = tbl.boarding_id inner join location_list ll ON ll.location_id = bl.location_id where tl.travel_code = @travelCode", connection);
             select.Parameters.AddWithValue("@travelCode", travelCode);
             // 開啟資料庫連線
             connection.Open();

@@ -1,4 +1,4 @@
-﻿using System; 
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -61,7 +61,7 @@ namespace xiaotasi.Controllers
                 travelShowData.cost = (int)reader[4];
                 travelShowData.travelType = (int)reader[5];
                 travelShowData.startDate = this._getTravelStepStartDateInfo((int)reader[0]) == null ? "" : this._getTravelStepStartDateInfo((int)reader[0]);
-                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" :  domainUrl + "/images/trip/" + (string)reader[6].ToString();
+                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" : domainUrl + "/images/trip/" + (string)reader[6].ToString();
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
@@ -170,7 +170,7 @@ namespace xiaotasi.Controllers
             SqlDataReader reader = sqlCommand.ExecuteReader();
             List<TripViewModel> travelShowDatas = new List<TripViewModel>();
             PageControl<TripViewModel> pageControl = new PageControl<TripViewModel>();
-            while (reader.Read())                                                   
+            while (reader.Read())
             {
                 TripViewModel travelShowData = new TripViewModel();
                 travelShowData.travelId = (int)reader[0];
@@ -181,7 +181,7 @@ namespace xiaotasi.Controllers
                 travelShowData.travelType = (int)reader[5];
                 travelShowData.startDate = this._getTravelStepStartDateInfo((int)reader[0]) == null ? "" : this._getTravelStepStartDateInfo((int)reader[0]);
                 travelShowData.dateTravelPicList = this._getDateTravelPicList((int)reader[0], 1);
-                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" :  domainUrl + "/images/trip/" + (string)reader[6].ToString();
+                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" : domainUrl + "/images/trip/" + (string)reader[6].ToString();
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
@@ -248,7 +248,8 @@ namespace xiaotasi.Controllers
             {
                 DateTime date = ((DateTime)reader[0]);
                 String mon = date.ToString(monFormat);
-                if (!travelMonArr.Exists(x => x == mon)) {
+                if (!travelMonArr.Exists(x => x == mon))
+                {
                     travelMonArr.Add(mon);
                 }
             }
@@ -260,7 +261,7 @@ namespace xiaotasi.Controllers
         //取得旅遊各梯次資訊
         private List<TripStatisticModel> _getTravelStatisticList(int travelId, string travelStepCode)
         {
-            List <String> travelMonArr =  this._getTravelStatisticMonthList(travelId, travelStepCode);
+            List<String> travelMonArr = this._getTravelStatisticMonthList(travelId, travelStepCode);
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
@@ -272,7 +273,8 @@ namespace xiaotasi.Controllers
             List<TripStatisticModel> travelStatisticLists = new List<TripStatisticModel>();
             Boolean minTotalDayFlag = false;
             Boolean travelStepCodeFlag = false;
-            if (travelStepCode != null) {
+            if (travelStepCode != null)
+            {
                 travelStepCodeFlag = true;
             }
             while (reader.Read())
@@ -284,10 +286,14 @@ namespace xiaotasi.Controllers
                 DateTime endDate = ((DateTime)reader[1]);
                 TimeSpan t = startDate - DateTime.Now;
                 double nrOfDays = t.TotalDays;
-                if (travelStepCodeFlag && (string)reader[2] == travelStepCode) {
+                if (travelStepCodeFlag && (string)reader[2] == travelStepCode)
+                {
                     nearTravelFlag = 1;
-                } else if (!travelStepCodeFlag) {
-                    if (nrOfDays > 0 && !minTotalDayFlag) {
+                }
+                else if (!travelStepCodeFlag)
+                {
+                    if (nrOfDays > 0 && !minTotalDayFlag)
+                    {
                         nearTravelFlag = 1;
                         minTotalDayFlag = true;
                     }
@@ -379,7 +385,7 @@ namespace xiaotasi.Controllers
                     travelStepInfo.travelStepSelectFlag = nearTravelFlag;
                     travelMonStatisticList[monIndex].travelStatisticList.Add(travelStepInfo);
                 }
-                
+
             }
             connection.Close();
             return travelMonStatisticList;
