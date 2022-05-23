@@ -2100,7 +2100,7 @@ span.red_order_notice {
     background: url(../images/footer.png) no-repeat;
     background-size: cover;
     font-size: 16px;
-    height: 418px;
+    height: 460px;
     position: relative;
     width: 100%;
 }
@@ -2193,6 +2193,11 @@ ul.register_info {
         margin-right: 20px;
     }
 
+        ul.register_info li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
         ul.register_info li:last-child {
             margin-right: 0;
         }
@@ -2202,7 +2207,7 @@ p.footer_copyright {
     left: 50%;
     position: absolute;
     text-align: center;
-    top: 394px;
+    top: 426px;
     transform: translate3d(-50%,0,0);
     width: 100%;
 }
@@ -4069,7 +4074,8 @@ ul.login_modal_link {
 
 @media screen and (max-width:730px) {
     ul.news_content li {
-        width: 100%;s
+        width: 100%;
+        s
     }
 }
 
