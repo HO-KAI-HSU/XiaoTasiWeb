@@ -132,7 +132,7 @@ $(function () {
 
 // 取得會員資訊模塊  
 function verifyMemberInfo(_loginModal, _mask) {
-    
+
     // 判斷是否已登入，沒登入則跳回首頁  
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var loginFlag = loginFlagMethod(loginInfo);
@@ -171,11 +171,11 @@ function getReservationSeatInfo(_travelCode = "", _travelStepCode = "", _token =
                     reservationTransportationTab += `<li class="tab-link tour_bus_seat_btn"><a href="#tab_${transportationStep}">遊覽車車次${transportationStep}</a></li>`;
                     reservationSeatContent += `<div id="tab_${transportationStep}" class="tour_bus_seat_map tab_content tab_content_${transportationStep} clearfix" style="display: none">`;
                 }
-                
+
                 // 整理車次 
                 reservationTransportationContent += `<li class="booking_list_title">車次</li>`;
                 reservationTransportationContent += `<li>第${transportationStep}車</li>`;
-                
+
                 // 定位座位資訊  
                 $.each(seatList, function (seatIndex, seatInfo) {
                     var seatId = seatInfo.seatId;
@@ -232,7 +232,7 @@ function getReservationSeatInfo(_travelCode = "", _travelStepCode = "", _token =
                     }
                 });
                 reservationSeatContent += `</div></div>`;
-            }    
+            }
         });
         reservationTransportationTab += `</ul>`;
         reservationTransportationContentNew += reservationTransportationTab;
@@ -272,9 +272,9 @@ function createReservation(_data = "") {
             } else {
                 showAlert(true, reason, function () { window.location.href = "/"; });
             }
-           
+
         }
-    })    
+    })
 }
 
 // 定位座位資訊 API 模塊    
@@ -445,8 +445,6 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
                 }
             });
         });
-
-
 
         var travelSdate = selectedTravelStep.startDate;
         console.log(travelSdate);

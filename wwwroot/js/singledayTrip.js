@@ -1,4 +1,4 @@
-  
+
 $(function () {
 
     // 初始化設定搜尋開始時間 
@@ -30,13 +30,13 @@ function singledayTripList(_date = null, _location = "") {
     var today = new Date();
     var date = _date == null ? today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2) : _date;
     var location = _location;
-    $.post('/Trip/GetSingleTravelListForMember', { page: 1, limit: 100, searchDate: date, searchString: location}).done(function (tripList) {
+    $.post('/Trip/GetSingleTravelListForMember', { page: 1, limit: 100, searchDate: date, searchString: location }).done(function (tripList) {
         var item = "";
         $.each(tripList.travelList, function (i, trip) {
-            var travelPicItem = `<ul class="place_detail clearfix">`;
-            $.each(trip.dateTravelPicList[0].travelPicList, function (i, travelPicInfo) {
-                travelPicItem += `<li><span class="place_s_title">${travelPicInfo.travelPicTraditionalTitle}:</span>${travelPicInfo.travelPicTraditionalIntro}</li>`;
-            });
+            var travelPicItem = `<ul class="place_detail clearfix"><li><span class="place_s_title">${trip.travelViewpointInfo}</li>`;
+            //$.each(trip.dateTravelPicList[0].travelPicList, function (i, travelPicInfo) {
+            //    travelPicItem += `<li><span class="place_s_title">${travelPicInfo.travelPicTraditionalTitle}:</span>${travelPicInfo.travelPicTraditionalIntro}</li>`;
+            //});
             var picPath = (trip.travelPicPath == "" ? "~/images/trip/multipleday_trip_photo2.png" : trip.travelPicPath);
             travelPicItem += `</ul>`;
             item += `<li>
