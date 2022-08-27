@@ -30,7 +30,6 @@ $(function () {
     // 旅遊梯次選擇    
     $(document).on("click", ".tour_bus_seat", function () {
         console.log("tour_bus_seat");
-        console.log(boardingArr);
         var seat = $(this).find("input").val();
         var className = $(this).attr('class');
         if (!className.includes("booking_seat")) {
@@ -45,7 +44,6 @@ $(function () {
         }
 
         getReservationFieldInfo(seatSelectedArr);
-        console.log(seatSelectedArr);
     });
 
     // 建立旅遊預定 
@@ -84,17 +82,6 @@ $(function () {
                 mealsType = 2;
             }
             var memo = $(children).find("textarea#memo").val() != null && $(children).find("textarea#memo").val() != "" ? $(children).find("textarea#memo").val() : "";
-            console.log(seatId);
-            console.log(id);
-            console.log(name);
-            console.log(phone);
-            console.log(birthday);
-            console.log(boardingId);
-            console.log(mealsType);
-            console.log(roomsType);
-            console.log(memo);
-            console.log(seatId);
-            console.log(transportationId);
             memberReservation["id"] = id;
             memberReservation["name"] = name;
             memberReservation["phone"] = phone;
@@ -114,7 +101,6 @@ $(function () {
         createReservation(dataJson);
     });
 
-    // Tab切換 
     $(document).on("click", ".multiple_day_travel_list_box ul.tour_bus_choose_box li", function () {
         console.log("tour_bus_choose_box > li");
         var hrefTab = $(this).find("a").attr("href");
@@ -148,11 +134,11 @@ function verifyMemberInfo(_loginModal, _mask) {
 // 定位座位資訊 API 模塊  
 function getReservationSeatInfo(_travelCode = "", _travelStepCode = "", _token = "") {
     $.post('/TripReservation/getTripReservationSeatList', { token: _token, travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripReservationSeatInfo) {
-        var reservationSeatList = tripReservationSeatInfo.reservationSeatList; // 定位座位列表 
-        var reservationSeatContent = "";  // 定位座位資訊
-        var reservationTransportationContent = "";   // 定位車次資訊
-        var reservationTransportationTab = "";   // 定位車次標籤資訊 
-        var reservationTransportationContentNew = "";   // 定位車次標籤資訊
+        var reservationSeatList = tripReservationSeatInfo.reservationSeatList;
+        var reservationSeatContent = "";
+        var reservationTransportationContent = "";
+        var reservationTransportationTab = "";
+        var reservationTransportationContentNew = "";
         var transportationIdArr = [];
 
         reservationTransportationTab += `<ul class="tour_bus_choose_box clearfix">`;
@@ -280,8 +266,8 @@ function createReservation(_data = "") {
 // 定位座位資訊 API 模塊    
 function getReservationFieldInfo(seatSelectedArr = "") {
 
-    var reservationFieldList = ""; // 預約欄位列表
-    var reservationBoardingList = ""; // 預約上車列表
+    var reservationFieldList = "";
+    var reservationBoardingList = "";
     var boardingArr = JSON.parse(localStorage.getItem('boardingArr'));
     var travelType = JSON.parse(localStorage.getItem('travelType'));
 
@@ -436,7 +422,6 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
             dateReducedTravelItem += "<li>" + travelDay + ": " + travelPicTitle + "</li>";
         });
 
-        // 整理旅遊日期資訊  
         $.each(tripInfo.travelStatisticList, function (dateIndex, travelStatisticInfo) {
             $.each(travelStatisticInfo.travelStatisticList, function (travelStepIndex, travelStepStatisticInfo) {
                 var selectFlag = travelStepStatisticInfo.travelStepSelectFlag;

@@ -206,14 +206,15 @@ namespace xiaotasi.Service.Impl
         }
 
         // 取得旅遊梯次乘車詳情
-        public List<TripBoardingMatchPojo> getTripReservationBoardingList(string travelCode)
+        public List<TripBoardingMatchPojo> getTripReservationBoardingList(string travelCode, int travelBoardingType)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
             string fieldSql = "bl.boarding_id as boardingId, bl.boarding_datetime as boardingTime, ll.location_name as locationName";
-            SqlCommand select = new SqlCommand("select " + fieldSql + " from boarding_list bl inner join location_list ll ON ll.location_id = bl.location_id where custom_boarding_flag = 0", connection);
+            SqlCommand select = new SqlCommand("select " + fieldSql + " from boarding_list bl inner join location_list ll ON ll.location_id = bl.location_id where custom_boarding_flag = 0 and early_boarding_flag = @earlyBoardingFlag", connection);
             select.Parameters.AddWithValue("@travelCode", travelCode);
+            select.Parameters.AddWithValue("@earlyBoardingFlag", travelBoardingType);
             // 開啟資料庫連線
             connection.Open();
             SqlDataReader reader = select.ExecuteReader();
@@ -229,6 +230,26 @@ namespace xiaotasi.Service.Impl
                 tripBoardingMatchPojos.Add(tripBoardingMatchPojo);
             }
             return tripBoardingMatchPojos;
+        }
+
+        // 取得旅遊梯次乘車詳情getTripReservationBoardingList
+        public string getTripBoardingType(string travelCode)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            string tripBoardingType = "-1";
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            string fieldSql = "tl.travel_custom_boarding_flag";
+            SqlCommand select = new SqlCommand("select " + fieldSql + " from travel_list tl where tl.travel_code = @travelCode", connection);
+            select.Parameters.AddWithValue("@travelCode", travelCode);
+            // 開啟資料庫連線
+            connection.Open();
+            SqlDataReader reader = select.ExecuteReader();
+            while (reader.Read())
+            {
+                tripBoardingType = reader.IsDBNull(0) ? "-1" : reader[0].ToString();
+            }
+            return tripBoardingType;
         }
 
         // 取得旅遊梯次乘車詳情

@@ -21,7 +21,6 @@ function verifyMemberInfo(_loginModal, _mask) {
     // 判斷是否已登入，沒登入則跳回首頁  
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var loginFlag = loginFlagMethod(loginInfo);
-    console.log(loginFlag);
     if (!loginFlag) {
         _mask.show();
         _loginModal.show();
@@ -35,7 +34,7 @@ function showMemberInfo(_loginInfo) {
     getMemberInfo(_loginInfo.token, _loginInfo.memberCode, logout);
 
     // 取得會員訂位列表    
-    getMemberReservationList(_loginInfo.token, _loginInfo.memberCode, logout); 
+    getMemberReservationList(_loginInfo.token, _loginInfo.memberCode, logout);
 }
 
 
@@ -117,7 +116,6 @@ function updateMemberInfoCheck() {
     } else {
         $("#member_cellphone").css('border', "");
     }
-    console.log(errorCount);
     if (errorCount > 0) {
         return false;
     }
@@ -174,7 +172,7 @@ function getMemberReservationList(token = "", memberCode = "", logout) {
                 list += `
                     <td class="td_bottom td_button"><a href="#" class="cancel_finish_btn" disabled>行程已取消</a></td>
                     <td class="td_bottom td_button"><a href="#" class="upload_pay_btn disabled" disabled>上傳匯款證明</a></td>`;
-            }  
+            }
             list += `</tr>`;
         });
         $('.order_table').append(list);

@@ -20,11 +20,13 @@ namespace xiaotasi.Service
 
         void addReservationMemberInfo(MemberReservationArrBo memberReservationArrBo, int travelStepId, string memberCode, string orderCode);
 
+        string getTripBoardingType(string travelCode);
+
         TripStepTransportMatchModel getTravelStepInfo(string travelStepCode);
 
         List<TripReservationSeatMatchModel> getTravelSeatList(string transportationId, int travelStepId);
 
-        List<TripBoardingMatchPojo> getTripReservationBoardingList(string travelCode);
+        List<TripBoardingMatchPojo> getTripReservationBoardingList(string travelCode, int travelBoardingType);
 
         List<TripBoardingMatchPojo> getTripReservationCustomBoardingList(string travelCode);
     }

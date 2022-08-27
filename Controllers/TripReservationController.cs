@@ -140,11 +140,21 @@ namespace xiaotasi.Controllers
             }
 
             // 旅遊梯次詳情與交通綁定資訊
-            List<TripBoardingMatchPojo> tripBoardingMatchPojos = _tripReservationService.getTripReservationCustomBoardingList(travelCode);
 
-            if (tripBoardingMatchPojos.Count == 0)
+            string boardingType = _tripReservationService.getTripBoardingType(travelCode);
+            List<TripBoardingMatchPojo> tripBoardingMatchPojos;
+
+            if (boardingType == "2")
             {
-                tripBoardingMatchPojos = _tripReservationService.getTripReservationBoardingList(travelCode);
+                tripBoardingMatchPojos = _tripReservationService.getTripReservationCustomBoardingList(travelCode);
+            }
+            else if (boardingType == "1")
+            {
+                tripBoardingMatchPojos = _tripReservationService.getTripReservationBoardingList(travelCode, 1);
+            }
+            else
+            {
+                tripBoardingMatchPojos = _tripReservationService.getTripReservationBoardingList(travelCode, 0);
             }
 
             // 整理回傳參數
