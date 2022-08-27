@@ -72,6 +72,10 @@ namespace xiaotasi.Controllers
             List<int> seatRetainCount = new List<int>();
             foreach (var transportationId in transportationIdArr)
             {
+                if (string.IsNullOrEmpty(transportationId))
+                {
+                    continue;
+                }
                 int useStatus = 0;
                 Console.WriteLine("{0}", transportationId);
                 ReservationSeatModel reservationSeatData = new ReservationSeatModel();
