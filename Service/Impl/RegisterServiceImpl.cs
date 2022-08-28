@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -14,7 +15,7 @@ namespace xiaotasi.Service.Impl
             _config = config;
         }
 
-        public void resetPassword(string cellphone, string password)
+        public async Task resetPassword(string cellphone, string password)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -22,12 +23,12 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand("UPDATE account_list SET password = @password WHERE phone = @cellphone and status = 1", connection);
             select.Parameters.AddWithValue("@cellphone", cellphone);
             select.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
-            connection.Open();
+            await connection.OpenAsync();
             select.ExecuteNonQuery();
             connection.Close();
         }
 
-        public int isRegisterStatusByPhone(string cellphone, string verificationType)
+        public async Task<int> isRegisterStatusByPhone(string cellphone, string verificationType)
         {
             int errorCode = 0;
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
@@ -37,7 +38,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand getMemberSelect = new SqlCommand("select username from account_list WHERE phone = @cellphone and status = @status", connection);
             getMemberSelect.Parameters.AddWithValue("@cellphone", cellphone);
             getMemberSelect.Parameters.AddWithValue("@status", 1);
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader getMemberReader = getMemberSelect.ExecuteReader();
             while (getMemberReader.Read())
             {

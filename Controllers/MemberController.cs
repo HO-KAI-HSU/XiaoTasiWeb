@@ -1,7 +1,8 @@
-﻿using System; 
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -37,7 +38,7 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public ActionResult GetMemberInfo(string token)
+        public async Task<ActionResult> GetMemberInfo(string token)
         {
 
             int paramsAuthStatus = 0;
@@ -49,22 +50,22 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
             }
 
             // 取得會員資訊
-            MemberInfoModel member = _memberService.getMemberInfo("", token);
+            MemberInfoModel member = await _memberService.getMemberInfo("", token);
 
             return Json(new ApiResult<MemberInfoModel>(member));
         }
-        
+
 
         // 取得會員旅遊訂單列表
         [HttpPost]
-        public ActionResult getMemberReservationList(string token, int page, int limit)
+        public async Task<ActionResult> getMemberReservationList(string token, int page, int limit)
         {
             int paramsAuthStatus = 0;
 
@@ -75,20 +76,20 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
             }
 
             // 取得會員資訊
-            MemberInfoModel member = _memberService.getMemberInfo("", token);
+            MemberInfoModel member = await _memberService.getMemberInfo("", token);
             string memberCode = member.memberCode;
 
             // 取得會員定位資訊
-            List<MemberReservationModel> travelReservationInfoDatas = _memberService.getMembrReservationList(memberCode);
+            List<MemberReservationModel> travelReservationInfoDatas = await _memberService.getMembrReservationList(memberCode);
 
-            PageControl<MemberReservationModel> pageControl = new PageControl<MemberReservationModel>(); 
+            PageControl<MemberReservationModel> pageControl = new PageControl<MemberReservationModel>();
             //List<MemberReservationModel> travelReservationInfoDatasNew = pageControl.pageControl(page, limit, travelReservationInfoDatas);
             //getTravelReservationListApi.success = 1;
             //getTravelReservationListApi.count = pageControl.size;
@@ -100,7 +101,7 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public ActionResult UpdateMemberInfo(string token, string name, string email, string address, string phone, string birthday, string emerContactName, string emerContactPhone)
+        public async Task<ActionResult> UpdateMemberInfo(string token, string name, string email, string address, string phone, string birthday, string emerContactName, string emerContactPhone)
         {
             int paramsAuthStatus = 0;
 
@@ -111,14 +112,14 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
             }
 
             // 取得會員資訊
-            MemberInfoModel member = _memberService.getMemberInfo("", token);
+            MemberInfoModel member = await _memberService.getMemberInfo("", token);
             string memberCode = member.memberCode;
 
             // 會員資料是否填寫完整
@@ -141,7 +142,7 @@ namespace xiaotasi.Controllers
             select.Parameters.Add("@emername", SqlDbType.NVarChar).Value = emerContactName;
             select.Parameters.Add("@emerphone", SqlDbType.NVarChar).Value = emerContactPhone;
             //開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             select.ExecuteNonQuery();
             connection.Close();
 
@@ -150,7 +151,7 @@ namespace xiaotasi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelMemberReservation(string token, string travelReservationCode)
+        public async Task<ActionResult> CancelMemberReservation(string token, string travelReservationCode)
         {
             int paramsAuthStatus = 0;
 
@@ -161,13 +162,13 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
             }
 
-            int errorCode = _memberService.cancelMemberReservation(travelReservationCode);
+            int errorCode = await _memberService.cancelMemberReservation(travelReservationCode);
 
             if (errorCode > 0)
             {

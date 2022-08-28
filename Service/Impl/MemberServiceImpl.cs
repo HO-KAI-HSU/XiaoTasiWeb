@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using xiaotasi.Models;
@@ -16,7 +17,7 @@ namespace xiaotasi.Service.Impl
             _config = config;
         }
 
-        public MemberInfoModel getMemberInfo(string memberCode, string token)
+        public async Task<MemberInfoModel> getMemberInfo(string memberCode, string token)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -33,14 +34,13 @@ namespace xiaotasi.Service.Impl
                 select.Parameters.AddWithValue("@token", token);
             }
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             MemberInfoModel memberData = new MemberInfoModel();
             SqlDataReader reader = select.ExecuteReader();
             while (reader.Read())
             {
                 memberData.memberCode = (string)reader[0];
                 memberData.username = (string)reader[1];
-                memberData.password = (string)reader[2];
                 memberData.name = reader.IsDBNull(3) ? "" : reader[3].ToString();
                 memberData.email = reader.IsDBNull(4) ? "" : reader[4].ToString();
                 memberData.address = reader.IsDBNull(5) ? "" : reader[5].ToString();
@@ -56,7 +56,7 @@ namespace xiaotasi.Service.Impl
             return memberData;
         }
 
-        public List<MemberReservationModel> getMembrReservationList(string memberCode)
+        public async Task<List<MemberReservationModel>> getMembrReservationList(string memberCode)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -65,7 +65,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand(fieldSql, connection);
             select.Parameters.AddWithValue("@memberCode", memberCode);
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             List<MemberReservationModel> travelReservationInfoDatas = new List<MemberReservationModel>();
             while (reader.Read())
@@ -90,7 +90,44 @@ namespace xiaotasi.Service.Impl
             return travelReservationInfoDatas;
         }
 
-        private string[] getMembrReservationSeatIdsInfo(string travelReservationCode)
+        // 取消訂單
+        public async Task<int> cancelMemberReservation(string travelReservationCode)
+        {
+            string[] seatIdsInfo = await this.getMembrReservationSeatIdsInfo(travelReservationCode);
+            string travelStepId = seatIdsInfo[0];
+            string seatIds = seatIdsInfo[1];
+            string status = seatIdsInfo[2];
+            int errorCode = 0;
+
+            if (status == "-1" || seatIds == "")
+            {
+                errorCode = 90053;
+                return errorCode;
+            }
+
+            // 將字串轉為陣列
+            String[] seatIdArr = seatIds == null ? new String[0] : seatIds.Split(',');
+
+            List<Task> tasks = new List<Task>();
+
+            // 取消座位
+            foreach (var seatId in seatIdArr)
+            {
+                if (seatId == "")
+                {
+                    continue;
+                }
+                tasks.Add(this.cancelMembrReservationSeat(travelStepId, seatId));
+            }
+            await Task.WhenAll(tasks);
+
+            // 取消訂單
+            await this.cancelMembrReservation(travelReservationCode);
+
+            return errorCode;
+        }
+
+        private async Task<string[]> getMembrReservationSeatIdsInfo(string travelReservationCode)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -99,7 +136,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand(fieldSql, connection);
             select.Parameters.AddWithValue("@travelReservationCode", travelReservationCode);
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             string[] stepIdseatIdsInfo = new string[] { "", "", "-1" };
             while (reader.Read())
@@ -115,7 +152,7 @@ namespace xiaotasi.Service.Impl
             return stepIdseatIdsInfo;
         }
 
-        private void cancelMembrReservationSeat(string travelStepId, string seatId)
+        private async Task cancelMembrReservationSeat(string travelStepId, string seatId)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -124,12 +161,12 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelStepId", Convert.ToInt16(travelStepId));
             select.Parameters.AddWithValue("@seatId", Convert.ToInt16(seatId));
             select.Parameters.Add("@status", SqlDbType.Int).Value = -1;
-            connection.Open();
+            await connection.OpenAsync();
             select.ExecuteNonQuery();
             connection.Close();
         }
 
-        private void cancelMembrReservation(string travelReservationCode)
+        private async Task cancelMembrReservation(string travelReservationCode)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -137,43 +174,11 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand("UPDATE reservation_list SET status = @status WHERE reservation_code = @travelReservationCode and status >= 0", connection);
             select.Parameters.AddWithValue("@travelReservationCode", travelReservationCode);
             select.Parameters.Add("@status", SqlDbType.Int).Value = -1;
-            connection.Open();
+            await connection.OpenAsync();
             select.ExecuteNonQuery();
             connection.Close();
         }
 
-        // 取消訂單
-        public int cancelMemberReservation(string travelReservationCode)
-        {
-            string[] seatIdsInfo = this.getMembrReservationSeatIdsInfo(travelReservationCode);
-            string travelStepId = seatIdsInfo[0];
-            string seatIds = seatIdsInfo[1];
-            string status = seatIdsInfo[2];
-            int errorCode = 0;
 
-            if (status == "-1" || seatIds == "")
-            {
-                errorCode = 90053;
-                return errorCode;
-            }
-
-            // 將字串轉為陣列
-            String[] seatIdArr = seatIds == null ? new String[0] : seatIds.Split(',');
-
-            // 取消座位
-            foreach (var seatId in seatIdArr)
-            {
-                if (seatId == "")
-                {
-                    continue;
-                }
-                this.cancelMembrReservationSeat(travelStepId, seatId);
-            }
-
-            // 取消訂單
-            this.cancelMembrReservation(travelReservationCode);
-
-            return errorCode;
-        }
     }
 }

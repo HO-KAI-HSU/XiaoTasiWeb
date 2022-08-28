@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using xiaotasi.Models;
 
 namespace xiaotasi.Service
 {
     public interface MemberService
     {
-        MemberInfoModel getMemberInfo(string memberCode, string token);
+        Task<MemberInfoModel> getMemberInfo(string memberCode, string token);
 
-        List<MemberReservationModel> getMembrReservationList(string memberCode);
+        Task<List<MemberReservationModel>> getMembrReservationList(string memberCode);
 
-        int cancelMemberReservation(string travelReservationCode);
+        Task<int> cancelMemberReservation(string travelReservationCode);
     }
 }

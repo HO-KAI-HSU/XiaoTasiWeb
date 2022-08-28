@@ -1,7 +1,8 @@
-﻿using System; 
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -28,14 +29,14 @@ namespace xiaotasi.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetLatestNewsList(int page, int limit)
+        public async Task<IActionResult> GetLatestNewsList(int page, int limit)
         {
             LatestNewsListVo latestNewsListVo = new LatestNewsListVo();
 
-            List<NewsPojo> newList = _newsService.getLatestNewsList();
+            List<NewsPojo> newList = await _newsService.getLatestNewsList();
 
             PageControl<NewsPojo> pageControl = new PageControl<NewsPojo>();
-    
+
             List<NewsPojo> listNew = pageControl.pageControl(page, limit, newList);
             latestNewsListVo.success = 1;
             latestNewsListVo.count = pageControl.size;
@@ -46,11 +47,11 @@ namespace xiaotasi.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetMediaNewsList(int page, int limit)
+        public async Task<IActionResult> GetMediaNewsList(int page, int limit)
         {
             MediaNewsListVo mediaNewsListVo = new MediaNewsListVo();
 
-            List<MediaNewsPojo> newList = _newsService.getMediaNewsList();
+            List<MediaNewsPojo> newList = await _newsService.getMediaNewsList();
 
             PageControl<MediaNewsPojo> pageControl = new PageControl<MediaNewsPojo>();
 

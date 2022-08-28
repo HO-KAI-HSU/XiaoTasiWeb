@@ -1,8 +1,9 @@
-﻿using System; 
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +43,8 @@ namespace xiaotasi.Controllers
             if (!authService.isTokenVaild(token))
             {
                 return false;
-            } else
+            }
+            else
             {
                 return true;
             }
@@ -50,7 +52,7 @@ namespace xiaotasi.Controllers
         }
 
         // 令牌是否過期
-        public bool isTokenExp(string token = "")
+        public async Task<bool> isTokenExp(string token = "")
         {
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -68,7 +70,7 @@ namespace xiaotasi.Controllers
             select.Parameters.AddWithValue("@token", token);
 
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             while (reader.Read())
             {
@@ -77,7 +79,6 @@ namespace xiaotasi.Controllers
             }
             return flag;
         }
-
 
         #region Private Methods
         private static JWTContainerModel GetJWTContainerModel(string phone, string memberCode)

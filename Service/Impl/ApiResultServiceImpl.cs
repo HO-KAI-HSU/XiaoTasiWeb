@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using static xiaotasi.Vo.ApiResult;
 
@@ -17,9 +18,9 @@ namespace xiaotasi.Service.Impl
             _langService = langService;
         }
 
-        public ApiError1 apiAuth(string token, string lang, int osType, int featureAccessLevel, int paramsAuthStatus = 2)
+        public async Task<ApiError1> apiAuth(string token, string lang, int osType, int featureAccessLevel, int paramsAuthStatus = 2)
         {
-            int errorcode = _authService.apiAuth(token, featureAccessLevel, paramsAuthStatus);
+            int errorcode = await _authService.apiAuth(token, featureAccessLevel, paramsAuthStatus);
             int langIndex = _langService.langMatch(lang);
             if (errorcode > 0)
             {

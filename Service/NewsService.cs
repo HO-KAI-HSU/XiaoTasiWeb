@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using xiaotasi.Pojo;
 
 namespace xiaotasi.Service
 {
     public interface NewsService
     {
-        List<NewsPojo> getLatestNewsList();
+        Task<List<NewsPojo>> getLatestNewsList();
 
-        List<MediaNewsPojo> getMediaNewsList();
+        Task<List<MediaNewsPojo>> getMediaNewsList();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using xiaotasi.Pojo;
@@ -15,7 +16,7 @@ namespace xiaotasi.Service.Impl
             _config = config;
         }
 
-        public List<IndexBannerPojo> getIndexBannerList()
+        public async Task<List<IndexBannerPojo>> getIndexBannerList()
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             var domainUrl = string.Format(_config.GetValue<string>("Domain"));
@@ -25,7 +26,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand("select index_banner_id, index_banner_url, index_banner_pic_path from index_banner_list where publish_s_time <= @time and publish_e_time >= @time", connection);
             select.Parameters.Add("@time", System.Data.SqlDbType.DateTime).Value = timeNow;
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             List<IndexBannerPojo> list = new List<IndexBannerPojo>();
             while (reader.Read())

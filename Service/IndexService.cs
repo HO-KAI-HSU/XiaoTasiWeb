@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using xiaotasi.Pojo;
 
 namespace xiaotasi.Service
 {
     public interface IndexService
     {
-        List<IndexBannerPojo> getIndexBannerList();
+        Task<List<IndexBannerPojo>> getIndexBannerList();
     }
 }

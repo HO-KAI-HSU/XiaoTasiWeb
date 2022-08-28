@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using xiaotasi.Pojo;
@@ -15,7 +16,7 @@ namespace xiaotasi.Service.Impl
             _config = config;
         }
 
-        public List<NewsPojo> getLatestNewsList()
+        public async Task<List<NewsPojo>> getLatestNewsList()
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             var domainUrl = string.Format(_config.GetValue<string>("Domain"));
@@ -25,7 +26,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand("select latest_news_id, latest_news_title, latest_news_en_title, latest_news_content, latest_news_en_content, latest_news_url, latest_news_pic_path, f_date from latest_news_list where publish_s_time <= @time and publish_e_time >= @time", connection);
             select.Parameters.Add("@time", System.Data.SqlDbType.DateTime).Value = timeNow;
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             List<NewsPojo> newsList = new List<NewsPojo>();
             while (reader.Read())
@@ -46,7 +47,7 @@ namespace xiaotasi.Service.Impl
             return newsList;
         }
 
-        public List<MediaNewsPojo> getMediaNewsList()
+        public async Task<List<MediaNewsPojo>> getMediaNewsList()
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             var domainUrl = string.Format(_config.GetValue<string>("Domain"));
@@ -56,7 +57,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand("select latest_media_news_id, latest_media_news_title, latest_media_news_en_title, latest_media_news_content, latest_media_news_en_content, latest_media_news_url, latest_media_news_pic_path, f_date from latest_media_news_list where publish_s_time <= @time and publish_e_time >= @time and latest_media_news_type = 1", connection);
             select.Parameters.Add("@time", System.Data.SqlDbType.DateTime).Value = timeNow;
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             List<MediaNewsPojo> mediaNewsList = new List<MediaNewsPojo>();
             while (reader.Read())

@@ -70,11 +70,11 @@ namespace xiaotasi.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetIndexBannerList(int page, int limit)
+        public async Task<IActionResult> GetIndexBannerList(int page, int limit)
         {
             IndexBannerListVo indexBannerListVo = new IndexBannerListVo();
 
-            List<IndexBannerPojo> list = _indexService.getIndexBannerList();
+            List<IndexBannerPojo> list = await _indexService.getIndexBannerList();
 
             PageControl<IndexBannerPojo> pageControl = new PageControl<IndexBannerPojo>();
 

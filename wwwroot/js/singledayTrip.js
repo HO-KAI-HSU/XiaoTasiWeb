@@ -1,7 +1,6 @@
 
 $(function () {
 
-    // 初始化設定搜尋開始時間 
     var startTime = getToday();
     $("#start_time").val(startTime);
 

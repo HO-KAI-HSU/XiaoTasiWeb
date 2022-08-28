@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 namespace xiaotasi.Service
 {
     public interface AuthService
     {
-        int apiAuth(string token, int featureAccessLevel, int paramsAuthStatus);
+        Task<int> apiAuth(string token, int featureAccessLevel, int paramsAuthStatus);
     }
 }

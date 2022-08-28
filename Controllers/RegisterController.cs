@@ -1,5 +1,6 @@
-﻿using System; 
+﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -28,7 +29,7 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public ActionResult RegisterByPhone(string username, string password, string name, string email, string address, string birthday, string telephone, string cellphone, string emerContactName, string emerContactPhone, int checkFlag = 1)
+        public async Task<ActionResult> RegisterByPhone(string username, string password, string name, string email, string address, string birthday, string telephone, string cellphone, string emerContactName, string emerContactPhone, int checkFlag = 1)
         {
             if ((cellphone == null || cellphone.Length == 0) || (username == null || username.Length == 0) || (password == null || password.Length == 0) || (name == null || name.Length == 0) || (birthday == null || birthday.Length == 0))
             {
@@ -53,7 +54,8 @@ namespace xiaotasi.Controllers
                 {
                     errorStr = "請輸入生日！";
                 }
-                if (errorStr != "") {
+                if (errorStr != "")
+                {
                     return Json(new ApiError(1001, "Required field(s) is missing!", errorStr));
                 }
             }
@@ -66,7 +68,7 @@ namespace xiaotasi.Controllers
             // 取得帳號資訊
             SqlCommand getMemberSelect = new SqlCommand("select * from account_list WHERE username = @username", connection);
             getMemberSelect.Parameters.AddWithValue("@username", username);
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader getMemberReader = getMemberSelect.ExecuteReader();
             while (getMemberReader.Read())
             {
@@ -89,14 +91,14 @@ namespace xiaotasi.Controllers
                 addMember.Parameters.Add("@emerContactPhone", SqlDbType.NVarChar).Value = emerContactPhone == null ? "" : emerContactPhone;
                 addMember.Parameters.Add("@name", SqlDbType.NVarChar).Value = name;
                 addMember.Parameters.Add("@address", SqlDbType.NVarChar).Value = address == null ? "" : address;
-                connection.Open();
+                await connection.OpenAsync();
                 addMember.ExecuteNonQuery();
                 connection.Close();
 
                 // 新增帳號資訊
                 SqlCommand addAccount = new SqlCommand("INSERT INTO account_list (username, password, phone, member_code, status)" +
                 "VALUES ('" + username + "', '" + password + "',  '" + cellphone + "',  '" + memberCode + "',  " + 1 + ")", connection);
-                connection.Open();
+                await connection.OpenAsync();
                 addAccount.ExecuteNonQuery();
                 connection.Close();
                 return Json(new ApiResult<string>("Auth Success", "開通成功，請重新登入"));
@@ -109,7 +111,7 @@ namespace xiaotasi.Controllers
 
         [HttpPost]
         // 傳送手機驗證碼
-        public ActionResult GetPhoneCaptcha(string cellphone, string verificationType)
+        public async Task<ActionResult> GetPhoneCaptcha(string cellphone, string verificationType)
         {
             int paramsAuthStatus = 0;
             if (cellphone == null || cellphone.Length == 0)
@@ -117,7 +119,7 @@ namespace xiaotasi.Controllers
                 paramsAuthStatus = 1;
             }
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth("", "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth("", "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
@@ -126,7 +128,7 @@ namespace xiaotasi.Controllers
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // 取得帳號資訊
-            int errorCode = _registerService.isRegisterStatusByPhone(cellphone, verificationType);
+            int errorCode = await _registerService.isRegisterStatusByPhone(cellphone, verificationType);
 
             if (errorCode > 0)
             {
@@ -179,7 +181,7 @@ namespace xiaotasi.Controllers
 
         [HttpPost]
         // 重置密碼
-        public ActionResult resetPassword(string cellphone, string newPassword, string reKeyinPassword)
+        public async Task<ActionResult> resetPassword(string cellphone, string newPassword, string reKeyinPassword)
         {
             int paramsAuthStatus = 0;
             if ((cellphone == null || cellphone.Length == 0) || (newPassword == null || newPassword.Length == 0) || (reKeyinPassword == null || reKeyinPassword.Length == 0))
@@ -188,7 +190,7 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth("", "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth("", "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
@@ -202,7 +204,7 @@ namespace xiaotasi.Controllers
             }
 
             // 重置密碼
-            _registerService.resetPassword(cellphone, newPassword);
+            await _registerService.resetPassword(cellphone, newPassword);
 
             return Json(new ApiResult<string>("Reset Password Success", "密碼設定成功，請重新登入"));
         }

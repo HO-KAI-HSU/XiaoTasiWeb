@@ -1,9 +1,10 @@
-﻿using System; 
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,7 @@ namespace xiaotasi.Controllers
         private readonly MemberService _memberService;
         IAuthService authService;
         IAuthContainerModel model;
-        
+
 
         public LoginController(IConfiguration config, MemberService memberService)
         {
@@ -35,7 +36,7 @@ namespace xiaotasi.Controllers
 
         //登入
         [HttpPost]
-        public IActionResult login(string username, string password)
+        public async Task<IActionResult> login(string username, string password)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -47,7 +48,7 @@ namespace xiaotasi.Controllers
             SqlCommand select = new SqlCommand("select account_id, username, password, member_code as memberCode, status, phone from account_list WHERE username = @username", connection);
             select.Parameters.AddWithValue("@username", username);
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             LoginModel loginData = new LoginModel();
             SqlDataReader reader = select.ExecuteReader();
             int readStatus = 0;
@@ -71,13 +72,13 @@ namespace xiaotasi.Controllers
             }
 
             // 取得會員資訊
-            MemberInfoModel member = _memberService.getMemberInfo(loginData.memberCode, "");
+            MemberInfoModel member = await _memberService.getMemberInfo(loginData.memberCode, "");
             model = GetJWTContainerModel(loginData.phone, loginData.memberCode);
             authService = new JWTService(model.secretKey);
             string token = authService.generateToken(model);
 
             // 登入時將token存至數據表內
-            this.addTokenToDb(token, username);
+            await this.addTokenToDb(token, username);
 
             loginData.token = token;
             loginData.name = member.name;
@@ -86,7 +87,7 @@ namespace xiaotasi.Controllers
 
         //登出
         [HttpPost]
-        public IActionResult logout(string accToken)
+        public async Task<IActionResult> logout(string accToken)
         {
             //// SQL Command
             //if ((accToken == null || accToken.Length == 0))
@@ -98,7 +99,7 @@ namespace xiaotasi.Controllers
 
 
         // 新增旅遊預定會員資訊
-        private void addTokenToDb(string token, string username)
+        private async Task addTokenToDb(string token, string username)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
@@ -114,11 +115,10 @@ namespace xiaotasi.Controllers
             select.Parameters.Add("@tokenExp", SqlDbType.NVarChar).Value = tokenExp;
             select.Parameters.Add("@tokenIat", SqlDbType.NVarChar).Value = tokenIat;
             //開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             select.ExecuteNonQuery();
             connection.Close();
         }
-
 
         #region Private Methods
         private static JWTContainerModel GetJWTContainerModel(string phone, string memberCode)

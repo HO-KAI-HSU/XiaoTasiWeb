@@ -238,10 +238,6 @@ function getReservationBoardingList(_token = "", _travelCode = "", boardingArr =
 }
 
 
-
-
-
-// 建立旅遊預約      
 function createReservation(_data = "") {
     $.ajax({
         url: "/TripReservation/createTravelReservation",
@@ -270,8 +266,12 @@ function getReservationFieldInfo(seatSelectedArr = "") {
     var reservationBoardingList = "";
     var boardingArr = JSON.parse(localStorage.getItem('boardingArr'));
     var travelType = JSON.parse(localStorage.getItem('travelType'));
+    var memberInfo = JSON.parse(localStorage.getItem('memberInfo'));
+    var memberId = memberInfo.username;
+    var memberName = memberInfo.name;
+    var memberBirthday = memberInfo.birthday;
+    var memberCellphone = memberInfo.cellphone;
 
-    // 定位座位資訊 
     $.each(boardingArr, function (boardingKey, boardingInfo) {
         var boardingId = boardingInfo.boardingId;
         var boardingLocationName = boardingInfo.boardingLocationName;
@@ -280,7 +280,6 @@ function getReservationFieldInfo(seatSelectedArr = "") {
                 <option value="${boardingId}">${boardingTime} ${boardingLocationName}</option>`;
     });
 
-    // 定位座位資訊 
     $.each(seatSelectedArr, function (seatSelectedKey, seatSelected) {
         var seatSelectedInfoArr = seatSelected.split(':');
         var transportationStep = seatSelectedInfoArr[0];
@@ -305,15 +304,15 @@ function getReservationFieldInfo(seatSelectedArr = "") {
                         <label for="personal_name">姓名</label>
                     </div>
                     <div class="booking_field">
-                        <input type="text" id="personal_name">
+                        <input type="text" id="personal_name" value=${memberName}>
                     </div>
                 </div>
                 <div class="booking_list clearfix">
                     <div class="booking_title">
-                        <label for="birthday">出生年月日</label>
+                        <label for="birthday" >出生年月日</label>
                     </div>
                     <div class="booking_field">
-                        <input type="date" id="birthday">
+                        <input type="date" id="birthday" value=${memberBirthday}>
                     </div>
                 </div>
                 <div class="booking_list clearfix">
@@ -321,7 +320,7 @@ function getReservationFieldInfo(seatSelectedArr = "") {
                         <label for="personal_id">身分證</label>
                     </div>
                     <div class="booking_field">
-                        <input type="text" id="personal_id">
+                        <input type="text" id="personal_id" value=${memberId}>
                     </div>
                 </div>
                 <div class="booking_list clearfix">
@@ -329,7 +328,7 @@ function getReservationFieldInfo(seatSelectedArr = "") {
                         <label for="telphone">電話</label>
                     </div>
                     <div class="booking_field">
-                        <input type="text" id="telphone">
+                        <input type="text" id="telphone" value=${memberCellphone}>
                     </div>
                 </div>`
         if (travelType != 1) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -13,7 +14,7 @@ namespace xiaotasi.Service.Impl
             _config = config;
         }
 
-        public int apiAuth(string token, int featureAccessLevel, int paramsAuthStatus)
+        public async Task<int> apiAuth(string token, int featureAccessLevel, int paramsAuthStatus)
         {
             int errorCode = 0;
 
@@ -43,7 +44,7 @@ namespace xiaotasi.Service.Impl
                 //}
 
                 // 訪問令牌時效是否失效
-                errorCode = this.isTokenExp(token);
+                errorCode = await this.isTokenExp(token);
                 if (errorCode > 0)
                 {
                     return errorCode;
@@ -53,7 +54,7 @@ namespace xiaotasi.Service.Impl
         }
 
         // 訪問令牌時效是否失效
-        private int isTokenExp(string token)
+        private async Task<int> isTokenExp(string token)
         {
             Console.WriteLine("----isTokenExp----");
             int errorCode = 90010;
@@ -71,7 +72,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@token", token);
 
             // 開啟資料庫連線
-            connection.Open();
+            await connection.OpenAsync();
             SqlDataReader reader = select.ExecuteReader();
             while (reader.Read())
             {

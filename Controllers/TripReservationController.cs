@@ -40,7 +40,7 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public ActionResult GetTripReservationSeatList(string token, string travelCode, string travelStepCode)
+        public async Task<ActionResult> GetTripReservationSeatList(string token, string travelCode, string travelStepCode)
         {
             int paramsAuthStatus = 0;
 
@@ -51,13 +51,13 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
             }
             // 旅遊梯次詳情與交通綁定資訊
-            TripStepTransportMatchModel travelStepTransportMatch = _tripReservationService.getTravelStepInfo(travelStepCode);
+            TripStepTransportMatchModel travelStepTransportMatch = await _tripReservationService.getTravelStepInfo(travelStepCode);
             GetReservationSeatListResponse getReservationSeatListApi = new GetReservationSeatListResponse();
             String transportationIds = travelStepTransportMatch.transportationIds;
             String[] transportationIdArr = transportationIds == null ? new String[0] : transportationIds.Split(',');
@@ -80,7 +80,7 @@ namespace xiaotasi.Controllers
                 Console.WriteLine("{0}", transportationId);
                 ReservationSeatModel reservationSeatData = new ReservationSeatModel();
                 TransportationModel transportationListData = new TransportationModel();
-                List<TripReservationSeatMatchModel> reservationSeatMatch = _tripReservationService.getTravelSeatList(transportationId, travelStepTransportMatch.travelStepId);
+                List<TripReservationSeatMatchModel> reservationSeatMatch = await _tripReservationService.getTravelSeatList(transportationId, travelStepTransportMatch.travelStepId);
                 Console.WriteLine("{0}", travelStepTransportMatch.travelStepId);
                 int retainSeat = 0;
                 Console.WriteLine("{0}", retainSeat);
@@ -126,7 +126,7 @@ namespace xiaotasi.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetTripReservationBoardingList(string token, string travelCode)
+        public async Task<ActionResult> GetTripReservationBoardingList(string token, string travelCode)
         {
             int paramsAuthStatus = 0;
 
@@ -137,7 +137,7 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
@@ -145,20 +145,20 @@ namespace xiaotasi.Controllers
 
             // 旅遊梯次詳情與交通綁定資訊
 
-            string boardingType = _tripReservationService.getTripBoardingType(travelCode);
+            string boardingType = await _tripReservationService.getTripBoardingType(travelCode);
             List<TripBoardingMatchPojo> tripBoardingMatchPojos;
 
             if (boardingType == "2")
             {
-                tripBoardingMatchPojos = _tripReservationService.getTripReservationCustomBoardingList(travelCode);
+                tripBoardingMatchPojos = await _tripReservationService.getTripReservationCustomBoardingList(travelCode);
             }
             else if (boardingType == "1")
             {
-                tripBoardingMatchPojos = _tripReservationService.getTripReservationBoardingList(travelCode, 1);
+                tripBoardingMatchPojos = await _tripReservationService.getTripReservationBoardingList(travelCode, 1);
             }
             else
             {
-                tripBoardingMatchPojos = _tripReservationService.getTripReservationBoardingList(travelCode, 0);
+                tripBoardingMatchPojos = await _tripReservationService.getTripReservationBoardingList(travelCode, 0);
             }
 
             // 整理回傳參數
@@ -169,7 +169,7 @@ namespace xiaotasi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTravelReservation([FromBody]CreateTravelReservationBo createTravelReservationBo)
+        public async Task<ActionResult> CreateTravelReservation([FromBody]CreateTravelReservationBo createTravelReservationBo)
         {
             int paramsAuthStatus = 0;
 
@@ -180,16 +180,17 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(createTravelReservationBo.token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(createTravelReservationBo.token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
             }
             string travelStepCode = createTravelReservationBo.travelStepCode;
-            string memberCode = _memberService.getMemberInfo("", createTravelReservationBo.token).memberCode;
+            var memberInfo = await _memberService.getMemberInfo("", createTravelReservationBo.token);
+            var memberCode = memberInfo.memberCode;
             string seatIds = "";
             List<MemberReservationArrBo> memberReservationArrBo = createTravelReservationBo.memberReservationArr;
-            TripStepTransportMatchModel travelStepTransportMatch = _tripReservationService.getTravelStepInfo(travelStepCode);
+            TripStepTransportMatchModel travelStepTransportMatch = await _tripReservationService.getTravelStepInfo(travelStepCode);
             int reservationNum = memberReservationArrBo.Count();
             int reservationCost = memberReservationArrBo.Count() * travelStepTransportMatch.travelCost;
             int travelStepId = travelStepTransportMatch.travelStepId;
@@ -204,7 +205,7 @@ namespace xiaotasi.Controllers
                     writeFlag = true;
                 }
                 // 新增旅遊預定會員資訊
-                _tripReservationService.addReservationMemberInfo(memberReservation, travelStepId, memberCode, orderCode);
+                await _tripReservationService.addReservationMemberInfo(memberReservation, travelStepId, memberCode, orderCode);
                 if (seatIds == "")
                 {
                     seatIds = memberReservation.seatId + ",";
@@ -215,7 +216,7 @@ namespace xiaotasi.Controllers
                 }
 
                 // 新增行程定位與座位綁定資訊
-                _tripReservationService.addTravelReservationSeat(travelStepId, memberReservation.seatId);
+                await _tripReservationService.addTravelReservationSeat(travelStepId, memberReservation.seatId);
             }
             if (writeFlag)
             {
@@ -224,7 +225,7 @@ namespace xiaotasi.Controllers
             }
 
             // 新增旅遊預定資訊
-            _tripReservationService.addReservation(memberCode, orderCode, reservationNum, reservationCost, seatIds, travelStepId, "", travelStepTransportMatch.travelId);
+            await _tripReservationService.addReservation(memberCode, orderCode, reservationNum, reservationCost, seatIds, travelStepId, "", travelStepTransportMatch.travelId);
 
             ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 2, "TR001");
             return Json(apiRes);
@@ -232,7 +233,7 @@ namespace xiaotasi.Controllers
 
         // 新增旅遊訂位匯款資訊
         [HttpPost]
-        public ActionResult addReservationCheck([FromBody]AddTravelReservationCheckBo addTravelReservationCheckBo)
+        public async Task<ActionResult> addReservationCheck([FromBody]AddTravelReservationCheckBo addTravelReservationCheckBo)
         {
             int paramsAuthStatus = 0;
 
@@ -243,7 +244,7 @@ namespace xiaotasi.Controllers
             }
 
             // 初始驗證
-            ApiError1 apiAuth = _apiResultService.apiAuth(addTravelReservationCheckBo.token, "zh-tw", 2, 2, paramsAuthStatus);
+            ApiError1 apiAuth = await _apiResultService.apiAuth(addTravelReservationCheckBo.token, "zh-tw", 2, 2, paramsAuthStatus);
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
@@ -255,10 +256,11 @@ namespace xiaotasi.Controllers
             //string travelReservationCheckPicName = travelReservationCheckPicArr[travelReservationCheckPicArr.Length - 1];
             string travelReservationCheckPicName = addTravelReservationCheckBo.travelReservationCheckPicPath;
             string bankAccountCode = addTravelReservationCheckBo.bankAccountCode;
-            string memberCode = _memberService.getMemberInfo("", token).memberCode;
+            var memberInfo = await _memberService.getMemberInfo("", token);
+            var memberCode = memberInfo.memberCode;
 
             // 旅遊訂位匯款是否更新
-            int errorCode = _tripReservationService.checkReservationCheckIsUpdate(travelReservationCode);
+            int errorCode = await _tripReservationService.checkReservationCheckIsUpdate(travelReservationCode);
             if (errorCode > 0)
             {
                 ApiError1 apiError = _apiResultService.apiAFailResult("zh-tw", 2, errorCode, "");
@@ -266,11 +268,11 @@ namespace xiaotasi.Controllers
             }
 
             // 新增旅遊訂位匯款證明
-            _tripReservationService.addReservationCheck(memberCode, travelReservationCode, travelReservationCheckPicName, bankAccountCode);
+            await _tripReservationService.addReservationCheck(memberCode, travelReservationCode, travelReservationCheckPicName, bankAccountCode);
             Console.WriteLine("addReservationCheckSuccess");
 
             //更新旅遊訂位狀態
-            _tripReservationService.updateReservationStatus(travelReservationCode, 2);
+            await _tripReservationService.updateReservationStatus(travelReservationCode, 2);
             Console.WriteLine("updateReservationStatusSuccess");
 
             ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 2, "TR002");
