@@ -775,7 +775,7 @@ function getMemberLoginInfo() {
         } else {
             console.log("Member login status : false");
         }
-    }, 30000);
+    }, 2000);
 }
 
 
