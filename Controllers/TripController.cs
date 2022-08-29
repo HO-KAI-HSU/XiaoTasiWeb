@@ -62,7 +62,7 @@ namespace xiaotasi.Controllers
                 travelShowData.cost = (int)reader[4];
                 travelShowData.travelType = (int)reader[5];
                 travelShowData.startDate = this._getTravelStepStartDateInfo((int)reader[0]) == null ? "" : this._getTravelStepStartDateInfo((int)reader[0]);
-                travelShowData.travelPicPath = reader.IsDBNull(6) ? "" : domainUrl + "/images/trip/" + (string)reader[6].ToString();
+                travelShowData.travelPicPath = (string)reader[6].ToString();
                 travelShowData.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
                 string format = "yyyy-MM-dd";
                 travelShowData.travelFdate = reader.IsDBNull(8) ? "" : ((DateTime)reader[8]).ToString(format);
