@@ -40,12 +40,13 @@ namespace xiaotasi.Controllers
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
+
             // SQL Command
-            if ((username == null || username.Length == 0) || (password == null || password.Length == 0))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 return Json(new ApiError(1002, "Account or password error!", "此帳戶或密碼有誤，請重新輸入！"));
             }
-            SqlCommand select = new SqlCommand("select account_id, username, password, member_code as memberCode, status, phone from account_list WHERE username = @username", connection);
+            SqlCommand select = new SqlCommand("select account_id, username, password, member_code as memberCode, status, phone from account_list WHERE username = @username and status = 1", connection);
             select.Parameters.AddWithValue("@username", username);
             // 開啟資料庫連線
             await connection.OpenAsync();
@@ -63,12 +64,12 @@ namespace xiaotasi.Controllers
                 loginData.memberCode = (string)reader[3];
                 loginData.status = (int)reader[4];
                 loginData.phone = (string)reader[5];
-                readStatus++;
+                readStatus = (int)reader[4];
             }
             connection.Close();
             if (readStatus == 0)
             {
-                return Json(new ApiError(1002, "Account or password error!", "此帳戶或密碼有誤，請重新輸入！"));
+                return Json(new ApiError(1002, "Account not open!", "帳號未開通！"));
             }
 
             // 取得會員資訊

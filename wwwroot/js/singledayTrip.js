@@ -36,7 +36,7 @@ function singledayTripList(_date = null, _location = "") {
             //$.each(trip.dateTravelPicList[0].travelPicList, function (i, travelPicInfo) {
             //    travelPicItem += `<li><span class="place_s_title">${travelPicInfo.travelPicTraditionalTitle}:</span>${travelPicInfo.travelPicTraditionalIntro}</li>`;
             //});
-            var picPath = (trip.travelPicPath == "" ? "~/images/trip/multipleday_trip_photo2.png" : trip.travelPicPath);
+            var picPath = ("../images/trip/multipleday_trip_photo2.png");
             travelPicItem += `</ul>`;
             item += `<li>
                     <input type="hidden" id="travel_step_code" value="${trip.travelStepCode}">

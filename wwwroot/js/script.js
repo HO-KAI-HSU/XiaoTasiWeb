@@ -315,12 +315,12 @@ $(function () {
         if (verificationType == "1") {
             // 註冊使用
             var cellphone = $("#phone").val();
-            verify(cellphone, register("", "", closePhoneVerificationModel));
+            verify(cellphone, closePhoneVerificationModel, register);
         } else if (verificationType == "2") {
             // 忘記密碼使用 
             var cellphone = $("#forget_phone").val();
             console.log(cellphone);
-            verify(cellphone, showResetPwdModel(closePhoneVerificationModel));
+            verify(cellphone, closePhoneVerificationModel, showResetPwdModel);
         }
     });
 
@@ -328,7 +328,6 @@ $(function () {
         var cellphone = $("#phone").val();
         var verificationType = $("#verification_type").val();
         if (verificationType == "2") {
-            // 忘記密碼使用   
             var cellphone = $("#forget_phone").val();
         }
         sendVerificationNumber(verificationType, cellphone);
@@ -445,21 +444,23 @@ function login(closeLoginModel) {
     const now = new Date();
     var number = $("#number").val();
     var psw = $("#psw").val();
-    $.post('/Login/login', { username: number, password: psw }).done(function (loginRes) {
+    var hash = md5(md5(psw));
+    $.post('/Login/login', { username: number, password: hash }).done(function (loginRes) {
         var reason = loginRes.reason;
-        if (loginRes.success === 1) {
+        if (loginRes.success == 1) {
             closeLoginModel();
             var exp = parseInt(now.getTime() / 1000) + 7200;
             loginRes.data.expired = exp;
             localStorage.setItem("loginInfo", JSON.stringify(loginRes.data));
             showAlert(true, "登入成功", function () { window.location.href = ""; });
+            reason = "登入成功";
         } else {
             showAlert(false, reason);
         }
+        alert(reason);
     });
 }
 
-// 註冊參數判斷 
 function registerCheck(add_member_modal, phone_verification_modal) {
     var number = $("#username").val();
     var password = $("#password").val();
@@ -506,11 +507,12 @@ function registerCheck(add_member_modal, phone_verification_modal) {
     if (errorCount > 0) {
         return true;
     }
-
-    $.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 1 }).done(function (registerRes) {
+    var hash = md5(md5(password));
+    $.post('/Register/registerByPhone', { username: number, password: hash, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 1 }).done(function (registerRes) {
         var reason = registerRes.reason;
+        alert(reason);
         success = registerRes.success;
-        if (success === 1) {
+        if (success == 1) {
             $("#verification_type").val("1");
             var cellphone = $("#phone").val();
             sendVerificationNumber("1", cellphone, add_member_modal, phone_verification_modal);
@@ -521,23 +523,24 @@ function registerCheck(add_member_modal, phone_verification_modal) {
     return true;
 }
 
-// 註冊帳戶  
 function register(add_member_modal, phone_verification_modal, closePhoneVerificationModel) {
     var number = $("#username").val();
     var password = $("#password").val();
     var name = $("#name").val();
     var email = $("#email").val();
-    var address = "";;
+    var address = "";
     var birthday = $("#date").val();
     var telephone = "";
     var cellphone = $("#phone").val();
     var emerContactName = $("#contact_name").val();
     var emerContactPhone = $("#contact_phone").val();
     var success = 0;
-    $.post('/Register/registerByPhone', { username: number, password: password, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 0 }).done(function (registerRes) {
+    var hash = md5(md5(password));
+    $.post('/Register/registerByPhone', { username: number, password: hash, name: name, email: email, address: address, birthday: birthday, telephone: telephone, cellphone: cellphone, emerContactName: emerContactName, emerContactPhone: emerContactPhone, checkFlag: 0 }).done(function (registerRes) {
         var reason = registerRes.reason;
+        alert(reason);
         success = registerRes.success;
-        if (success === 1) {
+        if (success == 1) {
             showAlert(true, reason);
             closePhoneVerificationModel();
         } else {
@@ -547,15 +550,15 @@ function register(add_member_modal, phone_verification_modal, closePhoneVerifica
     return true;
 }
 
-// 發送驗證碼
 function sendVerificationNumber(verificationType = "", cellphone = "", modal1 = "", modal2 = "") {
     var success = 0;
     var timelocalStor = localStorage.getItem("timeId");
     if (timelocalStor == null) {
         $.post('/Register/getPhoneCaptcha', { cellphone: cellphone, verificationType: verificationType }).done(function (sendVerificationNumberRes) {
             var reason = sendVerificationNumberRes.reason;
+            alert(reason);
             success = sendVerificationNumberRes.success;
-            if (success === 1) {
+            if (success == 1) {
                 showAlert(true, reason);
                 if (modal1 != "" && modal2 != "") {
                     modal1.hide();
@@ -572,17 +575,16 @@ function sendVerificationNumber(verificationType = "", cellphone = "", modal1 = 
 
 }
 
-// 手機驗證碼驗證  
-function verify(cellphone, callbackFun) {
+function verify(cellphone, input, callbackFun) {
     var verificationNumber = $("#validate_number").val();
     var success = 0;
     $.post('/Register/verifyPhoneCaptcha', { cellphone: cellphone, captcha: verificationNumber }).done(function (verifyRes) {
         var reason = verifyRes.reason;
+        alert(reason);
         success = verifyRes.success;
-        console.log(success);
-        if (success === 1) {
+        if (success == 1) {
             showAlert(true, reason);
-            callbackFun;
+            callbackFun(input);
         } else {
             showAlert(false, reason);
         }
@@ -591,7 +593,6 @@ function verify(cellphone, callbackFun) {
 }
 
 
-// 重置密碼 
 function resetPwd(callbackFun) {
     var cellphone = $("#forget_phone").val();
     var newPsw = $("#new_psw").val();
@@ -600,7 +601,7 @@ function resetPwd(callbackFun) {
     $.post('/Register/resetPassword', { cellphone: cellphone, newPassword: newPsw, reKeyinPassword: rekeyinNewPsw }).done(function (resetRes) {
         var reason = resetRes.reason;
         success = resetRes.success;
-        if (success === 1) {
+        if (success == 1) {
             showAlert(true, reason);
             callbackFun();
         } else {
@@ -629,16 +630,14 @@ function loginFlagMethod(loginInfo = null) {
 
 function getWithExpired(key) {
     const itemStr = localStorage.getItem(key);
-    // if the item doesn't exist, return null
+
     if (!itemStr) {
         return null;
     }
     const item = JSON.parse(itemStr);
     const now = new Date();
-    // compare the expiry time of the item with the current time
+
     if (parseInt(now.getTime() / 1000) > item.expired) {
-        // If the item is expired, delete the item from storage
-        // and return null
         localStorage.removeItem(key);
         return null;
     }
@@ -676,7 +675,6 @@ $("#tab_1,#tab_2,#tab_3,#tab_4").on('click', '#tripInfo', function () {
     tripInfo(travelCode, tabTitleArr[1], indexFlag);
 })
 
-// 上傳會員行程預定匯款圖片
 function uploadPic(file, picType) {
     var data = new FormData();
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
@@ -698,7 +696,6 @@ function uploadPic(file, picType) {
     });
 }
 
-// 建立旅遊預定匯款證明      
 function addReservationCheck(_data = "") {
     $.ajax({
         url: "/TripReservation/addReservationCheck",
@@ -713,7 +710,6 @@ function addReservationCheck(_data = "") {
     })
 }
 
-// 取消旅遊訂單      
 function cancelReservation(_token = "", _travelReservationCode = "") {
     $.post('/Member/cancelMemberReservation', { token: _token, travelReservationCode: _travelReservationCode }).done(function (cancelReservationRes) {
         var reason = cancelReservationRes.reason;
@@ -726,7 +722,6 @@ function cancelReservation(_token = "", _travelReservationCode = "") {
     });
 }
 
-// 顯示alert  
 function showAlert(_success = true, _msg = "", _callback = "") {
     if (_success) {
         $(".alert_success_msg").html(_msg);
@@ -784,12 +779,12 @@ function settime(obj, countdown) {
     const startTime = Date.now();
     var timelocalStor = localStorage.getItem("timeId");
     var timeId = null;
-    if (timeId == null && timelocalStor == null) { // 如果timer為空 則開啟定時器   
+    if (timeId == null && timelocalStor == null) {
         var timeId = setInterval(function () {
             var runFlag = time(obj, startTime);
             if (!runFlag) {
                 clearInterval(timeId);
-                timeId = null;  // 將狀態轉為空 
+                timeId = null;
                 localStorage.removeItem('timeId');
             }
         }, 1000)
