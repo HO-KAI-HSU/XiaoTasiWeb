@@ -1,4 +1,4 @@
-  
+
 $(function () {
 
     // 初始化設定搜尋開始時間 
@@ -73,9 +73,9 @@ function allTripList(_sDate = "", _location = "", _travelType = 2, _tabName = "t
                 tripItem += `</ul>`;
                 tripItem += `<ul class="index_two_day_trip mobile_index_two_day_trip travel_list clearfix mt22">`;
             }
-
+            var picPath = ((trip.travelPicPath == "" || trip.travelPicPath == " ") ? "../images/trip/multipleday_trip_photo2.png" : trip.travelPicPath);
             tripItem += `<li>
-                        <a href="#" id="tripInfo"><img src="${trip.travelPicPath}" alt="台南文化古都三日遊" title="台南文化古都三日遊"></a>
+                        <a href="#" id="tripInfo"><img src="${picPath}" alt="台南文化古都三日遊" title="台南文化古都三日遊"></a>
                         <input type="hidden" id="travelCode" value="${trip.travelCode}">
                         <span class="date">${trip.travelFdate}</span>
                         <h4>${trip.travelTraditionalTitle}</h4>

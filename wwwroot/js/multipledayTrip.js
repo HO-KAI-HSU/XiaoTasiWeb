@@ -22,6 +22,7 @@ $(function () {
 function multipledayTripList(_sDate = "", _location = "") {
     $.post('/Trip/GetTravelListForMember', { page: 1, limit: 100, travelType: 2, searchDate: _sDate, searchString: _location }).done(function (tripList) {
         var item = "";
+
         $.each(tripList.travelList, function (i, trip) {
             if (i == 0 && i % 3 == 0) {
                 // 第一次 
@@ -33,8 +34,9 @@ function multipledayTripList(_sDate = "", _location = "") {
                 item += `</ul>`;
                 item += `<ul class="news_content clearfix">`;
             }
+            var picPath = ((trip.travelPicPath == "" || trip.travelPicPath == " ") ? "../images/trip/multipleday_trip_photo2.png" : trip.travelPicPath);
             item += `<li>
-                    <a href="#" id="tripInfo"><img class="trip" src="${trip.travelPicPath}" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
+                    <a href="#" id="tripInfo"><img class="trip" src="${picPath}" alt="台北近郊一日遊" title="台北近郊一日遊"></a>
                     <input type="hidden" id="travelCode" value="${trip.travelCode}">
                     <span class="date">${trip.travelFdate}</span>
                     <h4>${trip.travelTraditionalTitle}</h4>

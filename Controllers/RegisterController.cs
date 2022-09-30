@@ -17,14 +17,16 @@ namespace xiaotasi.Controllers
         private readonly ILogger<LoginController> _logger;
         private readonly IConfiguration configuration;
         private readonly ApiResultService _apiResultService;
+        private readonly AuthService _authService;
         private readonly RegisterService _registerService;
 
-        public RegisterController(ILogger<LoginController> logger, IConfiguration config, ApiResultService apiResultService, RegisterService registerService)
+        public RegisterController(ILogger<LoginController> logger, IConfiguration config, ApiResultService apiResultService, RegisterService registerService, AuthService authService)
         {
             _logger = logger;
             configuration = config;
             _registerService = registerService;
             _apiResultService = apiResultService;
+            _authService = authService;
         }
 
 
@@ -34,23 +36,23 @@ namespace xiaotasi.Controllers
             if ((cellphone == null || cellphone.Length == 0) || (username == null || username.Length == 0) || (password == null || password.Length == 0) || (name == null || name.Length == 0) || (birthday == null || birthday.Length == 0))
             {
                 string errorStr = "";
-                if (cellphone == null || (cellphone.Length == 0 || cellphone.Length != 10))
+                if (string.IsNullOrWhiteSpace(cellphone) || cellphone.Length != 10)
                 {
                     errorStr = "請輸入手機號碼或輸入完整的手機號碼！";
                 }
-                else if (username == null || username.Length == 0)
+                else if (string.IsNullOrWhiteSpace(username))
                 {
                     errorStr = "請輸入身分證號！";
                 }
-                else if (password == null || password.Length == 0)
+                else if (string.IsNullOrWhiteSpace(password))
                 {
                     errorStr = "請輸入密碼！";
                 }
-                else if (name == null || name.Length == 0)
+                else if (string.IsNullOrWhiteSpace(name))
                 {
                     errorStr = "請輸入姓名！";
                 }
-                else if (birthday == null || birthday.Length == 0)
+                else if (string.IsNullOrWhiteSpace(birthday))
                 {
                     errorStr = "請輸入生日！";
                 }
@@ -59,6 +61,18 @@ namespace xiaotasi.Controllers
                     return Json(new ApiError(1001, "Required field(s) is missing!", errorStr));
                 }
             }
+            int errorCode = _authService.isValidIDorRCNumber(username);
+            if (errorCode > 0)
+            {
+                return Json(new ApiError(1001, "Required field(s) is missing!", "身分證格式有誤"));
+            }
+
+            errorCode = _authService.isValidPhoneFormat(cellphone);
+            if (errorCode > 0)
+            {
+                return Json(new ApiError(1001, "Required field(s) is missing!", "手機號碼格式有誤"));
+            }
+
             int timpStamp = this.getTimestamp();
             string memberCode = "mem" + timpStamp.ToString().Substring(2, 8);
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
@@ -114,7 +128,7 @@ namespace xiaotasi.Controllers
         public async Task<ActionResult> GetPhoneCaptcha(string cellphone, string verificationType)
         {
             int paramsAuthStatus = 0;
-            if (cellphone == null || cellphone.Length == 0)
+            if (string.IsNullOrWhiteSpace(cellphone))
             {
                 paramsAuthStatus = 1;
             }
@@ -152,7 +166,7 @@ namespace xiaotasi.Controllers
         // 驗證手機驗證碼
         public ActionResult verifyPhoneCaptcha(string cellphone, string captcha)
         {
-            if ((cellphone == null || cellphone.Length == 0) || (captcha == null || captcha.Length == 0))
+            if (string.IsNullOrWhiteSpace(cellphone) || string.IsNullOrWhiteSpace(captcha))
             {
                 return Json(new ApiError(1001, "Required field(s) is missing!", "必需參數缺失！"));
             }
@@ -231,6 +245,5 @@ namespace xiaotasi.Controllers
             connection.Close();
             return true;
         }
-
     }
 }

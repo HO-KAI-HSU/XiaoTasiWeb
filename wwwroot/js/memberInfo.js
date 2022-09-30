@@ -44,6 +44,7 @@ function getMemberInfo(token = "", memberCode = "", logout) {
         var reason = getMemberInfoRes.reason;
         var success = getMemberInfoRes.success;
         var memberInfo = getMemberInfoRes.data;
+
         if (success == 0) {
             alert(reason);
             var code = getMemberInfoRes.code;
@@ -194,9 +195,10 @@ function updateMemberInfo(logout, requiredCheckFun) {
     var emerContactPhone = $("#member_emer_phone").val();
     var phone = $("#member_phone").val();
     var cellphone = $("#member_cellphone").val();
-    $.post('/Member/updateMemberInfo', { token: loginInfo.token, memberCode: loginInfo.memberCode, name: name, email: email, address: address, phone: phone, birthday: birthday, emerContactName: emerContactName, emerContactPhone: emerContactPhone }).done(function (updateRes) {
+    $.post('/Member/updateMemberInfo', { token: loginInfo.token, memberCode: loginInfo.memberCode, name: name, email: email, address: address, phone: phone, birthday: birthday, emerContactName: emerContactName, emerContactPhone: emerContactPhone, cellphone: cellphone }).done(function (updateRes) {
         var reason = updateRes.reason;
         var success = updateRes.success;
+        alert(reason);
         if (success == 1) {
             showAlert(true, reason, function () { window.location.href = '/Member/MemberInfo'; });
         } else if (success == 0) {

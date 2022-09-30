@@ -17,12 +17,14 @@ namespace xiaotasi.Controllers
     {
         private readonly IConfiguration _config;
         private readonly ApiResultService _apiResultService;
+        private readonly AuthService _authService;
         private readonly MemberService _memberService;
 
-        public MemberController(ApiResultService apiResultService, MemberService memberService, IConfiguration config)
+        public MemberController(ApiResultService apiResultService, MemberService memberService, AuthService authService, IConfiguration config)
         {
             _apiResultService = apiResultService;
             _memberService = memberService;
+            _authService = authService;
             _config = config;
         }
 
@@ -44,7 +46,7 @@ namespace xiaotasi.Controllers
             int paramsAuthStatus = 0;
 
             // 必傳參數判斷
-            if ((token == null || token.Length == 0))
+            if (string.IsNullOrWhiteSpace(token))
             {
                 paramsAuthStatus = 1;
             }
@@ -70,7 +72,7 @@ namespace xiaotasi.Controllers
             int paramsAuthStatus = 0;
 
             // 必傳參數判斷
-            if ((token == null || token.Length == 0))
+            if (string.IsNullOrWhiteSpace(token))
             {
                 paramsAuthStatus = 1;
             }
@@ -101,12 +103,12 @@ namespace xiaotasi.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> UpdateMemberInfo(string token, string name, string email, string address, string phone, string birthday, string emerContactName, string emerContactPhone)
+        public async Task<ActionResult> UpdateMemberInfo(string token, string name, string email, string address, string phone, string birthday, string emerContactName, string emerContactPhone, string cellphone)
         {
             int paramsAuthStatus = 0;
 
             // 必傳參數判斷
-            if ((token == null || token.Length == 0))
+            if (string.IsNullOrWhiteSpace(token))
             {
                 paramsAuthStatus = 1;
             }
@@ -116,6 +118,12 @@ namespace xiaotasi.Controllers
             if (apiAuth.code > 0)
             {
                 return Json(apiAuth);
+            }
+
+            int errorCode = _authService.isValidPhoneFormat(cellphone);
+            if (errorCode > 0)
+            {
+                return Json(new ApiError(1001, "Required field(s) is missing!", "手機號碼格式有誤"));
             }
 
             // 取得會員資訊
