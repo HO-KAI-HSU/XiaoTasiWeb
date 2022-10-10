@@ -8,13 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Bo\" />
-    <Folder Include="Vo\" />
-    <Folder Include="Service\Impl\" />
-    <Folder Include="wwwroot\images\reservationCheck\" />
-    <Folder Include="Pojo\" />
     <Folder Include="wwwroot\images\mediaNews\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\member.html" />
@@ -66,6 +60,7 @@
     <Content Remove="wwwroot\images\banner_car_trip_icon.png" />
     <Content Remove="wwwroot\images\book_icon.png" />
     <Content Remove="wwwroot\images\banner_media_icon.png" />
+    <Content Remove="wwwroot\images\bus_time_poster.jpg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />

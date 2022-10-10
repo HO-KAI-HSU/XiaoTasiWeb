@@ -1928,7 +1928,7 @@ ul.travel_tabs, ul.rule_tabs {
         width: 86%;
     }
 
-        .member_table tr td.member_text input[type="text"], .member_table tr td.member_text input[type="email"] {
+        .member_table tr td.member_text input[type="text"], .member_table tr td.member_text input[type="email"], .member_table tr td.member_text input[type="number"], .member_table tr td.member_text input[type="date"] {
             background: none;
             border: none;
             outline: none;

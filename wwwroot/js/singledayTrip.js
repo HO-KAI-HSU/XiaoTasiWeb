@@ -3,6 +3,7 @@ $(function () {
 
     var startTime = getToday();
     $("#start_time").val(startTime);
+    $('#start_time').attr('min', startTime);
 
     // loading 頁面時 query API 
     singledayTripList(startTime);
