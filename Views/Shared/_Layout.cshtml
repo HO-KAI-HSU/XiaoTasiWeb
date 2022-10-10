@@ -138,10 +138,10 @@
             </div>
             <div class="register_form_field">
                 <span>必填</span>
-                <input type="text" id="phone" name="phone" placeholder="請輸入您的連絡手機" required>
+                <input type="number" id="phone" name="phone" placeholder="請輸入您的連絡手機" required>
             </div>
             <input type="text" id="contact_name" name="contact_name" placeholder="請輸入您的緊急連絡人姓名">
-            <input type="text" id="contact_phone" name="contact_phone" placeholder="請輸入您的緊急連絡人電話">
+            <input type="number" id="contact_phone" name="contact_phone" placeholder="請輸入您的緊急連絡人電話">
             <input type="email" id="email" name="email" placeholder="請輸入您的E-mail">
             <div class="register_form_field">
                 <span>必填</span>
@@ -162,7 +162,7 @@
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>輸入手機驗證碼</h3><input type="hidden" id="verification_type" name="verification_type">
         <form action="#">
-            <input type="text" id="validate_number" name="validate_number" placeholder="請輸入手機驗證碼">
+            <input type="number" id="validate_number" name="validate_number" placeholder="請輸入手機驗證碼">
         </form>
         <a class="submit_verification_btn" href="#">送出</a>
         <a class="resend_verification_btn" href="#">重新發送</a>
@@ -179,7 +179,7 @@
         <img class="modal_close_icon" src="~/images/modal_close_icon.png" alt="Modal關閉按鈕">
         <h3>請上傳匯款證明</h3>
         <form action="#">
-            <input type="text" id="bank_number" name="bank_number" placeholder="請輸入您的匯款帳號末五碼">
+            <input type="number" id="bank_number" name="bank_number" placeholder="請輸入您的匯款帳號末五碼">
             <label class="choose_photo_file_btn">
                 <input type="file" id="upload_pay_photo" name="upload_pay_photo" accept="image/gif, image/jpeg, image/png">檔案上傳
             </label>

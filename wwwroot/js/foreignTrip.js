@@ -4,6 +4,7 @@ $(function () {
     // 初始化設定搜尋開始時間 
     var startTime = getToday();
     $("#start_time").val(startTime);
+    $('#start_time').attr('min', startTime);
 
     // loading 頁面時 query API  
     foreignTripList(startTime);

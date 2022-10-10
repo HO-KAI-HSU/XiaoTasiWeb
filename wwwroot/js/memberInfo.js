@@ -67,11 +67,11 @@ function getMemberInfo(token = "", memberCode = "", logout) {
             </tr>
             <tr>
                 <th class="member_title">聯絡電話</th>
-                <td class="member_text"><input type="text" id="member_phone" name="member_phone" value=${memberInfo.phone}></td>
+                <td class="member_text"><input type="number" id="member_phone" name="member_phone" value=${memberInfo.phone}></td>
             </tr>
             <tr>
                 <th class="member_title">聯絡手機</th>
-                <td class="member_text"><input type="text" id="member_cellphone" name="member_cellphone" value=${memberInfo.cellphone}></td>
+                <td class="member_text"><input type="number" id="member_cellphone" name="member_cellphone" value=${memberInfo.cellphone}></td>
             </tr>
             <tr>
                 <th class="member_title">聯絡地址</th>
@@ -87,7 +87,7 @@ function getMemberInfo(token = "", memberCode = "", logout) {
             </tr>
             <tr>
                 <th class="member_title">緊急聯絡人電話</th>
-                <td class="member_text"><input type="text" id="member_emer_phone" name="member_emer_phone" value=${memberInfo.emerContactPhone}></td>
+                <td class="member_text"><input type="number" id="member_emer_phone" name="member_emer_phone" value=${memberInfo.emerContactPhone}></td>
             </tr>`;
         $('.member_table').append(memberData);
     });
