@@ -163,7 +163,6 @@ function getMemberReservationList(token = "", memberCode = "", logout) {
                     <td class="td_bottom td_button"><a href="#" class="upload_pay_btn" disabled>上傳匯款證明</a></td>`;
             } else if (memberReservationInfo.payStatus == 1) {
                 list += `
-                    <td class="td_bottom td_button"><a href="#" class="cancel_btn">取消行程</a></td>
                     <td class="td_bottom td_button"><a href="#" class="upload_pay_finish_btn" disabled>已確認匯款</a></td>`;
             } else if (memberReservationInfo.payStatus == 2) {
                 list += `
