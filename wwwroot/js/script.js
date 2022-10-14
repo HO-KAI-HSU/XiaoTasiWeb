@@ -597,8 +597,10 @@ function resetPwd(callbackFun) {
     var cellphone = $("#forget_phone").val();
     var newPsw = $("#new_psw").val();
     var rekeyinNewPsw = $("#rekeyin_new_psw").val();
+    var hashRekeyin = md5(md5(rekeyinNewPsw));
+    var hashNew = md5(md5(newPsw));
     var success = 0;
-    $.post('/Register/resetPassword', { cellphone: cellphone, newPassword: newPsw, reKeyinPassword: rekeyinNewPsw }).done(function (resetRes) {
+    $.post('/Register/resetPassword', { cellphone: cellphone, newPassword: hashNew, reKeyinPassword: hashRekeyin }).done(function (resetRes) {
         var reason = resetRes.reason;
         success = resetRes.success;
         if (success == 1) {
