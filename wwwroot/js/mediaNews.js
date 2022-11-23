@@ -1,11 +1,11 @@
-  
+
 $(function () {
 
-    // 初始化設定搜尋開始時間 
+    /** 初始化設定搜尋開始時間*/
     var startTime = getToday();
     $("#start_time").val(startTime);
 
-    // loading 頁面時 query API  
+    /** loading 頁面時 query API*/
     newsList();
 
     $(document).on("click", "li", function () {
@@ -14,9 +14,7 @@ $(function () {
         var newsDate = $(this).children(".newsDate").text();
         var newsTitle = $(this).children(".newsTitle").text();
         var newsContent = $(this).children("p.newsContent").text();
-        console.log(newsDate);
-        console.log(newsTitle);
-        console.log(newsContent);
+
         var newsInfo = {
             url: imgUrl,
             newsDate: newsDate,
@@ -28,15 +26,13 @@ $(function () {
     });
 });
 
-
-// 取得最新媒體消息 API 模塊 
+/** 取得最新媒體消息 API 模塊*/
 function newsList(_sDate = "") {
-    console.log(_sDate);
     $.post('/News/getMediaNewsList', { page: 1, limit: 50, searchDate: _sDate }).done(function (newslist) {
         var item = `<h1>傳媒報導<span class="orange_title">特集</span></h1>`;
         $.each(newslist.mediaNewsList, function (i, news) {
             if (i % 3 == 0) {
-                // 第一次 
+                /** 第一次*/
                 item += `<ul class="news_content clearfix">`;
             }
             item += `
@@ -47,7 +43,7 @@ function newsList(_sDate = "") {
                     <p class="newsContent">${news.mediaNewsTraditionalContent}</p>
                 </li>`;
             if (i % 3 == 2) {
-                // 第一排尾部 
+                /** 第一排尾部*/
                 item += `</ul>`;
             }
         });

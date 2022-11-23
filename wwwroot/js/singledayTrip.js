@@ -20,8 +20,7 @@ $(function () {
         console.log("one_day_booking_btn");
         const $singledayRow = $(this).closest("li");
         var travelStepCode = $singledayRow.find("input#travel_step_code").val();
-        console.log(travelStepCode);
-        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode + "&travelType=1";
+        top.location.href = "/TripReservation/TripReservation/1/" + travelStepCode;
     });
 });
 

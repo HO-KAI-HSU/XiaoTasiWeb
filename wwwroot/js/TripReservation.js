@@ -5,13 +5,16 @@ $(function () {
     const $mask = $(".mask");
     verifyMemberInfo($login_modal, $mask);
 
-    // 取得旅遊梯次編碼    
+    /**
+    取得旅遊梯次編碼
+    */
     var _url = window.location.href;
-    var paramStr = _url.split('?')[1].split('&');
-    var _travelStepCode = paramStr[0].split('=')[1];
-    var _travelType = paramStr[1].split('=')[1];
+    var arr = _url.replace('#', '').split('/');
+    var length = arr.length;
+    var _travelStepCode = arr.pop();
+    var _travelType = arr[length - 2];
     var _travelCode = _travelStepCode.substring(0, 16);
-    console.log(_url);
+
 
     localStorage.setItem("travelType", JSON.stringify(_travelType));
 
@@ -54,8 +57,6 @@ $(function () {
         let dataJson = {};
         let memberReservationArr = [];
         for (let i = 0; i < bookingTicketTab[0].children.length; i++) {
-            console.log(bookingTicketTab[0].children.length);
-            console.log(i);
             var children = bookingTicketTab[0].children[i];
             var id = $(children).find("input#personal_id").val();
             var seatId = $(children).find("input#seatId").val();
@@ -97,32 +98,24 @@ $(function () {
         dataJson['travelStepCode'] = _travelStepCode;
         dataJson['token'] = _token;
         dataJson['memberReservationArr'] = memberReservationArr;
-        console.log(dataJson);
         createReservation(dataJson);
     });
 
     $(document).on("click", ".multiple_day_travel_list_box ul.tour_bus_choose_box li", function () {
-        console.log("tour_bus_choose_box > li");
         var hrefTab = $(this).find("a").attr("href");
-        console.log(hrefTab);
         var hrefTabArr = hrefTab.split('_');
         const $dayDetailTab = $(this).closest("ul").siblings("#tab_" + hrefTabArr[1]);
-        console.log("tab_content" + hrefTabArr[1]);
         $(".tab_content[class!='tab_content_" + hrefTabArr[1] + "']").hide();
-        console.log($dayDetailTab.attr("style"));
         $(".tab_content_" + hrefTabArr[1]).show();
-        console.log($dayDetailTab.attr("style"));
         $(this).addClass("tab_current selected").siblings().removeClass("tab_current selected");
     });
 });
 
 // 取得會員資訊模塊  
 function verifyMemberInfo(_loginModal, _mask) {
-
     // 判斷是否已登入，沒登入則跳回首頁  
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var loginFlag = loginFlagMethod(loginInfo);
-    console.log(loginFlag);
     if (!loginFlag) {
         _mask.show();
         _loginModal.show();
@@ -248,6 +241,7 @@ function createReservation(_data = "") {
         success: function (data) {
             var reason = data.reason;
             var success = data.success;
+            alert(data.reason);
             if (success == 0) {
                 showAlert(false, reason);
                 return;
@@ -367,33 +361,30 @@ function getReservationFieldInfo(seatSelectedArr = "") {
 
 // 取得多日旅遊詳情 API 模塊 
 function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType = "") {
-    console.log(_travelCode);
-    console.log(_travelStepCode);
-    console.log(_travelType);
 
     switch (_travelType) {
         case "1":
-            $("img.banner_icon").attr("src", "../images/banner_singleday_trip_icon.png");
+            $("img.banner_icon").attr("src", "/images/banner_singleday_trip_icon.png");
             $(".trip_type_name").attr("href", "/Trip/SingledayTrip");
             $(".page_name").html("一日旅遊");
             break;
         case "2":
-            $("img.banner_icon").attr("src", "../images/banner_multiple_day_trip_icon.png");
+            $("img.banner_icon").attr("src", "/images/banner_multiple_day_trip_icon.png");
             $(".trip_type_name").attr("href", "/Trip/MultipledayTrip");
             $(".page_name").html("多日旅遊");
             break;
         case "3":
-            $("img.banner_icon").attr("src", "../images/banner_island_trip_icon.png");
+            $("img.banner_icon").attr("src", "/images/banner_island_trip_icon.png");
             $(".trip_type_name").attr("href", "/Trip/IslandTrip");
             $(".page_name").html("離島旅遊");
             break;
         case "4":
-            $("img.banner_icon").attr("src", "../images/banner_car_trip_icon.png");
+            $("img.banner_icon").attr("src", "/images/banner_car_trip_icon.png");
             $(".trip_type_name").attr("href", "/Trip/CarTrip");
             $(".page_name").html("包車旅遊");
             break;
         case "5":
-            $("img.banner_icon").attr("src", "../images/banner_foreign_trip_icon.png");
+            $("img.banner_icon").attr("src", "/images/banner_foreign_trip_icon.png");
             $(".trip_type_name").attr("href", "/Trip/ForeignTrip");
             $(".page_name").html("國外旅遊");
             break;
@@ -403,7 +394,11 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
         var costInfo = tripInfo.costInfo;  // 行程費用
         var dateReducedTravelItem = "";   // 精簡模式資訊
         var selectedTravelStep = "";   // 已被選擇旅遊梯次資訊 
-        var costInfoHhtml = "行程費用: 團費含: " + (costInfo.actionInfo == "" ? "" : (costInfo.actionInfo + " + ")) + (costInfo.eatInfo == "" ? "" : (costInfo.eatInfo + " + ")) + (costInfo.insuranceInfo == "" ? "" : (costInfo.insuranceInfo + " + ")) + (costInfo.liveInfo == "" ? "" : (costInfo.liveInfo + " + ")) + (costInfo.nearInfo == "" ? "" : (costInfo.nearInfo));   // 行程費用
+        var costInfoHhtml = "行程費用: 團費含: " + (costInfo.actionInfo == "" ? "" : (costInfo.actionInfo + " + ")) +
+            (costInfo.eatInfo == "" ? "" : (costInfo.eatInfo + " + ")) +
+            (costInfo.insuranceInfo == "" ? "" : (costInfo.insuranceInfo + " + ")) +
+            (costInfo.liveInfo == "" ? "" : (costInfo.liveInfo + " + ")) +
+            (costInfo.nearInfo == "" ? "" : (costInfo.nearInfo));   // 行程費用
         var dayList = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 
         // 整理旅遊精簡模式資訊   
@@ -431,9 +426,7 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
         });
 
         var travelSdate = selectedTravelStep.startDate;
-        console.log(travelSdate);
         var travelEdate = selectedTravelStep.endDate;
-        console.log(travelEdate);
         var sDay = new Date(Date.parse(travelSdate.replace(/-/g, '/'))).getDay();
         var eDay = new Date(Date.parse(travelEdate.replace(/-/g, '/'))).getDay();
 

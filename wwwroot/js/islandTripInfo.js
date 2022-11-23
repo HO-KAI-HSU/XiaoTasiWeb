@@ -2,91 +2,89 @@
 
 $(function () {
 
-    // 取得旅遊編碼 
+    /**取得旅遊編碼*/
     var _url = window.location.href;
-    var paramStr = _url.split('?')[1].split('=');
-    var travelCode = paramStr[1];
-    console.log(_url);
+    var travelCode = _url.replace('#', '').split('/').pop();
 
-    // loading 頁面時 query API   
+    /** loading 頁面時 query API*/
     multipledayTripInfo(travelCode);
 
-    // 取得video API 模塊 
+    /** 取得video API 模塊*/
     videoList();
-        
 
-    // 按鈕更新旅遊統計
+    /** 按鈕更新旅遊統計*/
     $(".month_travel_list").on("click", function () {
         console.log("11");
     });
 
-    // Tab切換   
+    /** Tab切換*/
     $(document).on("click", ".calendar_list ul.month_choose li", function () {
-        console.log("month_choose > li");
         var hrefTab = $(this).find("div").attr("class");
         var hrefTabArr = hrefTab.split('_');
         const $dayDetailTab = $(this).closest("ul").siblings("#month_choose_tab_" + hrefTabArr[2]);
         $($dayDetailTab).fadeIn(300);
-        console.log("month_content_" + hrefTabArr[2]);
         $(".month_content[class!='month_content_" + hrefTabArr[2] + "']").hide();
-        console.log($dayDetailTab.attr("style"));
         $(".month_content_" + hrefTabArr[2]).show();
-        console.log($dayDetailTab.attr("style"));
         $(this).addClass("tab_current selected").siblings().removeClass("tab_current selected");
         $inputTab = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input");
         var travelStepCode = $inputTab.val();
-        console.log(travelStepCode);
         updateTripStatisticInfo(travelStepCode);
     });
 
-    // 旅遊梯次選擇  
+    /** 旅遊梯次選擇*/
     $(document).on("click", ".calendar_list .month_travel_list", function () {
         console.log("month_travel_list");
         $(this).addClass("selected").siblings().removeClass("selected");
         var travelStepCode = $(this).find("input").val();
-        console.log(travelStepCode);
         updateTripStatisticInfo(travelStepCode);
     });
 
-    // 報名   
+    /** 報名*/
     $(document).on("click", ".trip_more_btn", function () {
         console.log("trip_more_btn");
-        console.log($(document).find("input#travel_step_code").find("input#travel_step_code").val());
         const hrefTab = $(document).find("li.tab_current").find("div").attr("class");
-        console.log(hrefTab);
         var hrefTabArr = hrefTab.split('_');
-        $inputTab = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input");
-        var travelStepCode = $inputTab.val();
-        console.log(travelStepCode);
-        top.location.href = "/TripReservation/TripReservation?travelStepCode=" + travelStepCode + "&travelType=3";
+        $inputTabStepCode = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input#travel_step_code");
+        $inputTabRemainSeatNum = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input#travel_remainSeat_num");
+        $inputTabStartDate = $(".month_content_" + hrefTabArr[2]).find("div.month_travel_list.selected input#travel_startDate");
+        var travelStepCode = $inputTabStepCode.val();
+        var remainSeatNum = $inputTabRemainSeatNum.val();
+        var startDate = $inputTabStartDate.val();
+        var expiredDateTime = Date.parse(startDate + "T00:00:00");
+        var now = new Date().setHours(4);
+        const diffTime = Math.abs(expiredDateTime - now);
+        if (remainSeatNum <= 0 || diffTime <= 0) {
+            alert("該梯次行程已完售或是已超過販售時間，詳情請來電洽詢");
+            return;
+        }
+        top.location.href = "/TripReservation/TripReservation/3/" + travelStepCode;
     });
 });
 
-
-// 取得多日旅遊詳情 API 模塊 
+/** 取得多日旅遊詳情 API 模塊*/
 function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
-    $.post('/Trip/GetTravelInfoForMember', { travelCode: _travelCode, travelStepCode: _travelStepCode}).done(function (tripInfo) {
-        var dateTravelItem = "";          // 每日旅遊資訊
-        var dateReducedTravelItem = "";   // 精簡模式資訊
-        var dateTravelCostItem = "";      // 費用資訊   
-        var travelTitleItem = "";         // 整理旅遊標題資訊  
-        var travelStatisticsItem = "";    // 整理統計資訊
-        var travelStatisticsMonItem = "";    // 整理統計月份資訊  
-        var travelMonStatisticsItem = "";    // 整理月份統計資訊
-        var travelContentItem = "";       // 整理旅遊內容資訊   
+    $.post('/Trip/GetTravelInfoForMember', { travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripInfo) {
+        var dateTravelItem = "";           /**每日旅遊資訊*/
+        var dateReducedTravelItem = "";    /**精簡模式資訊*/
+        var dateTravelCostItem = "";       /**費用資訊*/
+        var travelTitleItem = "";          /**整理旅遊標題資訊*/
+        var travelStatisticsItem = "";     /**整理統計資訊*/
+        var travelStatisticsMonItem = "";  /**整理統計月份資訊*/
+        var travelMonStatisticsItem = "";  /**整理月份統計資訊*/
+        var travelContentItem = "";        /**整理旅遊內容資訊*/
         var travelTitle = tripInfo.travelInfo.travelTitle;
         var travelContent = tripInfo.travelInfo.travelContent;
 
-        // 整理旅遊標題資訊  
+        /** 整理旅遊標題資訊*/
         travelTitleItem += `<h3>${travelTitle}<span class="video_mark">世界級的風景饗宴</span></h3>`;
         bannerTitle = `${travelTitle}`;
         breadTitle = `${travelTitle}`;
 
-        // 整理旅遊內容資訊
+        /** 整理旅遊內容資訊*/
         travelContentItem += `${travelContent}`;
 
-        // 整理旅遊精簡模式資訊      
-        dateReducedTravelItem +=` 
+        /** 整理旅遊精簡模式資訊*/
+        dateReducedTravelItem += ` 
                     <tr>
                         <th class="order_date">天數</th>
                         <th class="place_food_hotel">旅遊行程/景點</th>
@@ -94,7 +92,7 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
                         <th class="place_food_hotel">旅館</th>
                     </tr>`;
 
-        // 整理旅遊費用數說明資訊 
+        /** 整理旅遊費用數說明資訊*/
         dateTravelCostItem += `
                     <div class="tabs_fee_text">
                         <h3>費用說明</h3>
@@ -158,10 +156,10 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
             dateTravelItem += `</div></div>`;
         });
 
-        // localstorage 存儲旅遊統計 
+        /** localstorage 存儲旅遊統計*/
         localStorage.setItem("travelStatisticsList", JSON.stringify(tripInfo.travelStatisticList));
 
-        // 整理月份旅遊統計    
+        /** 整理月份旅遊統計*/
         $.each(tripInfo.travelStatisticList, function (monIndex, travelMonStatisticInfo) {
             var mon = travelMonStatisticInfo.travelMon;
             var monStringArr = mon.split("-");
@@ -173,8 +171,6 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
             }
             $.each(travelMonStatisticInfo.travelStatisticList, function (dateIndex, travelStatisticInfo) {
                 var travelStepCode = travelStatisticInfo.travelStep;
-                console.log(travelStatisticInfo);
-                console.log(travelStepCode);
                 if (dateIndex == 0) {
                     travelMonStatisticsItem += `<div class="month_travel_list selected clearfix">`;
                 } else {
@@ -186,7 +182,7 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
                         <tr><th>回程時間</th><td>${travelStatisticInfo.endDate}</td></tr>
                         <tr><th>天數</th><td>${travelStatisticInfo.dayNum}天</td></tr>
                         <tr><th>團數</th><td>${travelStatisticInfo.travelStep}</td></tr>
-                        <tr><th>可賣</th><td>${travelStatisticInfo.remainSeatNum}</td></tr>
+                        <tr><th>可賣</th><td>${travelStatisticInfo.remainSeatNum <= 0 ? 0 : travelStatisticInfo.remainSeatNum}</td></tr>
                         <tr><th>團位</th><td>${travelStatisticInfo.travelNum}</td></tr>
                         <tr><th>旅費</th><td><span class="dollars">${travelStatisticInfo.travelCost}</span>元起</td></tr>
                     `;
@@ -195,12 +191,14 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
                 var day = new Date(Date.parse(travelStatisticInfo.startDate.replace(/-/g, '/'))).getDay();
                 travelMonStatisticsItem += `
                     <input type="hidden" id="travel_step_code" value="${travelStepCode}">
+                    <input type="hidden" id="travel_remainSeat_num" value="${travelStatisticInfo.remainSeatNum}">
+                    <input type="hidden" id="travel_startDate" value="${travelStatisticInfo.startDate}">
                     <div class="week_day month_f_left">
                         <p class="day">${dateStringArr[2]}</p>
                         <p>${dayList[day]}</p>
                     </div>
                     <div class="week_day_seat month_f_left">
-                        <p>可賣:${travelStatisticInfo.remainSeatNum}</p>
+                        <p>可賣:${travelStatisticInfo.remainSeatNum <= 0 ? 0 : travelStatisticInfo.remainSeatNum}</p>
                         <p>團位:${travelStatisticInfo.travelNum}</p>
                     </div>
                     <div class="week_day_assign month_f_left">
@@ -234,11 +232,9 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
     });
 }
 
-// 更新多日旅遊統計模塊
+/** 更新多日旅遊統計模塊*/
 function updateTripStatisticInfo(travelStepCode = "") {
-    // localstorage 取得旅遊統計 
     var travelStatisticsList = JSON.parse(localStorage.getItem('travelStatisticsList'));
-    console.log(travelStatisticsList);
     var updateTravelStatisticsItem = "";
     $.each(travelStatisticsList, function (monIndex, travelMonStatisticInfo) {
         $.each(travelMonStatisticInfo.travelStatisticList, function (dateIndex, travelStatisticInfo) {
@@ -248,7 +244,7 @@ function updateTripStatisticInfo(travelStepCode = "") {
                     <tr><th>回程時間</th><td>${travelStatisticInfo.endDate}</td></tr>
                     <tr><th>天數</th><td>${travelStatisticInfo.dayNum}天</td></tr>
                     <tr><th>團數</th><td>${travelStatisticInfo.travelStep}</td></tr>
-                    <tr><th>可賣</th><td>${travelStatisticInfo.remainSeatNum}</td></tr>
+                    <tr><th>可賣</th><td>${travelStatisticInfo.remainSeatNum <= 0 ? 0 : travelStatisticInfo.remainSeatNum}</td></tr>
                     <tr><th>團位</th><td>${travelStatisticInfo.travelNum}</td></tr>
                     <tr><th>旅費</th><td><span class="dollars">${travelStatisticInfo.travelCost}</span>元起</td></tr>
                 `;
@@ -258,7 +254,7 @@ function updateTripStatisticInfo(travelStepCode = "") {
     $(".travel_info_post_table").html(updateTravelStatisticsItem);
 }
 
-// 取得video API 模塊 
+/** 取得video API 模塊*/
 function videoList() {
     var videoItem = `
             <div class="slick-slide">
