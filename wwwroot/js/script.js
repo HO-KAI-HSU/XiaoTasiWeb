@@ -103,23 +103,24 @@ $(function () {
         $mask.hide();
     });
     $(document).on("click", ".upload_pay_btn, .reupload_pay_btn", function () {
+        console.log("upload_pay_btn");
         var travelReservationCode = $(this).closest("tr").find("input#travelReservationCode").val();
         localStorage.setItem("travelReservationCode", travelReservationCode);
-        console.log("upload_pay_btn");
+
         $mask.show();
         $upload_pay_modal.show();
     });
     $(document).on("click", ".send_reservation_check_btn", function () {
+        console.log("send_reservation_check_btn");
         var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
         var picPath = localStorage.getItem("picPath");
         var travelReservationCode = localStorage.getItem("travelReservationCode");
         localStorage.removeItem("picPath");
         localStorage.removeItem("travelReservationCode");
         var _token = loginInfo.token;
-        console.log("send_reservation_check_btn");
+
         let dataJson = {};
         var bankAccountCode = $(this).closest("div").find("input#bank_number").val();
-        console.log(bankAccountCode);
         dataJson['token'] = _token;
         dataJson['travelReservationCode'] = travelReservationCode;
         dataJson['bankAccountCode'] = bankAccountCode;
@@ -425,16 +426,16 @@ function tripInfo(travelCode = null, _travelId = null, indexFlag = false) {
     var travelCode = travelCode;
     switch (_travelId) {
         case "1":
-            window.location.href = indexFlag ? "Trip/MultipledayTripInfo?travelCode=" + travelCode : 'MultipledayTripInfo?travelCode=' + travelCode;
+            window.location.href = indexFlag ? "Trip/MultipledayTripInfo/" + travelCode : 'MultipledayTripInfo/' + travelCode;
             break;
         case "2":
-            window.location.href = indexFlag ? "Trip/IslandTripInfo?travelCode=" + travelCode : 'IslandTripInfo?travelCode=' + travelCode;
+            window.location.href = indexFlag ? "Trip/IslandTripInfo/" + travelCode : 'IslandTripInfo/' + travelCode;
             break;
         case "3":
-            window.location.href = indexFlag ? "Trip/CarTripInfo?travelCode=" + travelCode : 'CarTripInfo?travelCode=' + travelCode;
+            window.location.href = indexFlag ? "Trip/CarTripInfo/" + travelCode : 'CarTripInfo/' + travelCode;
             break;
         case "4":
-            window.location.href = indexFlag ? "Trip/ForeignTripInfo?travelCode=" + travelCode : 'ForeignTripInfo?travelCode=' + travelCode;
+            window.location.href = indexFlag ? "Trip/ForeignTripInfo/" + travelCode : 'ForeignTripInfo/' + travelCode;
             break;
     }
 }
@@ -772,7 +773,7 @@ function getMemberLoginInfo() {
         } else {
             console.log("Member login status : false");
         }
-    }, 2000);
+    }, 20000);
 }
 
 

@@ -1,7 +1,7 @@
 
 $(function () {
 
-    // 初始化設定搜尋開始時間 
+    /**初始化設定搜尋開始時間*/
     var startTime = getToday();
     $("#start_time").val(startTime);
     $('#start_time').attr('min', startTime);

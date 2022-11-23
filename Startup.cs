@@ -37,6 +37,7 @@ namespace xiaotasi
             services.AddScoped<NewsService, NewsServiceImpl>();
             services.AddScoped<IndexService, IndexServiceImpl>();
             services.AddScoped<RegisterService, RegisterServiceImpl>();
+            services.AddScoped<TripService, TripServiceImpl>();
 
             services.AddDistributedMemoryCache();
 

@@ -33,7 +33,8 @@ namespace xiaotasi.Controllers
             _tripReservationService = tripReservationService;
         }
 
-        public IActionResult TripReservation()
+        [Route("TripReservation/TripReservation/{traveType}/{traveCode}")]
+        public IActionResult TripReservation(int traveType, string traveCode)
         {
             return View();
         }

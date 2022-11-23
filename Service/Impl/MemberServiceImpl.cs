@@ -37,7 +37,7 @@ namespace xiaotasi.Service.Impl
             await connection.OpenAsync();
             MemberInfoModel memberData = new MemberInfoModel();
             SqlDataReader reader = select.ExecuteReader();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 memberData.memberCode = (string)reader[0];
                 memberData.username = (string)reader[1];
@@ -106,7 +106,7 @@ namespace xiaotasi.Service.Impl
             }
 
             // 將字串轉為陣列
-            String[] seatIdArr = seatIds == null ? new String[0] : seatIds.Split(',');
+            string[] seatIdArr = seatIds == null ? new string[0] : seatIds.Split(',');
 
             List<Task> tasks = new List<Task>();
 

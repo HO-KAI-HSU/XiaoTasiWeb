@@ -12,9 +12,7 @@ $(function () {
     $(".one_day_search_btn").on("click", function () {
         console.log("one_day_search_btn");
         var sTime = $("#start_time").val();
-        console.log(sTime);
         var location = $("#location").val();
-        console.log(location);
         multipledayTripList(sTime, location);
     });
 });
