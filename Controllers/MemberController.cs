@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using xiaotasi.Models;
 using xiaotasi.Service;
 using static xiaotasi.Vo.ApiResult;
@@ -90,14 +88,6 @@ namespace xiaotasi.Controllers
 
             // 取得會員定位資訊
             List<MemberReservationModel> travelReservationInfoDatas = await _memberService.getMembrReservationList(memberCode);
-
-            PageControl<MemberReservationModel> pageControl = new PageControl<MemberReservationModel>();
-            //List<MemberReservationModel> travelReservationInfoDatasNew = pageControl.pageControl(page, limit, travelReservationInfoDatas);
-            //getTravelReservationListApi.success = 1;
-            //getTravelReservationListApi.count = pageControl.size;
-            //getTravelReservationListApi.page = page;
-            //getTravelReservationListApi.limit = limit;
-            //getTravelReservationListApi.travelReservationList = travelReservationInfoDatasNew;
             return Json(new ApiResult<List<MemberReservationModel>>(travelReservationInfoDatas));
         }
 
@@ -143,12 +133,12 @@ namespace xiaotasi.Controllers
             SqlCommand select = new SqlCommand("UPDATE member_list SET name = @memberName, email = @email, address = @address, telephone = @phone, birthday = @birthday, emer_contact_name = @emername, emer_contact_phone = @emerphone WHERE member_Code = @memberCode", connection);
             select.Parameters.AddWithValue("@memberCode", memberCode);
             select.Parameters.Add("@memberName", SqlDbType.NVarChar).Value = name;
-            select.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+            select.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
             select.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
-            select.Parameters.Add("@phone", SqlDbType.NVarChar).Value = phone;
+            select.Parameters.Add("@phone", SqlDbType.VarChar).Value = phone;
             select.Parameters.Add("@birthday", SqlDbType.DateTime).Value = DateTime.ParseExact(birthday, "yyyy-mm-dd", null);
             select.Parameters.Add("@emername", SqlDbType.NVarChar).Value = emerContactName;
-            select.Parameters.Add("@emerphone", SqlDbType.NVarChar).Value = emerContactPhone;
+            select.Parameters.Add("@emerphone", SqlDbType.VarChar).Value = emerContactPhone;
             //開啟資料庫連線
             await connection.OpenAsync();
             select.ExecuteNonQuery();

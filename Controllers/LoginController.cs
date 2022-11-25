@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using xiaotasi.Models;
 using xiaotasi.Service;
 
@@ -112,7 +108,7 @@ namespace xiaotasi.Controllers
             string tokenIat = DateTimeOffset.FromUnixTimeSeconds(timestampIat).DateTime.ToString("yyyy-MM-dd HH:mm:ss");
             SqlCommand select = new SqlCommand(cmdText, connection);
             select.Parameters.AddWithValue("@username", username);
-            select.Parameters.Add("@token", SqlDbType.NVarChar).Value = token;
+            select.Parameters.Add("@token", SqlDbType.VarChar).Value = token;
             select.Parameters.Add("@tokenExp", SqlDbType.NVarChar).Value = tokenExp;
             select.Parameters.Add("@tokenIat", SqlDbType.NVarChar).Value = tokenIat;
             //開啟資料庫連線

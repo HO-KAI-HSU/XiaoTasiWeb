@@ -1,5 +1,3 @@
-using System;
-
 namespace xiaotasi.Models
 {
     // <summary>

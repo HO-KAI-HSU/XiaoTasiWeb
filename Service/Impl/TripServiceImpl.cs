@@ -25,7 +25,16 @@ namespace xiaotasi.Service.Impl
             SqlConnection connection = new SqlConnection(connectionString);
 
             // SQL Command
-            string travelSql = "SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, travel_subject as travelSubject, travel_content as travelContent FROM travel_list Where convert(DATETIME, travel_s_time, 23) >= @searchDate";
+            string travelSql = "SELECT " +
+                               "travel_id as travelId, " +
+                               "travel_code as travelCode, " +
+                               "travel_name as travelTraditionalTitle, " +
+                               "travel_cost as costs, " +
+                               "travel_type as travelType, " +
+                               "travel_pic_path as travelPicPath, " +
+                               "travel_url as travelUrl, " +
+                               "travel_subject as travelSubject, " +
+                               "travel_content as travelContent FROM travel_list Where convert(DATETIME, travel_s_time, 23) >= @searchDate";
             SqlCommand select = new SqlCommand(travelSql, connection);
             select.Parameters.AddWithValue("@searchDate", !date.Equals("") ? date : DateTime.Now.Date.ToString());
 
@@ -57,7 +66,16 @@ namespace xiaotasi.Service.Impl
         public async Task<TripPojo> getTravelInfo(string travelCode)
         {
             var connectionString = _config.GetConnectionString("XiaoTasiTripContext");
-            var travelSql = "SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, travel_subject as travelSubject, travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
+            var travelSql = "SELECT " +
+                            "travel_id as travelId, " +
+                            "travel_code as travelCode, " +
+                            "travel_name as travelTraditionalTitle, " +
+                            "travel_cost as costs, " +
+                            "travel_type as travelType, " +
+                            "travel_pic_path as travelPicPath, " +
+                            "travel_url as travelUrl, " +
+                            "travel_subject as travelSubject, " +
+                            "travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
 
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand select = new SqlCommand(travelSql, connection);
@@ -71,12 +89,12 @@ namespace xiaotasi.Service.Impl
                 tripPojo.travelId = (int)reader[0];
                 tripPojo.travelCode = (string)reader[1];
                 tripPojo.travelTitle = reader.IsDBNull(2) ? "" : (string)reader[2];
-                tripPojo.cost = (int)reader[4];
-                tripPojo.travelType = (int)reader[5];
-                tripPojo.travelPicPath = reader.IsDBNull(6) ? "" : (string)reader[6];
-                tripPojo.travelUrl = reader.IsDBNull(7) ? "" : (string)reader[7];
-                tripPojo.travelSubject = reader.IsDBNull(8) ? "" : (string)reader[8];
-                tripPojo.travelContent = reader.IsDBNull(9) ? "" : (string)reader[9];
+                tripPojo.cost = (int)reader[3];
+                tripPojo.travelType = (int)reader[4];
+                tripPojo.travelPicPath = reader.IsDBNull(5) ? "" : (string)reader[5];
+                tripPojo.travelUrl = reader.IsDBNull(6) ? "" : (string)reader[6];
+                tripPojo.travelSubject = reader.IsDBNull(7) ? "" : (string)reader[7];
+                tripPojo.travelContent = reader.IsDBNull(8) ? "" : (string)reader[8];
             }
             connection.Close();
 

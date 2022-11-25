@@ -100,8 +100,8 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "") {
                         <p>2.餐食：${tripInfo.costInfo.eatInfo}</p>
                         <p>3.住宿：${tripInfo.costInfo.liveInfo}</p>
                         <p>4.活動：${tripInfo.costInfo.actionInfo}</p>
-                        <p>5.貼心：${tripInfo.costInfo.insuranceInfo}</p>
-                        <p>6.保險：${tripInfo.costInfo.nearInfo}</p>
+                        <p>5.貼心：${tripInfo.costInfo.nearInfo}</p>
+                        <p>6.保險：${tripInfo.costInfo.insuranceInfo}</p>
                         <p class="tabs_fee_text_notice">＊旅客未滿15歲或70歲以上，依法限制最高【意外死殘保額新臺幣20萬元、意外醫療保額新臺幣20萬 (實支實付)】</p>
                     </div>
                     <div class="tabs_fee_text">

@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using xiaotasi.Data;
 
 namespace xiaotasi.Helpers
 {

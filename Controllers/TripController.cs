@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -41,7 +40,15 @@ namespace xiaotasi.Controllers
         public async Task<IActionResult> GetTravelListForMember(int page, int limit, int travelType, string searchDate, string searchString)
         {
             var connectionString = _config.GetConnectionString("XiaoTasiTripContext");
-            var travelSql = "WITH travelSql AS ( SELECT tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, tl.f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY tl.travel_id) AS rowId FROM (select travel_id from travel_step_list WHERE convert(DATETIME, travel_s_time, 23) >= @searchDate GROUP BY travel_id) as tsln inner join travel_list tl ON tl.travel_id = tsln.travel_id WHERE tl.travel_type = @travelType and tl.travel_name like @searchStr )";
+            var travelSql = "WITH travelSql AS ( SELECT " +
+                            "tl.travel_id as travelId, " +
+                            "tl.travel_code as travelCode, " +
+                            "tl.travel_name as travelTraditionalTitle, " +
+                            "tl.travel_cost as costs, " +
+                            "tl.travel_type as travelType, " +
+                            "tl.travel_pic_path as travelPicPath, " +
+                            "tl.travel_url as travelUrl, " +
+                            "tl.f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY tl.travel_id) AS rowId FROM (select travel_id from travel_step_list WHERE convert(DATETIME, travel_s_time, 23) >= @searchDate GROUP BY travel_id) as tsln inner join travel_list tl ON tl.travel_id = tsln.travel_id WHERE tl.travel_type = @travelType and tl.travel_name like @searchStr )";
             travelSql += " select * from travelSql";
 
             var travelShowDatas = new List<TripViewModel>();
@@ -61,12 +68,12 @@ namespace xiaotasi.Controllers
                 travelShowData.travelId = (int)reader[0];
                 travelShowData.travelCode = (string)reader[1];
                 travelShowData.travelTraditionalTitle = reader.IsDBNull(2) ? string.Empty : (string)reader[2];
-                travelShowData.cost = (int)reader[4];
-                travelShowData.travelType = (int)reader[5];
+                travelShowData.cost = (int)reader[3];
+                travelShowData.travelType = (int)reader[4];
                 travelShowData.startDate = _getTravelStepStartDateInfo((int)reader[0]);
-                travelShowData.travelPicPath = reader[6].ToString();
-                travelShowData.travelUrl = reader.IsDBNull(7) ? string.Empty : (string)reader[7];
-                travelShowData.travelFdate = reader.IsDBNull(8) ? string.Empty : ((DateTime)reader[8]).ToString(format);
+                travelShowData.travelPicPath = reader[5].ToString();
+                travelShowData.travelUrl = reader.IsDBNull(6) ? string.Empty : (string)reader[6];
+                travelShowData.travelFdate = reader.IsDBNull(7) ? string.Empty : ((DateTime)reader[7]).ToString(format);
                 travelShowDatas.Add(travelShowData);
             }
             connection.Close();
@@ -113,7 +120,15 @@ namespace xiaotasi.Controllers
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string travelSql = "SELECT travel_id as travelId, travel_code as travelCode, travel_name as travelTraditionalTitle, travel_en_name as travelEnTitle, travel_cost as costs, travel_type as travelType, travel_pic_path as travelPicPath, travel_url as travelUrl, travel_subject as travelSubject, travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
+            string travelSql = "SELECT " +
+                               "travel_id as travelId, " +
+                               "travel_code as travelCode," +
+                               "travel_name as travelTraditionalTitle, " +
+                               "travel_cost as costs, travel_type as " +
+                               "travelType, travel_pic_path as travelPicPath, " +
+                               "travel_url as travelUrl, " +
+                               "travel_subject as travelSubject, " +
+                               "travel_content as travelContent FROM travel_list WHERE travel_code = @travelCode";
             SqlCommand select = new SqlCommand(travelSql, connection);
             //// 開啟資料庫連線
             select.Parameters.AddWithValue("@travelCode", travelCode);
@@ -126,8 +141,8 @@ namespace xiaotasi.Controllers
             {
                 travelInfo.Add("travelCode", (string)reader[1]);
                 travelInfo.Add("travelTitle", reader.IsDBNull(2) ? string.Empty : (string)reader[2]);
-                travelInfo.Add("travelSubject", reader.IsDBNull(8) ? string.Empty : (string)reader[8]);
-                travelInfo.Add("travelContent", reader.IsDBNull(9) ? string.Empty : (string)reader[9]);
+                travelInfo.Add("travelSubject", reader.IsDBNull(6) ? string.Empty : (string)reader[6]);
+                travelInfo.Add("travelContent", reader.IsDBNull(7) ? string.Empty : (string)reader[7]);
                 travelInfo.Add("travelMoviePath", string.Empty);
                 travelStatisticList = await _tripService.getTravelMonStatisticList((int)reader[0], travelStepCode);
             }
@@ -144,7 +159,19 @@ namespace xiaotasi.Controllers
         {
             var connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             var domainUrl = string.Format(_config.GetValue<string>("Domain"));
-            var sql = "select tl.travel_id as travelId, tl.travel_code as travelCode, tl.travel_name as travelTraditionalTitle, tl.travel_en_name as travelEnTitle, tl.travel_cost as costs, tl.travel_type as travelType, tl.travel_pic_path as travelPicPath, tl.travel_url as travelUrl, stl.travel_s_time as travelStime, tl.travel_subject as travelSubject, tl.travel_content as travelContent, stl.travel_step_code as travelStepCode, tl.travel_viewpoint_info as travelViewpointInfo from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
+            var sql = "select " +
+                      "tl.travel_id as travelId, " +
+                      "tl.travel_code as travelCode, " +
+                      "tl.travel_name as travelTraditionalTitle, " +
+                      "tl.travel_cost as costs, " +
+                      "tl.travel_type as travelType, " +
+                      "tl.travel_pic_path as travelPicPath, " +
+                      "tl.travel_url as travelUrl, " +
+                      "stl.travel_s_time as travelStime, " +
+                      "tl.travel_subject as travelSubject, " +
+                      "tl.travel_content as travelContent, " +
+                      "stl.travel_step_code as travelStepCode, " +
+                      "tl.travel_viewpoint_info as travelViewpointInfo from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
 
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand sqlCommand = new SqlCommand(sql, connection);
@@ -161,17 +188,16 @@ namespace xiaotasi.Controllers
                 travelShowData.travelId = (int)reader[0];
                 travelShowData.travelCode = (string)reader[1];
                 travelShowData.travelTraditionalTitle = reader.IsDBNull(2) ? string.Empty : (string)reader[2];
-                travelShowData.travelEnTitle = reader.IsDBNull(3) ? string.Empty : (string)reader[3];
-                travelShowData.cost = (int)reader[4];
-                travelShowData.travelType = (int)reader[5];
+                travelShowData.cost = (int)reader[3];
+                travelShowData.travelType = (int)reader[4];
                 travelShowData.startDate = _getTravelStepStartDateInfo((int)reader[0]);
                 travelShowData.dateTravelPicList = await this._getDateTravelPicList((int)reader[0], 1);
-                travelShowData.travelPicPath = reader.IsDBNull(6) ? string.Empty : domainUrl + "/images/trip/" + (string)reader[6].ToString();
-                travelShowData.travelUrl = reader.IsDBNull(7) ? string.Empty : (string)reader[7];
-                travelShowData.travelFdate = reader.IsDBNull(8) ? string.Empty : ((DateTime)reader[8]).ToString(format);
-                travelShowData.travelContent = reader.IsDBNull(10) ? string.Empty : (string)reader[10];
-                travelShowData.travelStepCode = reader.IsDBNull(11) ? string.Empty : (string)reader[11];
-                travelShowData.travelViewpointInfo = reader.IsDBNull(12) ? string.Empty : (string)reader[12];
+                travelShowData.travelPicPath = reader.IsDBNull(5) ? string.Empty : domainUrl + "/images/trip/" + (string)reader[5].ToString();
+                travelShowData.travelUrl = reader.IsDBNull(6) ? string.Empty : (string)reader[6];
+                travelShowData.travelFdate = reader.IsDBNull(7) ? string.Empty : ((DateTime)reader[7]).ToString(format);
+                travelShowData.travelContent = reader.IsDBNull(9) ? string.Empty : (string)reader[9];
+                travelShowData.travelStepCode = reader.IsDBNull(10) ? string.Empty : (string)reader[10];
+                travelShowData.travelViewpointInfo = reader.IsDBNull(11) ? string.Empty : (string)reader[11];
                 travelShowDatas.Add(travelShowData);
             }
             connection.Close();
@@ -257,7 +283,7 @@ namespace xiaotasi.Controllers
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            SqlCommand select = new SqlCommand("select transportation_info as transportationInfo, eat_info as eatInfo, live_info as liveInfo, action_info as actionInfo, insurance_info as insuranceInfo, near_info as nearInfo, travel_detail_id as travelDetailId from travel_cost_list where travel_id = @travelId", connection);
+            SqlCommand select = new SqlCommand("select transportation_info as transportationInfo, eat_info as eatInfo, live_info as liveInfo, action_info as actionInfo, insurance_info as insuranceInfo, near_info as nearInfo from travel_cost_list where travel_id = @travelId", connection);
             // 開啟資料庫連線
             select.Parameters.AddWithValue("@travelId", travelId);
             await connection.OpenAsync();

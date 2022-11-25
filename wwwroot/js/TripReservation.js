@@ -5,9 +5,7 @@ $(function () {
     const $mask = $(".mask");
     verifyMemberInfo($login_modal, $mask);
 
-    /**
-    取得旅遊梯次編碼
-    */
+    /**取得旅遊梯次編碼*/
     var _url = window.location.href;
     var arr = _url.replace('#', '').split('/');
     var length = arr.length;
@@ -18,19 +16,19 @@ $(function () {
 
     localStorage.setItem("travelType", JSON.stringify(_travelType));
 
-    // 取得token 
+    /**取得token*/
     var loginInfoEncode = localStorage.getItem("loginInfo");
     var loginInfo = JSON.parse(loginInfoEncode);
     var _token = loginInfo.token;
     var seatSelectedArr = [];
     var boardingArr = [];
 
-    // loading 頁面時 query API
+    /**loading 頁面時 query API*/
     getReservationBoardingList(_token, _travelCode, boardingArr);
     getReservationSeatInfo(_travelCode, _travelStepCode, _token);
     multipledayTripInfo(_travelCode, _travelStepCode, _travelType);
 
-    // 旅遊梯次選擇    
+    /**旅遊梯次選擇 API*/
     $(document).on("click", ".tour_bus_seat", function () {
         console.log("tour_bus_seat");
         var seat = $(this).find("input").val();
@@ -222,10 +220,10 @@ function getReservationSeatInfo(_travelCode = "", _travelStepCode = "", _token =
     });
 }
 
-// 定位上車地點資訊 API 模塊 
+/**定位上車地點資訊 API 模塊*/
 function getReservationBoardingList(_token = "", _travelCode = "", boardingArr = []) {
     $.post('/TripReservation/getTripReservationBoardingList', { token: _token, travelCode: _travelCode }).done(function (tripReservationBoardingList) {
-        var travelReservationBoardingList = tripReservationBoardingList.travelReservationBoardingList; // 定位上車地點資訊
+        var travelReservationBoardingList = tripReservationBoardingList.travelReservationBoardingList;
         localStorage.setItem("boardingArr", JSON.stringify(travelReservationBoardingList));
     });
 }
@@ -253,7 +251,7 @@ function createReservation(_data = "") {
     })
 }
 
-// 定位座位資訊 API 模塊    
+/**定位座位資訊 API 模塊*/
 function getReservationFieldInfo(seatSelectedArr = "") {
 
     var reservationFieldList = "";
@@ -359,7 +357,7 @@ function getReservationFieldInfo(seatSelectedArr = "") {
     $(".booking_ticket").html(reservationFieldList);
 }
 
-// 取得多日旅遊詳情 API 模塊 
+/**取得多日旅遊詳情 API 模塊*/
 function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType = "") {
 
     switch (_travelType) {
@@ -390,15 +388,18 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
             break;
     }
     $.post('/Trip/GetTravelInfoForMember', { travelCode: _travelCode, travelStepCode: _travelStepCode }).done(function (tripInfo) {
-        var travelTitle = tripInfo.travelInfo.travelTitle;  // 旅遊標題 
-        var costInfo = tripInfo.costInfo;  // 行程費用
-        var dateReducedTravelItem = "";   // 精簡模式資訊
-        var selectedTravelStep = "";   // 已被選擇旅遊梯次資訊 
-        var costInfoHhtml = "行程費用: 團費含: " + (costInfo.actionInfo == "" ? "" : (costInfo.actionInfo + " + ")) +
-            (costInfo.eatInfo == "" ? "" : (costInfo.eatInfo + " + ")) +
-            (costInfo.insuranceInfo == "" ? "" : (costInfo.insuranceInfo + " + ")) +
-            (costInfo.liveInfo == "" ? "" : (costInfo.liveInfo + " + ")) +
-            (costInfo.nearInfo == "" ? "" : (costInfo.nearInfo));   // 行程費用
+        var travelTitle = tripInfo.travelInfo.travelTitle;
+        var costInfo = tripInfo.costInfo;
+        var dateReducedTravelItem = "";
+        var selectedTravelStep = "";
+        var costInfoHhtml = "行程費用: 團費含: <br>" +
+            (costInfo.actionInfo == "" ? "" : (costInfo.actionInfo + "<br>")) +
+            (costInfo.eatInfo == "" ? "" : (costInfo.eatInfo + "<br>")) +
+            (costInfo.nearInfo == "" ? "" : (costInfo.nearInfo + "<br>")) +
+            (costInfo.transportationInfo == "" ? "" : (costInfo.transportationInfo + "<br>")) +
+            (costInfo.insuranceInfo == "" ? "" : (costInfo.insuranceInfo + "<br>")) +
+            (costInfo.liveInfo == "" ? "" : "" + (costInfo.liveInfo));
+        console.log(costInfo.liveInfo);
         var dayList = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 
         // 整理旅遊精簡模式資訊   

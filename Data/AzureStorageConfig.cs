@@ -1,5 +1,4 @@
-﻿using System;
-namespace xiaotasi.Data
+﻿namespace xiaotasi.Data
 {
     public class AzureStorageConfig
     {
