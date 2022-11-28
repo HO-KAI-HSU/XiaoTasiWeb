@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -87,8 +88,39 @@ namespace xiaotasi.Controllers
             string memberCode = member.memberCode;
 
             // 取得會員定位資訊
-            List<MemberReservationModel> travelReservationInfoDatas = await _memberService.getMembrReservationList(memberCode);
-            return Json(new ApiResult<List<MemberReservationModel>>(travelReservationInfoDatas));
+            var travelReservationInfoDatas = await _memberService.getMemberReservationList(memberCode);
+
+            var objs = await _memberService.getMemberReservationSeatList(memberCode);
+
+
+            var res = objs
+                .GroupBy(x => x.travelReservationCode)
+                .Select(x => new ReservationSeatInfoModel
+                {
+                    travelReservationCode = x.Key,
+                    seatInfo = x.Select(x => x.seatInfo).Any() ? string.Join(",", x.Select(x => x.seatInfo).ToArray()) : string.Empty
+                })
+                .Join(travelReservationInfoDatas,
+                    rsim => rsim.travelReservationCode,
+                    tri => tri.travelReservationCode,
+                (rsim, tri) => new { rsim, tri })
+                .Select(x => new MemberReservationModel
+                {
+                    travelReservationCode = x.tri.travelReservationCode,
+                    travelCode = x.tri.travelCode,
+                    travelStepCode = x.tri.travelStepCode,
+                    cost = x.tri.cost,
+                    startDate = x.tri.startDate,
+                    travelTraditionalTitle = x.tri.travelTraditionalTitle,
+                    payStatus = x.tri.payStatus,
+                    orderName = string.Empty,
+                    memberCode = x.tri.memberCode,
+                    travelStepDate = x.tri.travelStepDate,
+                    travelReservationDate = x.tri.travelReservationDate,
+                    costInfo = x.tri.costInfo,
+                    seatInfo = x.rsim.seatInfo
+                }).ToList();
+            return Json(new ApiResult<List<MemberReservationModel>>(res));
         }
 
 

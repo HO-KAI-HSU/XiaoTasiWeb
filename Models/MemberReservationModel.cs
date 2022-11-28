@@ -1,5 +1,3 @@
-using System;
-
 namespace xiaotasi.Models
 {
     public class MemberReservationModel
@@ -20,6 +18,8 @@ namespace xiaotasi.Models
         public string memberCode { get; set; }
         public string travelStepDate { get; set; }
         public string travelReservationDate { get; set; }
+        public string costInfo { get; set; }
+        public string seatInfo { get; set; }
     }
 
 }

@@ -9,8 +9,10 @@ namespace xiaotasi.Service
     {
         Task<MemberInfoModel> getMemberInfo(string memberCode, string token);
 
-        Task<List<MemberReservationModel>> getMembrReservationList(string memberCode);
+        Task<List<MemberReservationModel>> getMemberReservationList(string memberCode);
 
         Task<int> cancelMemberReservation(string travelReservationCode);
+
+        Task<List<ReservationSeatInfoModel>> getMemberReservationSeatList(string memberCode);
     }
 }

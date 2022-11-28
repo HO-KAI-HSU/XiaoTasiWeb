@@ -56,12 +56,29 @@ namespace xiaotasi.Service.Impl
             return memberData;
         }
 
-        public async Task<List<MemberReservationModel>> getMembrReservationList(string memberCode)
+        public async Task<List<MemberReservationModel>> getMemberReservationList(string memberCode)
         {
             string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             // SQL Command
-            string fieldSql = "select rl.reservation_code as travelReservationCode, tl.travel_code as travelCode, stl.travel_step_code as travelStepCode, rl.reservation_cost as cost, stl.travel_s_time as startDate, tl.travel_name as travelTraditionalTitle, rl.status as payStatus, stl.travel_s_time as travelStepSdate, stl.travel_e_time as travelStepEdate, rl.f_date as reservationFdate from reservation_list AS rl INNER JOIN travel_step_list stl ON stl.travel_step_id = rl.travel_step_id INNER JOIN travel_list tl ON tl.travel_id = stl.travel_id INNER JOIN travel_cost_list tcl ON tcl.travel_id = tl.travel_id WHERE rl.member_code = @memberCode and rl.status > -1";
+            string fieldSql = "select " +
+                                "rl.reservation_code as travelReservationCode, " +
+                                "tl.travel_code as travelCode, " +
+                                "stl.travel_step_code as travelStepCode, " +
+                                "rl.reservation_cost as cost, " +
+                                "stl.travel_s_time as startDate, " +
+                                "tl.travel_name as travelTraditionalTitle, " +
+                                "rl.status as payStatus, " +
+                                "stl.travel_s_time as travelStepSdate, " +
+                                "stl.travel_e_time as travelStepEdate, " +
+                                "rl.f_date as reservationFdate, " +
+                                "tcl.transportation_info, " +
+                                "tcl.eat_info as eatInfo, " +
+                                "tcl.action_info as actionInfo, " +
+                                "tcl.insurance_info as insuranceInfo, " +
+                                "tcl.near_info as nearInfo, " +
+                                "tcl.live_info as liveInfo " +
+                                "from reservation_list AS rl INNER JOIN travel_step_list stl ON stl.travel_step_id = rl.travel_step_id INNER JOIN travel_list tl ON tl.travel_id = stl.travel_id INNER JOIN travel_cost_list tcl ON tcl.travel_id = tl.travel_id WHERE rl.member_code = @memberCode and rl.status > -1";
             SqlCommand select = new SqlCommand(fieldSql, connection);
             select.Parameters.AddWithValue("@memberCode", memberCode);
             // 開啟資料庫連線
@@ -71,23 +88,52 @@ namespace xiaotasi.Service.Impl
             while (reader.Read())
             {
                 MemberReservationModel travelReservationInfo = new MemberReservationModel();
-                travelReservationInfo.travelReservationCode = reader.IsDBNull(0) ? "" : (string)reader[0];
-                travelReservationInfo.travelCode = reader.IsDBNull(1) ? "" : (string)reader[1];
-                travelReservationInfo.travelStepCode = reader.IsDBNull(2) ? "" : (string)reader[2];
+                travelReservationInfo.travelReservationCode = reader.IsDBNull(0) ? string.Empty : (string)reader[0];
+                travelReservationInfo.travelCode = reader.IsDBNull(1) ? string.Empty : (string)reader[1];
+                travelReservationInfo.travelStepCode = reader.IsDBNull(2) ? string.Empty : (string)reader[2];
                 travelReservationInfo.cost = reader.IsDBNull(3) ? 0 : (int)reader[3];
                 string format = "yyyy-MM-dd HH:mm:ss";
                 string formatDate = "yyyy-MM-dd";
                 travelReservationInfo.startDate = ((DateTime)reader[4]).ToString(format);
-                travelReservationInfo.travelTraditionalTitle = reader.IsDBNull(5) ? "" : (string)reader[5];
+                travelReservationInfo.travelTraditionalTitle = reader.IsDBNull(5) ? string.Empty : (string)reader[5];
                 travelReservationInfo.payStatus = reader.IsDBNull(6) ? 0 : (int)reader[6];
-                travelReservationInfo.orderName = "";
+                travelReservationInfo.orderName = string.Empty;
                 travelReservationInfo.memberCode = memberCode;
-                travelReservationInfo.travelStepDate = reader.IsDBNull(7) == true || reader.IsDBNull(8) == true ? "" : ((DateTime)reader[7]).ToString(formatDate) + " ~ " + ((DateTime)reader[8]).ToString(formatDate);
-                travelReservationInfo.travelReservationDate = reader.IsDBNull(9) ? "" : ((DateTime)reader[9]).ToString(formatDate);
+                travelReservationInfo.travelStepDate = reader.IsDBNull(7) == true || reader.IsDBNull(8) == true ? string.Empty : ((DateTime)reader[7]).ToString(formatDate) + " ~ " + ((DateTime)reader[8]).ToString(formatDate);
+                travelReservationInfo.travelReservationDate = reader.IsDBNull(9) ? string.Empty : ((DateTime)reader[9]).ToString(formatDate);
+                travelReservationInfo.costInfo = (reader.IsDBNull(10) ? string.Empty : " " + (string)reader[10]) + (reader.IsDBNull(11) ? string.Empty : " " + (string)reader[11]) + (reader.IsDBNull(12) ? string.Empty : " " + (string)reader[12]) + (reader.IsDBNull(13) ? string.Empty : " " + (string)reader[13]) + (reader.IsDBNull(14) ? string.Empty : " " + (string)reader[14]) + (reader.IsDBNull(15) ? string.Empty : " " + (string)reader[15]);
                 travelReservationInfoDatas.Add(travelReservationInfo);
             }
             connection.Close();
             return travelReservationInfoDatas;
+        }
+
+        public async Task<List<ReservationSeatInfoModel>> getMemberReservationSeatList(string memberCode)
+        {
+            string connectionString = _config.GetConnectionString("XiaoTasiTripContext");
+            SqlConnection connection = new SqlConnection(connectionString);
+            // SQL Command
+            string fieldSql = "select " +
+                                "mrl.reservation_code as reservationCode, " +
+                                "tsl.transportation_licenses_number + spl.seat_pos_name as memberSeatInfo " +
+                                "from member_reservation_list AS mrl INNER JOIN seat_list sl ON sl.seat_id = mrl.seat_id INNER JOIN seat_pos_list spl ON spl.seat_pos = sl.seat_pos INNER JOIN transportation_list tsl ON tsl.transportation_id = sl.transportation_id WHERE mrl.member_code = @memberCode and mrl.status > 0";
+            SqlCommand select = new SqlCommand(fieldSql, connection);
+            select.Parameters.AddWithValue("@memberCode", memberCode);
+            // 開啟資料庫連線
+            await connection.OpenAsync();
+            SqlDataReader reader = select.ExecuteReader();
+            List<ReservationSeatInfoModel> objs = new List<ReservationSeatInfoModel>();
+            while (reader.Read())
+            {
+                ReservationSeatInfoModel obj = new ReservationSeatInfoModel
+                {
+                    travelReservationCode = reader.IsDBNull(0) ? string.Empty : (string)reader[0],
+                    seatInfo = reader.IsDBNull(1) ? string.Empty : (string)reader[1]
+                };
+                objs.Add(obj);
+            }
+            connection.Close();
+            return objs;
         }
 
         // 取消訂單

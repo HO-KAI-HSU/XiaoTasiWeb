@@ -140,22 +140,23 @@ function getMemberReservationList(token = "", memberCode = "", logout) {
                 <tr>
                     <th class="order_date">訂位日期</th>
                     <th class="group_no">出團梯次</th>
-                    <th class="car_no">車次</th>
-                    <th class="itineary">行程地點</th>
+                    <th class="car_no">行程名稱</th>
+                    <th class="itineary">座位資訊</th>
                     <th class="fee">費用說明</th>
                     <th class="cancel">取消行程</th>
                     <th class="cancel">匯款資訊</th>
                 </tr>`;
 
         $.each(memberReservationList, function (i, memberReservationInfo) {
+            console.log(memberReservationInfo.costInfo);
             list += `
             <tr>
                 <input type="hidden" id="travelReservationCode" value="${memberReservationInfo.travelReservationCode}">
                 <td class="light_blue">${memberReservationInfo.travelReservationDate}</td>
                 <td class="td_bottom">${memberReservationInfo.travelStepDate}</td>
-                <td class="td_bottom">${""}</td>
                 <td class="td_bottom">${memberReservationInfo.travelTraditionalTitle}</td>
-                <td class="td_bottom">${""}</td>`;
+                <td class="td_bottom">${memberReservationInfo.seatInfo}</td>
+                <td class="td_bottom">${memberReservationInfo.costInfo}</td>`;
 
             if (memberReservationInfo.payStatus == 0) {
                 list += `
