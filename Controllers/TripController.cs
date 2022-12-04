@@ -48,7 +48,7 @@ namespace xiaotasi.Controllers
                             "tl.travel_type as travelType, " +
                             "tl.travel_pic_path as travelPicPath, " +
                             "tl.travel_url as travelUrl, " +
-                            "tl.f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY tl.travel_id) AS rowId FROM (select travel_id from travel_step_list WHERE convert(DATETIME, travel_s_time, 23) >= @searchDate GROUP BY travel_id) as tsln inner join travel_list tl ON tl.travel_id = tsln.travel_id WHERE tl.travel_type = @travelType and tl.travel_name like @searchStr )";
+                            "tl.f_date as travelFdate, ROW_NUMBER() OVER(ORDER BY tl.travel_id) AS rowId FROM (select travel_id from travel_step_list WHERE status = 1 and convert(DATETIME, travel_s_time, 23) >= @searchDate GROUP BY travel_id) as tsln inner join travel_list tl ON tl.travel_id = tsln.travel_id WHERE tl.travel_type = @travelType and tl.travel_name like @searchStr )";
             travelSql += " select * from travelSql";
 
             var travelShowDatas = new List<TripViewModel>();
@@ -171,7 +171,7 @@ namespace xiaotasi.Controllers
                       "tl.travel_subject as travelSubject, " +
                       "tl.travel_content as travelContent, " +
                       "stl.travel_step_code as travelStepCode, " +
-                      "tl.travel_viewpoint_info as travelViewpointInfo from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
+                      "tl.travel_viewpoint_info as travelViewpointInfo from travel_step_list stl LEFT JOIN travel_list tl ON tl.travel_id = stl.travel_id WHERE stl.status = 1 and tl.travel_type = 1 and convert(DATETIME, stl.travel_s_time, 23) = @searchDate and tl.travel_name like @searchStr";
 
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand sqlCommand = new SqlCommand(sql, connection);
