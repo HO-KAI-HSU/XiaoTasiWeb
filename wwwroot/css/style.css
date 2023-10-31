@@ -2183,7 +2183,7 @@ ul.register_info {
     margin: 0 auto;
     max-width: 702px;
     position: absolute;
-    top: 408px;
+    top: 302px;
     transform: translate3d(-50%,0,0);
     width: 100%;
 }
@@ -2209,8 +2209,8 @@ p.footer_copyright {
     left: 50%;
     position: absolute;
     text-align: center;
-    top: 470px;
-    transform: translate3d(-50%,0,0);
+    top: 364px;
+    transform: translate3d(-39%,0,0);
     width: 100%;
 }
 
