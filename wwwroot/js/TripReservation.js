@@ -5,6 +5,10 @@ $(function () {
     const $mask = $(".mask");
     verifyMemberInfo($login_modal, $mask);
 
+    // loading
+    $mask.show();
+    $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+
     /**取得旅遊梯次編碼*/
     var _url = window.location.href;
     var arr = _url.replace('#', '').split('/');
@@ -107,6 +111,9 @@ $(function () {
         $(".tab_content_" + hrefTabArr[1]).show();
         $(this).addClass("tab_current selected").siblings().removeClass("tab_current selected");
     });
+
+    $mask.hide();
+    removeLoader();
 });
 
 // 取得會員資訊模塊  
@@ -115,6 +122,7 @@ function verifyMemberInfo(_loginModal, _mask) {
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var loginFlag = loginFlagMethod(loginInfo);
     if (!loginFlag) {
+        top.location.href = "https://www.mrtsaitravel.com/";
         _mask.show();
         _loginModal.show();
     }
@@ -438,5 +446,12 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
         $(".travel_edate").html(travelEdate + `(${dayList[eDay]})`);
         $(".travel_info").html(dateReducedTravelItem);
         $(".cost_info").html(costInfoHhtml);
+    });
+}
+
+function removeLoader() {
+    $("#loadingDiv").fadeOut(500, function () {
+        // fadeOut complete. Remove the loading div
+        $("#loadingDiv").remove(); //makes page more lightweight 
     });
 }
