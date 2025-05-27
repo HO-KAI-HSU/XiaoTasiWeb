@@ -122,7 +122,6 @@ function verifyMemberInfo(_loginModal, _mask) {
     var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
     var loginFlag = loginFlagMethod(loginInfo);
     if (!loginFlag) {
-        top.location.href = "https://www.mrtsaitravel.com/";
         _mask.show();
         _loginModal.show();
     }

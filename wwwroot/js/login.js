@@ -27,6 +27,7 @@ $(function () {
 	$(".modal_close_icon").on("click",function(){	
 		$(".login_modal,.forget_psw_modal,.register_member_modal,.add_member_modal").hide();
 		$mask.hide();
+		top.location.href = "https://www.mrtsaitravel.com/";
 	});
 	$("a.register_btn").on("click",function(){
 		$mask.show();
