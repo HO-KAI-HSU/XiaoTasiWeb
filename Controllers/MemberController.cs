@@ -173,7 +173,7 @@ namespace xiaotasi.Controllers
             select.Parameters.Add("@emerphone", SqlDbType.VarChar).Value = emerContactPhone;
             //開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
 
             ApiResult1<string> apiRes = _apiResultService.apiResult("zh-tw", 2, "MA001");

@@ -68,8 +68,8 @@ namespace xiaotasi.Controllers
 
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
-            while (reader.Read())
+            SqlDataReader reader = await select.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
             {
                 Console.WriteLine("memberCode : {0}", (string)reader[0]);
                 flag = false;

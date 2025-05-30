@@ -31,7 +31,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.Add("@travelStepId", SqlDbType.Int).Value = travelStepId;
             //開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
             return true;
         }
@@ -53,7 +53,7 @@ namespace xiaotasi.Service.Impl
 
             ////開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
             return true;
         }
@@ -70,7 +70,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.Add("@eDate", SqlDbType.DateTime).Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             ////開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
             return true;
         }
@@ -88,9 +88,9 @@ namespace xiaotasi.Service.Impl
             int errorCode = 0;
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 errorCode = 90051;
             }
@@ -108,7 +108,7 @@ namespace xiaotasi.Service.Impl
             "VALUES ('" + reservationCode + "', " + reservationNum + ", " + reservationCost + ", '" + seatIds + "', '" + note + "', " + travelId + ", " + travelStepId + ", '" + memberCode + "')", connection);
             //開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
         }
 
@@ -123,7 +123,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.Add("@reservationName", SqlDbType.NVarChar).Value = memberReservationArrBo.name;
             //開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
         }
 
@@ -138,9 +138,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelStepCode", travelStepCode);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             TripStepTransportMatchModel travelStepTransportMatch = new TripStepTransportMatchModel();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 travelStepTransportMatch.travelStepId = (int)reader[0];
                 travelStepTransportMatch.travelStepCode = reader.IsDBNull(1) ? "" : (string)reader[1];
@@ -169,9 +169,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelStepId", travelStepId);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<TripReservationSeatMatchModel> reservationSeatList = new List<TripReservationSeatMatchModel>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 TripReservationSeatMatchModel reservationSeatMatch = new TripReservationSeatMatchModel();
                 reservationSeatMatch.seatId = (int)reader[0];
@@ -193,9 +193,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@transportationId", transportationId);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<TripReservationSeatMatchModel> reservationSeatList = new List<TripReservationSeatMatchModel>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 TripReservationSeatMatchModel reservationSeatMatch = new TripReservationSeatMatchModel();
                 reservationSeatMatch.seatId = (int)reader[0];
@@ -218,9 +218,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@earlyBoardingFlag", travelBoardingType);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<TripBoardingMatchPojo> tripBoardingMatchPojos = new List<TripBoardingMatchPojo>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 TripBoardingMatchPojo tripBoardingMatchPojo = new TripBoardingMatchPojo();
                 tripBoardingMatchPojo.travelCode = "";
@@ -245,8 +245,8 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelCode", travelCode);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
-            while (reader.Read())
+            SqlDataReader reader = await select.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
             {
                 tripBoardingType = reader.IsDBNull(0) ? "-1" : reader[0].ToString();
             }
@@ -264,9 +264,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelCode", travelCode);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<TripBoardingMatchPojo> tripBoardingMatchPojos = new List<TripBoardingMatchPojo>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 TripBoardingMatchPojo tripBoardingMatchPojo = new TripBoardingMatchPojo();
                 tripBoardingMatchPojo.travelCode = "";

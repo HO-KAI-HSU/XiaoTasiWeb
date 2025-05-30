@@ -24,7 +24,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@cellphone", cellphone);
             select.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
         }
 
@@ -39,8 +39,8 @@ namespace xiaotasi.Service.Impl
             getMemberSelect.Parameters.AddWithValue("@cellphone", cellphone);
             getMemberSelect.Parameters.AddWithValue("@status", 1);
             await connection.OpenAsync();
-            SqlDataReader getMemberReader = getMemberSelect.ExecuteReader();
-            while (getMemberReader.Read())
+            SqlDataReader getMemberReader = await getMemberSelect.ExecuteReaderAsync();
+            while (await getMemberReader.ReadAsync())
             {
                 username = getMemberReader.IsDBNull(0) ? "" : (string)getMemberReader[0];
             }

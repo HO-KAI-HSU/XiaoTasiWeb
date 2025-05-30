@@ -27,9 +27,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.Add("@time", System.Data.SqlDbType.DateTime).Value = timeNow;
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<NewsPojo> newsList = new List<NewsPojo>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 NewsPojo newsData = new NewsPojo();
                 newsData.newsId = reader.GetInt32(0);
@@ -56,9 +56,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.Add("@time", System.Data.SqlDbType.DateTime).Value = timeNow;
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<MediaNewsPojo> mediaNewsList = new List<MediaNewsPojo>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 MediaNewsPojo newsData = new MediaNewsPojo();
                 newsData.mediaNewsId = reader.GetInt32(0);

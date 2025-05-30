@@ -82,7 +82,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelCode", travelCode);
 
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             TripPojo tripPojo = new TripPojo();
             while (await reader.ReadAsync())
             {
@@ -207,7 +207,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@nowDate", filterDate);
             select.Parameters.AddWithValue("@travelId", travelId);
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
 
             var tripStatisticList = new List<TripStatisticModel>();
             while (await reader.ReadAsync())
@@ -245,7 +245,7 @@ namespace xiaotasi.Service.Impl
             SqlCommand select = new SqlCommand(sql, connection);
 
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
 
             var statisticSeats = new List<TripStatisticSeatModel>();
             while (await reader.ReadAsync())

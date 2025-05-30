@@ -36,7 +36,7 @@ namespace xiaotasi.Service.Impl
             // 開啟資料庫連線
             await connection.OpenAsync();
             MemberInfoModel memberData = new MemberInfoModel();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 memberData.memberCode = (string)reader[0];
@@ -83,9 +83,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@memberCode", memberCode);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<MemberReservationModel> travelReservationInfoDatas = new List<MemberReservationModel>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 MemberReservationModel travelReservationInfo = new MemberReservationModel();
                 travelReservationInfo.travelReservationCode = reader.IsDBNull(0) ? string.Empty : (string)reader[0];
@@ -121,9 +121,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@memberCode", memberCode);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<ReservationSeatInfoModel> objs = new List<ReservationSeatInfoModel>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 ReservationSeatInfoModel obj = new ReservationSeatInfoModel
                 {
@@ -183,9 +183,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelReservationCode", travelReservationCode);
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             string[] stepIdseatIdsInfo = new string[] { "", "", "-1" };
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 stepIdseatIdsInfo[0] = reader.IsDBNull(0) ? "" : reader.GetSqlInt32(0).ToString();
                 Console.WriteLine("{0}", reader.GetSqlInt32(0).ToString());
@@ -208,7 +208,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@seatId", Convert.ToInt16(seatId));
             select.Parameters.Add("@status", SqlDbType.Int).Value = -1;
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
         }
 
@@ -221,7 +221,7 @@ namespace xiaotasi.Service.Impl
             select.Parameters.AddWithValue("@travelReservationCode", travelReservationCode);
             select.Parameters.Add("@status", SqlDbType.Int).Value = -1;
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
         }
 

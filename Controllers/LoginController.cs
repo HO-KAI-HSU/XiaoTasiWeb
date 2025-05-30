@@ -47,9 +47,9 @@ namespace xiaotasi.Controllers
             // 開啟資料庫連線
             await connection.OpenAsync();
             LoginModel loginData = new LoginModel();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             int readStatus = 0;
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 loginData.id = (int)reader[0];
                 if (reader.IsDBNull(2) || !reader[2].ToString().Equals(password))
@@ -113,7 +113,7 @@ namespace xiaotasi.Controllers
             select.Parameters.Add("@tokenIat", SqlDbType.NVarChar).Value = tokenIat;
             //開啟資料庫連線
             await connection.OpenAsync();
-            select.ExecuteNonQuery();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
         }
 

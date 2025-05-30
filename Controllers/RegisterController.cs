@@ -83,8 +83,8 @@ namespace xiaotasi.Controllers
             SqlCommand getMemberSelect = new SqlCommand("select * from account_list WHERE username = @username", connection);
             getMemberSelect.Parameters.AddWithValue("@username", username);
             await connection.OpenAsync();
-            SqlDataReader getMemberReader = getMemberSelect.ExecuteReader();
-            while (getMemberReader.Read())
+            SqlDataReader getMemberReader = await getMemberSelect.ExecuteReaderAsync();
+            while (await getMemberReader.ReadAsync())
             {
                 if (!getMemberReader.IsDBNull(0))
                 {
@@ -106,14 +106,14 @@ namespace xiaotasi.Controllers
                 addMember.Parameters.Add("@name", SqlDbType.NVarChar).Value = name;
                 addMember.Parameters.Add("@address", SqlDbType.NVarChar).Value = address == null ? "" : address;
                 await connection.OpenAsync();
-                addMember.ExecuteNonQuery();
+                await addMember.ExecuteNonQueryAsync();
                 connection.Close();
 
                 // 新增帳號資訊
                 SqlCommand addAccount = new SqlCommand("INSERT INTO account_list (username, password, phone, member_code, status)" +
                 "VALUES ('" + username + "', '" + password + "',  '" + cellphone + "',  '" + memberCode + "',  " + 1 + ")", connection);
                 await connection.OpenAsync();
-                addAccount.ExecuteNonQuery();
+                await addAccount.ExecuteNonQueryAsync();
                 connection.Close();
                 return Json(new ApiResult<string>("Auth Success", "開通成功，請重新登入"));
             }
@@ -139,8 +139,6 @@ namespace xiaotasi.Controllers
                 return Json(apiAuth);
             }
 
-            string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
-            SqlConnection connection = new SqlConnection(connectionString);
             // 取得帳號資訊
             int errorCode = await _registerService.isRegisterStatusByPhone(cellphone, verificationType);
 
@@ -150,7 +148,6 @@ namespace xiaotasi.Controllers
                 return Json(apiError);
             }
 
-            connection.Close();
             int rand = this.getTimestamp();
             string captcha = rand.ToString().Substring(4, 6);
             Every8d every8 = new Every8d();
@@ -233,15 +230,15 @@ namespace xiaotasi.Controllers
         }
 
         //更新註冊狀態
-        private bool _updateAccountRegisterStatus(string cellphone)
+        private async Task<bool> _updateAccountRegisterStatus(string cellphone)
         {
             string updateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");//宣告一個目前的時間
             string connectionString = configuration.GetConnectionString("XiaoTasiTripContext");
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand select = new SqlCommand("UPDATE account_list SET  = " + 1 + ", e_date = '" + updateDate + "'  WHERE phone = @cellphone", connection);
             select.Parameters.AddWithValue("@cellphone", cellphone);
-            connection.Open();
-            select.ExecuteNonQuery();
+            await connection.OpenAsync();
+            await select.ExecuteNonQueryAsync();
             connection.Close();
             return true;
         }

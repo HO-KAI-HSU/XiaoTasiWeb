@@ -27,9 +27,9 @@ namespace xiaotasi.Service.Impl
             select.Parameters.Add("@time", System.Data.SqlDbType.DateTime).Value = timeNow;
             // 開啟資料庫連線
             await connection.OpenAsync();
-            SqlDataReader reader = select.ExecuteReader();
+            SqlDataReader reader = await select.ExecuteReaderAsync();
             List<IndexBannerPojo> list = new List<IndexBannerPojo>();
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 IndexBannerPojo data = new IndexBannerPojo();
                 data.indexBannerId = reader.GetInt32(0);
