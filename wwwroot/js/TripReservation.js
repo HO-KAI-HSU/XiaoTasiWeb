@@ -2,6 +2,7 @@
 
 $(function () {
     const $login_modal = $(".login_modal");
+    const $loader_modal = $(".loader_model");
     const $mask = $(".mask");
     verifyMemberInfo($login_modal, $mask);
 
@@ -28,12 +29,12 @@ $(function () {
         // loading
         console.log("start_loading");
         $mask.show();
-        $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+        $loader_modal.show();
 
         /**loading 頁面時 query API*/
         getReservationBoardingList(_token, _travelCode, boardingArr);
         getReservationSeatInfo(_travelCode, _travelStepCode, _token);
-        multipledayTripInfo(_travelCode, _travelStepCode, _travelType);
+        multipledayTripInfo(_travelCode, _travelStepCode, _travelType, $mask, $loader_modal);
     }
 
     /**旅遊梯次選擇 API*/
@@ -366,7 +367,7 @@ function getReservationFieldInfo(seatSelectedArr = "") {
 }
 
 /**取得多日旅遊詳情 API 模塊*/
-function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType = "") {
+function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType = "", _mask, _loader_model) {
 
     switch (_travelType) {
         case "1":
@@ -447,15 +448,8 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
         $(".travel_info").html(dateReducedTravelItem);
         $(".cost_info").html(costInfoHhtml);
 
-        $mask.hide();
-        removeLoader();
+        _mask.hide();
+        _loader_model.hide();
         console.log("finish_loading");
-    });
-}
-
-function removeLoader() {
-    $("#loadingDiv").fadeOut(500, function () {
-        // fadeOut complete. Remove the loading div
-        $("#loadingDiv").remove(); //makes page more lightweight 
     });
 }
