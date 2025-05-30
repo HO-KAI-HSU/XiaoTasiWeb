@@ -13,20 +13,28 @@ $(function () {
     var _travelType = arr[length - 2];
     var _travelCode = _travelStepCode.substring(0, 16);
 
-
     localStorage.setItem("travelType", JSON.stringify(_travelType));
 
     /**取得token*/
     var loginInfoEncode = localStorage.getItem("loginInfo");
     var loginInfo = JSON.parse(loginInfoEncode);
-    var _token = loginInfo.token;
+    var _token = null;
     var seatSelectedArr = [];
     var boardingArr = [];
 
-    /**loading 頁面時 query API*/
-    getReservationBoardingList(_token, _travelCode, boardingArr);
-    getReservationSeatInfo(_travelCode, _travelStepCode, _token);
-    multipledayTripInfo(_travelCode, _travelStepCode, _travelType);
+    if (loginInfo != null) {
+        _token = loginInfo.token;
+
+        // loading
+        console.log("start_loading");
+        $mask.show();
+        $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+
+        /**loading 頁面時 query API*/
+        getReservationBoardingList(_token, _travelCode, boardingArr);
+        getReservationSeatInfo(_travelCode, _travelStepCode, _token);
+        multipledayTripInfo(_travelCode, _travelStepCode, _travelType);
+    }
 
     /**旅遊梯次選擇 API*/
     $(document).on("click", ".tour_bus_seat", function () {
@@ -438,6 +446,10 @@ function multipledayTripInfo(_travelCode = "", _travelStepCode = "", _travelType
         $(".travel_edate").html(travelEdate + `(${dayList[eDay]})`);
         $(".travel_info").html(dateReducedTravelItem);
         $(".cost_info").html(costInfoHhtml);
+
+        $mask.hide();
+        removeLoader();
+        console.log("finish_loading");
     });
 }
 

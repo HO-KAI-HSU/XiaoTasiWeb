@@ -70,19 +70,13 @@ $(function () {
         console.log("modal_close_icon");
         $(".login_modal,.forget_psw_modal,.register_member_modal,.add_member_modal,.phone_verification_modal,.upload_pay_modal,.reset_psw_modal").hide();
         $mask.hide();
-    });
-    $(".login_modal_close_icon").on("click", function () {
-        console.log("login_modal_close_icon");
-        $(".login_modal").hide();
-        $mask.hide();
         var _url = window.location.href;
         var arr = _url.replace('#', '').split('/');
         var length = arr.length;
         if (length >= 4 &&
-            arr[3] == "TripReservation")
-        {
+            arr[3] == "TripReservation") {
             top.location.href = "https://www.mrtsaitravel.com/";
-        }      
+        }
     });
     $("a.register_btn").on("click", function () {
         $mask.show();
