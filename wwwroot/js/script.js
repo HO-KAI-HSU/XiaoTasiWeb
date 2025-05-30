@@ -79,7 +79,7 @@ $(function () {
         var arr = _url.replace('#', '').split('/');
         var length = arr.length;
         if (length >= 4 &&
-            lastPathValue[3] == "TripReservation")
+            arr[3] == "TripReservation")
         {
             top.location.href = "https://www.mrtsaitravel.com/";
         }      
