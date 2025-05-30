@@ -5,10 +5,6 @@ $(function () {
     const $mask = $(".mask");
     verifyMemberInfo($login_modal, $mask);
 
-    // loading
-    $mask.show();
-    $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
-
     /**取得旅遊梯次編碼*/
     var _url = window.location.href;
     var arr = _url.replace('#', '').split('/');
@@ -111,9 +107,6 @@ $(function () {
         $(".tab_content_" + hrefTabArr[1]).show();
         $(this).addClass("tab_current selected").siblings().removeClass("tab_current selected");
     });
-
-    $mask.hide();
-    removeLoader();
 });
 
 // 取得會員資訊模塊  

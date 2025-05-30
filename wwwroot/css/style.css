@@ -2374,9 +2374,31 @@ img.modal_close_icon {
         opacity: .7;
     }
 
-.login_modal h3, .forget_psw_modal h3, .register_member_modal h3,
+.forget_psw_modal h3, .register_member_modal h3,
 .add_member_modal h3, .phone_verification_modal h3,
 .upload_pay_modal h3, .reset_psw_modal h3 {
+    border-bottom: 1px solid #d3d3d3;
+    color: #02a2f7;
+    font-size: 26px;
+    padding-bottom: 10px;
+}
+
+img.login_modal_close_icon {
+    cursor: pointer;
+    height: 16px;
+    opacity: 1;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transition: .4s opacity ease-in-out;
+    width: 16px;
+}
+
+    img.login_modal_close_icon:hover {
+        opacity: .7;
+    }
+
+.login_modal h3 {
     border-bottom: 1px solid #d3d3d3;
     color: #02a2f7;
     font-size: 26px;
